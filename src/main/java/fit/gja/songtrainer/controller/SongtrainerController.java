@@ -10,4 +10,10 @@ public class SongtrainerController {
     public String showHome() {
         return "home";
     }
+
+    // add request mapping for /lectors
+    @GetMapping("/lectors")
+    public String showLectors() {
+        return "lectors";
+    }
 }

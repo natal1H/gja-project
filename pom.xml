@@ -39,6 +39,12 @@
       <version>${springsecurity.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>${springsecurity.version}</version>
+    </dependency>
+
     <!-- Servlet, JSP and JSTL support -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -78,11 +84,13 @@
       <artifactId>primefaces</artifactId>
       <version>12.0.0</version>
     </dependency>
+
     <dependency>
       <groupId>com.sun.faces</groupId>
       <artifactId>jsf-api</artifactId>
       <version>2.2.20</version>
     </dependency>
+
     <dependency>
       <groupId>com.sun.faces</groupId>
       <artifactId>jsf-impl</artifactId>

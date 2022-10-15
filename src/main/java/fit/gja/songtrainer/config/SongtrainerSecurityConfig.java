@@ -18,7 +18,7 @@ public class SongtrainerSecurityConfig {
     public InMemoryUserDetailsManager userDetailsManager() {
 
         UserDetails john = User.builder().username("john").password("{noop}test123").roles("USER").build();
-        UserDetails mary = User.builder().username("mary").password("{noop}test123").roles("LECTOR").build();
+        UserDetails mary = User.builder().username("mary").password("{noop}test123").roles("USER","LECTOR").build();
 
         return new InMemoryUserDetailsManager(john, mary);
     }
@@ -27,11 +27,14 @@ public class SongtrainerSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                .authorizeRequests(configurer -> configurer.anyRequest().authenticated())
+                .authorizeRequests(configurer -> configurer
+                        .antMatchers("/").hasRole("USER")
+                        .antMatchers("/lectors/**").hasRole("LECTOR"))
                 .formLogin(configurer -> configurer.loginPage("/showMyLoginPage")
                                                    .loginProcessingUrl("/authenticateTheUser")
                                                    .permitAll())
                 .logout(LogoutConfigurer::permitAll)
+                .exceptionHandling(configurer -> configurer.accessDeniedPage("/access-denied"))
                 .build();
     }
 }

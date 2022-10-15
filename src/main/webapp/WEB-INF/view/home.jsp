@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,22 @@
     <h2>Song Trainer Home Page</h2>
 
     Welcome to Song Trainer home page!
+    <hr>
+
+    <p>
+        User: <security:authentication property="principal.username" /><br>
+        Role(s): <security:authentication property="principal.authorities" />
+    </p>
+
+    <hr>
+
+    <security:authorize access="hasRole('LECTOR')">
+        <!-- Link to point to /lector ... only for lectors -->
+        <p>
+            <a href="${pageContext.request.contextPath}/lectors">Lector page</a> (Only for lectors)
+        </p>
+        <hr>
+    </security:authorize>
 
     <!-- Logout button -->
     <form:form action="${pageContext.request.contextPath}/logout" method="POST">
