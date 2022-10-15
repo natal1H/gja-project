@@ -15,6 +15,11 @@
       <i>You entered invalid username/password.</i>
     </c:if>
 
+    <!-- Check if user logged out -->
+    <c:if test="${param.logout != null}">
+      <i>You have logged out.</i>
+    </c:if>
+
     <p>
       User name: <input type="text" name="username" />
     </p>
