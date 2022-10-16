@@ -10,8 +10,12 @@
   <name>song-trainer</name>
 
   <properties>
-    <springframework.version>5.3.22</springframework.version>
+    <springframework.version>5.3.23</springframework.version>
     <springsecurity.version>5.7.3</springsecurity.version>
+    <hibernate.version>5.4.14.Final</hibernate.version>
+    <mysql.connector.version>8.0.30</mysql.connector.version>
+    <c3p0.version>0.9.5.5</c3p0.version>
+
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
@@ -78,18 +82,51 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- Spring Transactions -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+
+    <!-- Spring ORM -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.1.Final</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>javax.persistence-api</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <!-- Hibernate Core -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+
     <!-- MySQL -->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.30</version>
+      <version>${mysql.connector.version}</version>
     </dependency>
 
     <!-- C3P0 support -->
     <dependency>
       <groupId>com.mchange</groupId>
       <artifactId>c3p0</artifactId>
-      <version>0.9.5.5</version>
+      <version>${c3p0.version}</version>
     </dependency>
 
     <!-- PrimeFaces -->
@@ -109,6 +146,13 @@
       <groupId>com.sun.faces</groupId>
       <artifactId>jsf-impl</artifactId>
       <version>2.2.20</version>
+    </dependency>
+
+    <!-- Hibernate Validator -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>8.0.0.Final</version>
     </dependency>
 
   </dependencies>
