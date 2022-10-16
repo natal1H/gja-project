@@ -78,6 +78,20 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- MySQL -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.30</version>
+    </dependency>
+
+    <!-- C3P0 support -->
+    <dependency>
+      <groupId>com.mchange</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.9.5.5</version>
+    </dependency>
+
     <!-- PrimeFaces -->
     <dependency>
       <groupId>org.primefaces</groupId>
