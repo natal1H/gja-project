@@ -91,23 +91,22 @@ VALUES
 DROP TABLE IF EXISTS `song`;
 
 CREATE TABLE IF NOT EXISTS `song` (
-    `id` INT NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
     `artist` VARCHAR(45) NOT NULL,
-    `instrument` ENUM('guitar', 'bass', 'drums', 'piano') NOT NULL,
-    `tuning` ENUM('E standard', '1/2 step down', 'D standard', 'drop D', 'drop C') NULL,
+    `instrument` VARCHAR(45) NOT NULL,
+    `tuning` VARCHAR(45) NULL,
     `length` INT NULL DEFAULT 0,
     `times_played` INT NULL DEFAULT 0,
     `last_played` DATETIME NULL,
     `user_id` INT(11) NOT NULL,
 
-    PRIMARY KEY (`id`, `user_id`),
+    PRIMARY KEY (`id`),
 
     INDEX `fk_song_user1_idx` (`user_id` ASC) VISIBLE,
     CONSTRAINT `fk_song_user1` FOREIGN KEY (`user_id`)
         REFERENCES `user` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- Insert test values
@@ -123,18 +122,17 @@ VALUES
 DROP TABLE IF EXISTS `playlist`;
 
 CREATE TABLE IF NOT EXISTS `playlist` (
-    `id` INT NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
-    `instrument` ENUM('guitar', 'bass', 'drums', 'piano') NULL,
+    `instrument` VARCHAR(45) NULL,
     `user_id` INT(11) NOT NULL,
 
-    PRIMARY KEY (`id`, `user_id`),
+    PRIMARY KEY (`id`),
 
     INDEX `fk_playlist_user1_idx` (`user_id` ASC) VISIBLE,
     CONSTRAINT `fk_playlist_user1`
     FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- Insert test values
@@ -142,33 +140,29 @@ INSERT INTO `playlist` (name,instrument,user_id)
 VALUES
     ('New wave', 'guitar', 2);
 --
--- Table structure for table `playlist_has_song`
+-- Table structure for table `songs_playlists`
 --
-DROP TABLE IF EXISTS `playlist_has_song`;
+DROP TABLE IF EXISTS `songs_playlists`;
 
-CREATE TABLE IF NOT EXISTS `playlist_has_song` (
-    `playlist_id` INT NOT NULL,
-    `playlist_user_id` INT(11) NOT NULL,
-    `song_id` INT NOT NULL,
-    `song_user_id` INT(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `songs_playlists` (
+    `song_id` INT(11) NOT NULL,
+    `playlist_id` INT(11) NOT NULL,
 
-    PRIMARY KEY (`playlist_id`, `playlist_user_id`, `song_id`, `song_user_id`),
+    PRIMARY KEY (`song_id`, `playlist_id`),
 
-    INDEX `fk_playlist_has_song_song1_idx` (`song_id` ASC, `song_user_id` ASC) VISIBLE,
-    INDEX `fk_playlist_has_song_playlist1_idx` (`playlist_id` ASC, `playlist_user_id` ASC) VISIBLE,
-    CONSTRAINT `fk_playlist_has_song_playlist1` FOREIGN KEY (`playlist_id` , `playlist_user_id`)
-        REFERENCES `playlist` (`id` , `user_id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    CONSTRAINT `fk_playlist_has_song_song1` FOREIGN KEY (`song_id` , `song_user_id`)
-        REFERENCES `song` (`id` , `user_id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+    INDEX `fk_songs_playlists_song1_idx` (`song_id` ASC) VISIBLE,
+    INDEX `fk_songs_playlists_playlist1_idx` (`playlist_id` ASC) VISIBLE,
+    CONSTRAINT `fk_songs_playlists_playlist1` FOREIGN KEY (`playlist_id`)
+        REFERENCES `playlist` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_songs_playlists_song1` FOREIGN KEY (`song_id`)
+        REFERENCES `song` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB DEFAULT CHARSET=latin1;
 
 -- Insert test values
-INSERT INTO playlist_has_song (playlist_id, playlist_user_id, song_id, song_user_id)
+INSERT INTO songs_playlists (song_id, playlist_id)
 VALUES
-    (1, 2, 3, 2);
+    (3, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -33,6 +33,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+    @OneToMany(mappedBy = "user")
+    private Collection<Song> songs;
+
+    @OneToMany(mappedBy = "user")
+    private Collection<Playlist> playlists;
+
     public User() { }
 
     public User(String userName, String password, String firstName, String lastName, String email) {
@@ -80,6 +86,14 @@ public class User {
     public Collection<Role> getRoles() { return roles; }
 
     public void setRoles(Collection<Role> roles) { this.roles = roles; }
+
+    public Collection<Song> getSongs() { return songs; }
+
+    public void setSongs(Collection<Song> songs) { this.songs = songs; }
+
+    public Collection<Playlist> getPlaylists() { return playlists; }
+
+    public void setPlaylists(Collection<Playlist> playlists) { this.playlists = playlists; }
 
     @Override
     public String toString() {
