@@ -29,7 +29,7 @@
         <hr>
     </security:authorize>
 
-    <a href="${pageContext.request.contextPath}/songs">View all my songs</a>
+    <a href="${pageContext.request.contextPath}/songs?inst=all">View all my songs</a>
     <hr>
 
     <h3>My playlists</h3>
@@ -43,13 +43,13 @@
         <!-- Loop over and print songs -->
         <c:forEach var="tempPlaylist" items="${playlists}">
             <tr>
-                <td>${tempPlaylist.name}</td>
+                <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}">${tempPlaylist.name}</a></td>
                 <td>${tempPlaylist.instrumentStr}</td>
             </tr>
         </c:forEach>
     </table>
 
-    <hr></hr>
+    <hr>
 
     <!-- Logout button -->
     <form:form action="${pageContext.request.contextPath}/logout" method="POST">

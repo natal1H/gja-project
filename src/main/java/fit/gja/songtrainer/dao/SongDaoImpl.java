@@ -1,14 +1,11 @@
 package fit.gja.songtrainer.dao;
 
-import fit.gja.songtrainer.entity.Instrument;
-import fit.gja.songtrainer.entity.InstrumentConverter;
+import fit.gja.songtrainer.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import fit.gja.songtrainer.entity.Song;
-import fit.gja.songtrainer.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,6 +17,7 @@ public class SongDaoImpl implements SongDao {
     private SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public Song findByTitleArtistUser(String title, String artist, User user) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -43,12 +41,11 @@ public class SongDaoImpl implements SongDao {
         Query<Song> theQuery = currentSession.createQuery("from Song where user_id=:userId", Song.class);
         theQuery.setParameter("userId", user.getId());
 
-        List<Song> songs = theQuery.getResultList();;
-
-        return songs;
+        return theQuery.getResultList();
     }
 
     @Override
+    @Transactional
     public List<Song> getSongsByUserInstrument(User user, Instrument instrument) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -60,11 +57,8 @@ public class SongDaoImpl implements SongDao {
         theQuery.setParameter("userId", user.getId());
         theQuery.setParameter("instrumentStr", instConv.convertToDatabaseColumn(instrument));
 
-        List<Song> songs = theQuery.getResultList();;
-
-        return songs;
+        return theQuery.getResultList();
     }
-
 
     @Override
     public void save(Song song) {

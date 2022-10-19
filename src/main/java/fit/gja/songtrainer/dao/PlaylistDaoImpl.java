@@ -17,6 +17,7 @@ public class PlaylistDaoImpl implements PlaylistDao {
     private SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public Playlist getPlaylistByUserByName(User user, String playlist_name) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -25,6 +26,19 @@ public class PlaylistDaoImpl implements PlaylistDao {
         Query<Playlist> theQuery = currentSession.createQuery("from Playlist where name=:name and user_id=:userId", Playlist.class);
         theQuery.setParameter("name", playlist_name);
         theQuery.setParameter("userId", user.getId());
+
+        return theQuery.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public Playlist getPlaylistById(Long id) {
+        // get the current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        // now retrieve/read from database using name
+        Query<Playlist> theQuery = currentSession.createQuery("from Playlist where id=:playlist_id", Playlist.class);
+        theQuery.setParameter("playlist_id", id);
 
         return theQuery.getSingleResult();
     }

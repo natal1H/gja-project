@@ -41,6 +41,13 @@
   </table>
 
   <hr>
+  <a href="${pageContext.request.contextPath}/songs?inst=all">All songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=guitar">Guitar songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=bass">Bass songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=drums">Drums songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=piano">Piano songs</a><br>
+  <hr>
+
   <a href="${pageContext.request.contextPath}/">Home</a>
 </body>
 </html>

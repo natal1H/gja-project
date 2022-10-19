@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -25,17 +26,15 @@ public class SongtrainerController {
     private UserService userService;
 
     @GetMapping("/")
+    @Transactional
     public String showHome(Model theModel) {
         // Get list of user's playlists
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         User u = userService.findByUserName(userDetail.getUsername());
 
-        // get songs from the dao
-        List<Playlist> thePlaylists = playlistDao.getPlaylistsByUser(u);
-
         // add the songs to the model
-        theModel.addAttribute("playlists", thePlaylists);
+        theModel.addAttribute("playlists", u.getPlaylists());
 
         return "home";
     }

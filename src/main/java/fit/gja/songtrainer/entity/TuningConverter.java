@@ -6,7 +6,9 @@ public class TuningConverter implements AttributeConverter<Tuning, String> {
 
     @Override
     public String convertToDatabaseColumn(Tuning tuning) {
-        if (tuning == Tuning.E_STANDARD)
+        if (tuning == Tuning.NONE)
+            return "none";
+        else if (tuning == Tuning.E_STANDARD)
             return "E standard";
         else if (tuning == Tuning.HALF_STEP_DOWN)
             return "half step down";
@@ -24,7 +26,9 @@ public class TuningConverter implements AttributeConverter<Tuning, String> {
 
     @Override
     public Tuning convertToEntityAttribute(String s) {
-        if (s.equals("E standard"))
+        if (s.equals("none"))
+            return Tuning.NONE;
+        else if (s.equals("E standard"))
             return Tuning.E_STANDARD;
         else if (s.equals("half step down"))
             return Tuning.HALF_STEP_DOWN;

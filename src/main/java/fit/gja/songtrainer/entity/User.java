@@ -1,5 +1,8 @@
 package fit.gja.songtrainer.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
@@ -35,9 +38,10 @@ public class User {
     private Collection<Role> roles;
 
     @OneToMany(mappedBy = "user")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Song> songs;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Playlist> playlists;
 
     public User() { }

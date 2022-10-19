@@ -41,11 +41,11 @@ public class Song {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "songs_playlists",
             joinColumns = @JoinColumn(name = "song_id"),
             inverseJoinColumns = @JoinColumn(name = "playlist_id"))
-    private List<Role> playlists;
+    private List<Playlist> playlists;
 
     public Song() { }
 
@@ -152,11 +152,11 @@ public class Song {
         this.user = user;
     }
 
-    public List<Role> getPlaylists() {
+    public List<Playlist> getPlaylists() {
         return playlists;
     }
 
-    public void setPlaylists(List<Role> playlists) {
+    public void setPlaylists(List<Playlist> playlists) {
         this.playlists = playlists;
     }
 }

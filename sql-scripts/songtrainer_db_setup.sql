@@ -110,11 +110,17 @@ CREATE TABLE IF NOT EXISTS `song` (
 ) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- Insert test values
-INSERT INTO `song` (title,artist,instrument,tuning,user_id)
+INSERT INTO `song` (title,artist,instrument,tuning,user_id, length)
 VALUES
-    ('Whatsername', 'Green Day', 'guitar', 'drop D', 1),
-    ('Holiday', 'Green Day', 'bass', 'E standard', 1),
-    ('Message in a bottle', 'The Police', 'guitar', 'E standard', 2);
+    ('Whatsername', 'Green Day', 'guitar', 'drop D', 1, 123), -- 1
+    ('Holiday', 'Green Day', 'bass', 'E standard', 1, 150), -- 2
+    ('Message in a bottle', 'The Police', 'guitar', 'E standard', 2, 180), -- 3
+    ('Holiday', 'Green Day', 'drums', 'none', 1, 130), -- 4
+    ('Heroes', 'David Bowie', 'guitar', 'E standard', 1,  200), -- 5
+    ('Walking on the moon', 'The Police', 'guitar', 'E standard', 2, 180), -- 6
+    ('Walking on the moon', 'The Police', 'bass', 'E standard', 2, 180), -- 7
+    ('Message in a bottle', 'The Police', 'drums', 'none', 2, 180); -- 8
+
 
 --
 -- Table structure for table `playlist`
@@ -138,7 +144,9 @@ CREATE TABLE IF NOT EXISTS `playlist` (
 -- Insert test values
 INSERT INTO `playlist` (name,instrument,user_id)
 VALUES
-    ('New wave', 'guitar', 2);
+    ('New wave', 'guitar', 2),
+    ('My Green Day playlist', 'guitar', 1),
+    ('My drum playlist', 'drums', 1);
 --
 -- Table structure for table `songs_playlists`
 --
@@ -163,6 +171,9 @@ CREATE TABLE IF NOT EXISTS `songs_playlists` (
 -- Insert test values
 INSERT INTO songs_playlists (song_id, playlist_id)
 VALUES
-    (3, 1);
+    (3, 1),
+    (1, 2),
+    (6, 1),
+    (4,3);
 
 SET FOREIGN_KEY_CHECKS = 1;

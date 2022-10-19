@@ -30,4 +30,11 @@ public class InstrumentConverter implements AttributeConverter<Instrument, Strin
             throw new IllegalStateException("Unexpected value: " + s);
         }
     }
+
+    public boolean isValidString(String s) {
+        if (s.equals("guitar") || s.equals("bass") || s.equals("drums") || s.equals("piano"))
+            return true;
+        else
+            return false;
+    }
 }

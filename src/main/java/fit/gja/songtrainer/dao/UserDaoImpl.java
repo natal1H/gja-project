@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import fit.gja.songtrainer.entity.User;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -15,6 +16,7 @@ public class UserDaoImpl implements UserDao {
     private SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public User findByUserName(String theUserName) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -33,6 +35,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional //
     public void save(User theUser) {
         // get current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
