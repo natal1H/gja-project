@@ -2,6 +2,7 @@ package fit.gja.songtrainer.entity;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -34,10 +35,10 @@ public class User {
     private Collection<Role> roles;
 
     @OneToMany(mappedBy = "user")
-    private Collection<Song> songs;
+    private List<Song> songs;
 
     @OneToMany(mappedBy = "user")
-    private Collection<Playlist> playlists;
+    private List<Playlist> playlists;
 
     public User() { }
 
@@ -87,13 +88,13 @@ public class User {
 
     public void setRoles(Collection<Role> roles) { this.roles = roles; }
 
-    public Collection<Song> getSongs() { return songs; }
+    public List<Song> getSongs() { return songs; }
 
-    public void setSongs(Collection<Song> songs) { this.songs = songs; }
+    public void setSongs(List<Song> songs) { this.songs = songs; }
 
-    public Collection<Playlist> getPlaylists() { return playlists; }
+    public List<Playlist> getPlaylists() { return playlists; }
 
-    public void setPlaylists(Collection<Playlist> playlists) { this.playlists = playlists; }
+    public void setPlaylists(List<Playlist> playlists) { this.playlists = playlists; }
 
     @Override
     public String toString() {

@@ -1,5 +1,7 @@
 package fit.gja.songtrainer.entity;
 
+// TODO move into right package
+
 public enum Tuning {
     E_STANDARD,
     HALF_STEP_DOWN,

@@ -1,7 +1,7 @@
 package fit.gja.songtrainer.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 @Entity
@@ -19,12 +19,12 @@ public class Song {
     @Column(name = "artist")
     private String artist;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "instrument")
+    @Convert(converter = InstrumentConverter.class)
     private Instrument instrument;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "tuning")
+    @Convert(converter = TuningConverter.class)
     private Tuning tuning;
 
     @Column(name = "length")
@@ -45,7 +45,7 @@ public class Song {
     @JoinTable(name = "songs_playlists",
             joinColumns = @JoinColumn(name = "song_id"),
             inverseJoinColumns = @JoinColumn(name = "playlist_id"))
-    private Collection<Role> playlists;
+    private List<Role> playlists;
 
     public Song() { }
 
@@ -136,11 +136,11 @@ public class Song {
         this.user = user;
     }
 
-    public Collection<Role> getPlaylists() {
+    public List<Role> getPlaylists() {
         return playlists;
     }
 
-    public void setPlaylists(Collection<Role> playlists) {
+    public void setPlaylists(List<Role> playlists) {
         this.playlists = playlists;
     }
 }
