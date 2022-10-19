@@ -13,6 +13,9 @@
       <tr>
           <th>Title</th>
           <th>Artist</th>
+          <th>Instrument</th>
+          <th>Tuning</th>
+          <th>Length</th>
       </tr>
 
       <!-- Loop over and print songs -->
@@ -20,6 +23,19 @@
           <tr>
               <td>${tempSong.title}</td>
               <td>${tempSong.artist}</td>
+              <td>${tempSong.instrumentStr}</td>
+              <td>
+                  <c:choose>
+                      <c:when test="${tempSong.tuning!=null}">
+                          ${tempSong.tuningStr}
+                      </c:when>
+                      <c:otherwise>
+                          -
+                      </c:otherwise>
+                  </c:choose>
+
+              </td>
+              <td>${tempSong.lengthStr}</td>
           </tr>
       </c:forEach>
   </table>

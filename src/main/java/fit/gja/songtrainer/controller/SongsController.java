@@ -1,7 +1,9 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.dao.SongDao;
+import fit.gja.songtrainer.entity.InstrumentConverter;
 import fit.gja.songtrainer.entity.Song;
+import fit.gja.songtrainer.entity.TuningConverter;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.service.UserService;
 
@@ -30,10 +32,8 @@ public class SongsController {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         User u = userService.findByUserName(userDetail.getUsername());
 
-        System.out.println(">>> SongController.listAllSongs: before get all songs");
         // get songs from the dao
-        List<Song> theSongs = songDao.getSongsByUser(u); // todo: test
-        System.out.println(">>> SongController.listAllSongs: after get all songs");
+        List<Song> theSongs = songDao.getSongsByUser(u);
 
         // add the songs to the model
         theModel.addAttribute("songs", theSongs);

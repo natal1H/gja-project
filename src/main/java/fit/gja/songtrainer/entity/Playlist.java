@@ -57,6 +57,11 @@ public class Playlist {
         return instrument;
     }
 
+    public String getInstrumentStr() {
+        InstrumentConverter instConverter = new InstrumentConverter();
+        return instConverter.convertToDatabaseColumn(this.instrument);
+    }
+
     public void setInstrument(Instrument instrument) {
         this.instrument = instrument;
     }

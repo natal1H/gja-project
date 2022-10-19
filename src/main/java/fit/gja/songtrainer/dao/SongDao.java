@@ -9,8 +9,6 @@ public interface SongDao {
 
     Song findByTitleArtistUser(String title, String artist, User user);
 
-    List<Song> getAllSongs();
-
     List<Song> getSongsByUser(User user);
 
     List<Song> getSongsByUserInstrument(User user, Instrument instrument);

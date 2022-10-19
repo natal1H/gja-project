@@ -1,6 +1,7 @@
 package fit.gja.songtrainer.dao;
 
 import fit.gja.songtrainer.entity.Instrument;
+import fit.gja.songtrainer.entity.InstrumentConverter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -24,33 +25,12 @@ public class SongDaoImpl implements SongDao {
         Session currentSession = sessionFactory.getCurrentSession();
 
         // now retrieve/read from database using name
-        Query<Song> theQuery = currentSession.createQuery("select a from Song where a.title=:title and a.artist=:artist and a.user_id=:userId", Song.class);
+        Query<Song> theQuery = currentSession.createQuery("from Song where title=:title and artist=:artist and user_id=:userId", Song.class);
         theQuery.setParameter("title", title);
         theQuery.setParameter("artist", artist);
         theQuery.setParameter("userId", user.getId());
 
-        Song theSong = null;
-
-        try {
-            theSong = theQuery.getSingleResult();
-        } catch (Exception e) {
-            theSong = null;
-        }
-
-        return theSong;
-    }
-
-    @Override
-    @Transactional
-    public List<Song> getAllSongs() {
-        // get the current hibernate session
-        Session currentSession = sessionFactory.getCurrentSession();
-
-        // now retrieve/read from database using name
-        Query<Song> theQuery = currentSession.createQuery("from Song", Song.class);
-        List<Song> theSongs = theQuery.getResultList();
-
-        return theSongs;
+        return theQuery.getSingleResult();
     }
 
     @Override
@@ -73,9 +53,12 @@ public class SongDaoImpl implements SongDao {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
+        InstrumentConverter instConv = new InstrumentConverter();
+
         // now retrieve/read from database using name
-        Query<Song> theQuery = currentSession.createQuery("from Song where user_id=:userId and instrument", Song.class);
+        Query<Song> theQuery = currentSession.createQuery("from Song where user_id=:userId and instrument=:instrumentStr", Song.class);
         theQuery.setParameter("userId", user.getId());
+        theQuery.setParameter("instrumentStr", instConv.convertToDatabaseColumn(instrument));
 
         List<Song> songs = theQuery.getResultList();;
 

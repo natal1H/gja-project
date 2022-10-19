@@ -92,6 +92,11 @@ public class Song {
         return instrument;
     }
 
+    public String getInstrumentStr() {
+        InstrumentConverter instConverter = new InstrumentConverter();
+        return instConverter.convertToDatabaseColumn(this.instrument);
+    }
+
     public void setInstrument(Instrument instrument) {
         this.instrument = instrument;
     }
@@ -100,12 +105,23 @@ public class Song {
         return tuning;
     }
 
+    public String getTuningStr() {
+        TuningConverter tunConverter = new TuningConverter();
+        return tunConverter.convertToDatabaseColumn(this.tuning);
+    }
     public void setTuning(Tuning tuning) {
         this.tuning = tuning;
     }
 
     public int getLength() {
         return length;
+    }
+
+    public String getLengthStr() {
+        int minutes = this.length / 60;
+        int seconds = this.length - minutes * 60;
+
+        return Integer.toString(minutes) + ":" + Integer.toString(seconds);
     }
 
     public void setLength(int length) {

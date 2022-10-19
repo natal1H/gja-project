@@ -1,5 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,8 +29,27 @@
         <hr>
     </security:authorize>
 
-    <a href="${pageContext.request.contextPath}/songs">All my songs</a>
+    <a href="${pageContext.request.contextPath}/songs">View all my songs</a>
     <hr>
+
+    <h3>My playlists</h3>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Instrument</th>
+        </tr>
+
+        <!-- Loop over and print songs -->
+        <c:forEach var="tempPlaylist" items="${playlists}">
+            <tr>
+                <td>${tempPlaylist.name}</td>
+                <td>${tempPlaylist.instrumentStr}</td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <hr></hr>
 
     <!-- Logout button -->
     <form:form action="${pageContext.request.contextPath}/logout" method="POST">
