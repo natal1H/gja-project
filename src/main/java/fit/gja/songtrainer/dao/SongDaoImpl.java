@@ -105,8 +105,6 @@ public class SongDaoImpl implements SongDao {
         currentSession.update(user); // update user
 
         // delete the song itself
-        entityManager.remove(theSongToDelete);
-        entityManager.flush();
-        entityManager.clear();
+        entityManager.createQuery("delete from Song where id = :id").setParameter("id", songId).executeUpdate();
     }
 }

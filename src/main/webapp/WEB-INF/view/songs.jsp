@@ -44,10 +44,12 @@
               </td>
               <td>${tempSong.lengthStr}</td>
               <td>
-                  Update
+                  UPDATE <!-- TODO -->
                   |
                   <a href="${deleteLink}"
                      onclick="if (!(confirm('Are you sure you want to delete this song?'))) return false">DELETE</a>
+                  |
+                  ADD TO PLAYLIST <!-- TODO -->
               </td>
           </tr>
       </c:forEach>

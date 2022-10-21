@@ -2,6 +2,7 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.service.PlaylistService;
+import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,9 @@ public class PlaylistController {
 
     @Autowired
     private PlaylistService playlistService;
+
+    @Autowired
+    private SongService songService;
 
     @Autowired
     private UserService userService;
@@ -82,5 +86,13 @@ public class PlaylistController {
         playlistService.save(thePlaylist);
 
         return "redirect:/"; // TODO - redirect to new playlist
+    }
+
+    @GetMapping("/playlist/deleteSong")
+    public String deleteSong(@RequestParam("songId") Long theId) {
+        // delete the song
+        songService.delete(theId);
+
+        return "redirect:/"; // TODO - redirect to current playlist
     }
 }
