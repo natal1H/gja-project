@@ -16,7 +16,7 @@
     <p>
         User: <security:authentication property="principal.username" /><br>
         Role(s): <security:authentication property="principal.authorities" /><br>
-        First name: ${user.firstName}, Last name: ${user.lastName}, Email: ${user.email}
+        First name: ${user.firstName}, Last name: ${user.lastName}, Email: ${user.email} <!-- TODO: fix not displaying info -->
     </p>
 
     <hr>

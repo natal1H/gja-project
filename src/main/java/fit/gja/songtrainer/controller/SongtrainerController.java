@@ -1,8 +1,5 @@
 package fit.gja.songtrainer.controller;
 
-import fit.gja.songtrainer.dao.PlaylistDao;
-import fit.gja.songtrainer.entity.InstrumentConverter;
-import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
 @Controller
 public class SongtrainerController {
-
-    @Autowired
-    PlaylistDao playlistDao;
 
     @Autowired
     private UserService userService;

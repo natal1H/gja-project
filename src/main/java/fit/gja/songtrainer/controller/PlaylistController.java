@@ -2,8 +2,8 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.UserService;
-import fit.gja.songtrainer.dao.PlaylistDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
+
 
 @Controller
 public class PlaylistController {
 
     @Autowired
-    private PlaylistDao playlistDao;
+    private PlaylistService playlistService;
 
     @Autowired
     private UserService userService;
@@ -34,21 +36,18 @@ public class PlaylistController {
         User u = userService.findByUserName(userDetail.getUsername());
 
         // Load playlist based on id
-        Playlist thePlaylist = playlistDao.getPlaylistById(playlistId);
+        Playlist thePlaylist = playlistService.getPlaylistById(playlistId);
         // Verify playlist exists - if not redirect to access denied
         if (thePlaylist == null) {
-            mav.setViewName("access-denied"); // TODO: test if works
+            mav.setViewName("access-denied");
             return mav;
         }
 
         // Check if playlist belongs to current user
-        if (thePlaylist.getUser().getId() != u.getId()) {
-            mav.setViewName("access-denied"); // TODO: test if works
+        if (!Objects.equals(thePlaylist.getUser().getId(), u.getId())) {
+            mav.setViewName("access-denied");
             return mav;
         }
-
-        // Load songs from playlist
-        //List<Song> theSongs = playlistDao.getSongsInPlaylist(thePlaylist);
 
         // Add playlist and songs to model
         mav.addObject("playlist", thePlaylist);

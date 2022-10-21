@@ -32,7 +32,7 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public List<Song> getSongsByUser(User user) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -45,7 +45,7 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public List<Song> getSongsByUserInstrument(User user, Instrument instrument) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -61,7 +61,14 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
+    //@Transactional
     public void save(Song song) {
-        // TODO
+        // get current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        // create the user
+        currentSession.persist(song);
+
+        System.out.println("SongDao.save - done");
     }
 }

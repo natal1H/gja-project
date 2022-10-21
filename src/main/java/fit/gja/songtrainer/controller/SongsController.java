@@ -1,10 +1,7 @@
 package fit.gja.songtrainer.controller;
 
-import fit.gja.songtrainer.dao.SongDao;
-import fit.gja.songtrainer.entity.Instrument;
-import fit.gja.songtrainer.entity.InstrumentConverter;
-import fit.gja.songtrainer.entity.Song;
-import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.entity.*;
+import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -25,8 +21,7 @@ import java.util.stream.Collectors;
 public class SongsController {
 
     @Autowired
-    private SongDao songDao;
-
+    private SongService songService;
     @Autowired
     private UserService userService;
 
@@ -62,5 +57,38 @@ public class SongsController {
         mav.setViewName("songs");
 
         return mav;
+    }
+
+    @GetMapping("/addSong")
+    public String showFormForAdd(Model theModel) {
+
+        // create model attribute to bind form data
+        Song theSong = new Song();
+
+        theModel.addAttribute("song", theSong);
+        theModel.addAttribute("instruments", Instrument.values());
+        theModel.addAttribute("tunings", Tuning.values());
+
+        return "add-song-form";
+    }
+
+    // TODO - add form validations
+    @PostMapping("/saveSong")
+    public String saveSong(@ModelAttribute("song") Song theSong) {
+
+        // set user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        User u = userService.findByUserName(userDetail.getUsername());
+        theSong.setUser(u);
+
+        // Tuning - if instrument other the guitar or bass set to none
+        if (theSong.getInstrument() != Instrument.GUITAR && theSong.getInstrument() != Instrument.BASS)
+            theSong.setTuning(Tuning.NONE);
+
+        // save the customer using our service
+        songService.save(theSong);
+
+        return "home"; // TODO change to redirect to songs
     }
 }

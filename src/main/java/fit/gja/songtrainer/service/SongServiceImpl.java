@@ -1,0 +1,36 @@
+package fit.gja.songtrainer.service;
+
+import fit.gja.songtrainer.dao.SongDao;
+import fit.gja.songtrainer.entity.Instrument;
+import fit.gja.songtrainer.entity.Song;
+import fit.gja.songtrainer.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class SongServiceImpl implements SongService {
+
+    @Autowired
+    private SongDao songDao;
+
+    @Override
+    @Transactional
+    public List<Song> getSongsByUser(User user) {
+        return songDao.getSongsByUser(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> getSongsByUserInstrument(User user, Instrument instrument) {
+        return songDao.getSongsByUserInstrument(user, instrument);
+    }
+
+    @Override
+    @Transactional
+    public void save(Song theSong) {
+        songDao.save(theSong);
+    }
+}

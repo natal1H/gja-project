@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import fit.gja.songtrainer.service.UserService;
@@ -57,7 +56,7 @@ public class SongtrainerSecurityConfig {
                 .antMatchers("/").hasRole("USER")
                 .antMatchers("/lectors/**").hasRole("LECTOR")
                 .and()
-                .formLogin().loginPage("/showMyLoginPage")
+                .formLogin().loginPage("/showLoginPage")
                             .loginProcessingUrl("/authenticateTheUser")
                             .successHandler(customAuthenticationSuccessHandler)
                             .permitAll()

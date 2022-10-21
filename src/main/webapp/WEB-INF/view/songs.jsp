@@ -48,6 +48,10 @@
   <a href="${pageContext.request.contextPath}/songs?inst=piano">Piano songs</a><br>
   <hr>
 
+  <a href="${pageContext.request.contextPath}/addSong">Add song</a>
+
+  <hr>
+
   <a href="${pageContext.request.contextPath}/">Home</a>
 </body>
 </html>
