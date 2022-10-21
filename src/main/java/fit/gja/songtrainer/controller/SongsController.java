@@ -89,6 +89,6 @@ public class SongsController {
         // save the customer using our service
         songService.save(theSong);
 
-        return "home"; // TODO change to redirect to songs
+        return "redirect:/"; // TODO change to redirect to songs
     }
 }

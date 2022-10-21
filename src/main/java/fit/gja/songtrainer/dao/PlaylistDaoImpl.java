@@ -17,7 +17,6 @@ public class PlaylistDaoImpl implements PlaylistDao {
     private SessionFactory sessionFactory;
 
     @Override
-    //@Transactional
     public Playlist getPlaylistByUserByName(User user, String playlist_name) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -31,7 +30,6 @@ public class PlaylistDaoImpl implements PlaylistDao {
     }
 
     @Override
-    //@Transactional
     public Playlist getPlaylistById(Long id) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -44,7 +42,6 @@ public class PlaylistDaoImpl implements PlaylistDao {
     }
 
     @Override
-    //@Transactional
     public List<Playlist> getPlaylistsByUser(User user) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -57,7 +54,6 @@ public class PlaylistDaoImpl implements PlaylistDao {
     }
 
     @Override
-    //@Transactional
     public List<Playlist> getPlaylistsByUserInstrument(User user, Instrument instrument) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -73,7 +69,6 @@ public class PlaylistDaoImpl implements PlaylistDao {
     }
 
     @Override
-    //@Transactional
     public void save(Playlist playlist) {
         // get current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();

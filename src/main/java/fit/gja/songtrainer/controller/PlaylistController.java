@@ -1,7 +1,6 @@
 package fit.gja.songtrainer.controller;
 
-import fit.gja.songtrainer.entity.Playlist;
-import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
@@ -56,5 +54,33 @@ public class PlaylistController {
         mav.setViewName("playlist");
 
         return mav;
+    }
+
+    @GetMapping("/addPlaylist")
+    public String showFormForAdd(Model theModel) {
+
+        // create model attribute to bind form data
+        Playlist thePlaylist = new Playlist();
+
+        theModel.addAttribute("playlist", thePlaylist);
+        theModel.addAttribute("instruments", Instrument.values());
+
+        return "add-playlist-form";
+    }
+
+    // TODO - add form validations
+    @PostMapping("/savePlaylist")
+    public String saveSong(@ModelAttribute("playlist") Playlist thePlaylist) {
+
+        // set user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        User u = userService.findByUserName(userDetail.getUsername());
+        thePlaylist.setUser(u);
+
+        // save the customer using our service
+        playlistService.save(thePlaylist);
+
+        return "redirect:/"; // TODO - redirect to new playlist
     }
 }

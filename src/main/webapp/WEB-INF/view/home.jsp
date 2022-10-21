@@ -50,6 +50,8 @@
     </table>
 
     <hr>
+    <a href="${pageContext.request.contextPath}/addPlaylist">Create new playlist</a>
+    <hr>
 
     <!-- Logout button -->
     <form:form action="${pageContext.request.contextPath}/logout" method="POST">
