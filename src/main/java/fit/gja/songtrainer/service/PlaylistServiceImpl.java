@@ -45,4 +45,10 @@ public class PlaylistServiceImpl implements PlaylistService {
     public void save(Playlist playlist) {
         playlistDao.save(playlist);
     }
+
+    @Override
+    @Transactional
+    public void delete(Long playlistId) {
+        playlistDao.delete(playlistId);
+    }
 }

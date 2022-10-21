@@ -7,7 +7,17 @@
 </head>
 <body>
     <h2>Playlist</h2>
-    Name: ${playlist.name}
+    Name: ${playlist.name}<br>
+
+    <!-- construct a "delete" link with song id -->
+    <c:url var="deletePlaylistLink" value="/playlist/deletePlaylist">
+        <c:param name="playlistId" value="${playlist.id}" />
+    </c:url>
+
+    <a href="${deletePlaylistLink}"
+       onclick="if (!(confirm('Are you sure you want to delete this playlist?'))) return false">DELETE PLAYLIST</a>
+
+    <hr>
 
     <table>
         <tr>
@@ -26,6 +36,7 @@
                 <!-- construct a "delete" link with song id -->
                 <c:url var="deleteLink" value="/playlist/deleteSong">
                     <c:param name="songId" value="${tempSong.id}" />
+                    <c:param name="playlistId" value="${playlist.id}" />
                 </c:url>
 
                 <tr>

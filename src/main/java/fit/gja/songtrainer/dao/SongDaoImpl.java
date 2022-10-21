@@ -86,6 +86,16 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
+    public void deletePlaylistFromSong(Song song, Playlist playlist) {
+        // get current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        song.getPlaylists().remove(playlist);
+
+        currentSession.update(song);
+    }
+
+    @Override
     public void delete(Long songId) {
         // get current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();

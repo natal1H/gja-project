@@ -27,6 +27,7 @@ public class SongtrainerController {
 
         // add the songs to the model
         theModel.addAttribute("playlists", u.getPlaylists());
+        theModel.addAttribute("user", u);
 
         return "home";
     }

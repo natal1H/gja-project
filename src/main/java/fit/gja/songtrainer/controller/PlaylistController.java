@@ -85,14 +85,22 @@ public class PlaylistController {
         // save the customer using our service
         playlistService.save(thePlaylist);
 
-        return "redirect:/"; // TODO - redirect to new playlist
+        return "redirect:/playlist?id=" + thePlaylist.getId();
     }
 
     @GetMapping("/playlist/deleteSong")
-    public String deleteSong(@RequestParam("songId") Long theId) {
+    public String deleteSong(@RequestParam("songId") Long theSongId, @RequestParam("playlistId") Long thePlaylistId) {
         // delete the song
-        songService.delete(theId);
+        songService.delete(theSongId);
 
-        return "redirect:/"; // TODO - redirect to current playlist
+        return "redirect:/playlist?id=" + thePlaylistId;
+    }
+
+    @GetMapping("/playlist/deletePlaylist")
+    public String deletePlaylist(@RequestParam("playlistId") Long thePlaylistId) {
+        // delete the playlist
+        playlistService.delete(thePlaylistId);
+
+        return "redirect:/";
     }
 }

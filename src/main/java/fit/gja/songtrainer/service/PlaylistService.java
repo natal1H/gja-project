@@ -18,4 +18,5 @@ public interface PlaylistService {
 
     void save(Playlist playlist);
 
+    void delete(Long playlistId);
 }

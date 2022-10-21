@@ -18,4 +18,6 @@ public interface PlaylistDao {
     void save(Playlist playlist);
 
     void deleteSongFromPlaylist(Playlist playlist, Song song);
+
+    void delete(Long playlistId);
 }

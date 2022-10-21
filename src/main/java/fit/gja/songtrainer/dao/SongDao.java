@@ -1,5 +1,6 @@
 package fit.gja.songtrainer.dao;
 
+import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.entity.Instrument;
@@ -16,6 +17,8 @@ public interface SongDao {
     List<Song> getSongsByUserInstrument(User user, Instrument instrument);
 
     void save(Song song);
+
+    void deletePlaylistFromSong(Song song, Playlist playlist);
 
     void delete(Long songId);
 }

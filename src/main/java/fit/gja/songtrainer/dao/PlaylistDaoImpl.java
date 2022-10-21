@@ -7,6 +7,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
@@ -14,6 +16,12 @@ public class PlaylistDaoImpl implements PlaylistDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private SongDao songDao;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Playlist getPlaylistByUserByName(User user, String playlist_name) {
@@ -84,5 +92,28 @@ public class PlaylistDaoImpl implements PlaylistDao {
         playlist.getSongs().remove(song);
 
         currentSession.update(playlist);
+    }
+
+    @Override
+    public void delete(Long playlistId) {
+        // get current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        // get the song
+        Playlist thePlaylistToDelete = this.getPlaylistById(playlistId);
+
+        // delete in all playlists
+        List<Song> songsInPlaylist = thePlaylistToDelete.getSongs();
+        for (Song song : songsInPlaylist) {
+            songDao.deletePlaylistFromSong(song, thePlaylistToDelete);
+        }
+
+        // delete from this user
+        User user = thePlaylistToDelete.getUser();
+        user.getPlaylists().remove(thePlaylistToDelete);
+        currentSession.update(user); // update user
+
+        // delete the song itself
+        entityManager.createQuery("delete from Playlist where id = :id").setParameter("id", playlistId).executeUpdate();
     }
 }
