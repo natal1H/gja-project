@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -74,7 +75,7 @@ public class SongsController {
 
     // TODO - add form validations
     @PostMapping("/saveSong")
-    public String saveSong(@ModelAttribute("song") Song theSong) {
+    public String  saveSong(@ModelAttribute("song") Song theSong) {
 
         // set user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -89,6 +90,14 @@ public class SongsController {
         // save the customer using our service
         songService.save(theSong);
 
-        return "redirect:/"; // TODO change to redirect to songs
+        return "redirect:/songs?inst=all";
+    }
+
+    @GetMapping("/songs/delete")
+    public String deleteSong(@RequestParam("songId") Long theId) {
+        // delete the song
+        songService.delete(theId);
+
+        return "redirect:/songs?inst=all";
     }
 }

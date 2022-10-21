@@ -16,4 +16,6 @@ public interface PlaylistDao {
     List<Playlist> getPlaylistsByUserInstrument(User user, Instrument instrument);
 
     void save(Playlist playlist);
+
+    void deleteSongFromPlaylist(Playlist playlist, Song song);
 }

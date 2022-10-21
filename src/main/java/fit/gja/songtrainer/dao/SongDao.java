@@ -9,9 +9,13 @@ public interface SongDao {
 
     Song findByTitleArtistUser(String title, String artist, User user);
 
+    Song getSongById(Long songId);
+
     List<Song> getSongsByUser(User user);
 
     List<Song> getSongsByUserInstrument(User user, Instrument instrument);
 
     void save(Song song);
+
+    void delete(Long songId);
 }

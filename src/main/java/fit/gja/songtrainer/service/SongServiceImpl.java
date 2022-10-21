@@ -33,4 +33,10 @@ public class SongServiceImpl implements SongService {
     public void save(Song theSong) {
         songDao.save(theSong);
     }
+
+    @Override
+    @Transactional
+    public void delete(Long songId) {
+        songDao.delete(songId);
+    }
 }

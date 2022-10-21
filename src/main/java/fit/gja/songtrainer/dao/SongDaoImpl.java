@@ -6,8 +6,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
@@ -16,8 +17,13 @@ public class SongDaoImpl implements SongDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private PlaylistDao playlistDao;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
-    @Transactional
     public Song findByTitleArtistUser(String title, String artist, User user) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -32,7 +38,18 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
-    //@Transactional
+    public Song getSongById(Long songId) {
+        // get the current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        // now retrieve/read from database using name
+        Query<Song> theQuery = currentSession.createQuery("from Song where id=:theId", Song.class);
+        theQuery.setParameter("theId", songId);
+
+        return theQuery.getSingleResult();
+    }
+
+    @Override
     public List<Song> getSongsByUser(User user) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -45,7 +62,6 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
-    //@Transactional
     public List<Song> getSongsByUserInstrument(User user, Instrument instrument) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
@@ -61,14 +77,36 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
-    //@Transactional
     public void save(Song song) {
         // get current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
         // create the user
-        currentSession.persist(song);
+        currentSession.save(song);
+    }
 
-        System.out.println("SongDao.save - done");
+    @Override
+    public void delete(Long songId) {
+        // get current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        // get the song
+        Song theSongToDelete = this.getSongById(songId);
+
+        // delete in all playlists
+        List<Playlist> playlistsWithSong = theSongToDelete.getPlaylists();
+        for (Playlist playlist : playlistsWithSong) {
+            playlistDao.deleteSongFromPlaylist(playlist, theSongToDelete);
+        }
+
+        // delete from this user
+        User user = theSongToDelete.getUser();
+        user.getSongs().remove(theSongToDelete);
+        currentSession.update(user); // update user
+
+        // delete the song itself
+        entityManager.remove(theSongToDelete);
+        entityManager.flush();
+        entityManager.clear();
     }
 }

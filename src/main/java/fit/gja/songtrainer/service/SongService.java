@@ -14,5 +14,5 @@ public interface SongService {
 
     void save(Song theSong);
 
-
+    void delete(Long songId);
 }

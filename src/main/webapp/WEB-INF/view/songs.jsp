@@ -16,10 +16,17 @@
           <th>Instrument</th>
           <th>Tuning</th>
           <th>Length</th>
+          <th>Action</th>
       </tr>
 
       <!-- Loop over and print songs -->
       <c:forEach var="tempSong" items="${songs}">
+
+          <!-- construct a "delete" link with song id -->
+          <c:url var="deleteLink" value="/songs/delete">
+              <c:param name="songId" value="${tempSong.id}" />
+          </c:url>
+
           <tr>
               <td>${tempSong.title}</td>
               <td>${tempSong.artist}</td>
@@ -36,6 +43,12 @@
 
               </td>
               <td>${tempSong.lengthStr}</td>
+              <td>
+                  Update
+                  |
+                  <a href="${deleteLink}"
+                     onclick="if (!(confirm('Are you sure you want to delete this song?'))) return false">DELETE</a>
+              </td>
           </tr>
       </c:forEach>
   </table>

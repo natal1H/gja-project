@@ -81,4 +81,5 @@ public class Playlist {
     public void setSongs(List<Song> songs) {
         this.songs = songs;
     }
+
 }
