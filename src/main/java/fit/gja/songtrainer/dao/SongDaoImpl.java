@@ -42,11 +42,7 @@ public class SongDaoImpl implements SongDao {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
-        // now retrieve/read from database using name
-        Query<Song> theQuery = currentSession.createQuery("from Song where id=:theId", Song.class);
-        theQuery.setParameter("theId", songId);
-
-        return theQuery.getSingleResult();
+        return currentSession.get(Song.class, songId);
     }
 
     @Override
@@ -81,8 +77,10 @@ public class SongDaoImpl implements SongDao {
         // get current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
-        // create the user
-        currentSession.save(song);
+        if (song.getId() == null)
+            currentSession.save(song);
+        else
+            currentSession.update(song);
     }
 
     @Override

@@ -40,12 +40,7 @@ public class PlaylistDaoImpl implements PlaylistDao {
     public Playlist getPlaylistById(Long id) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
-
-        // now retrieve/read from database using name
-        Query<Playlist> theQuery = currentSession.createQuery("from Playlist where id=:playlist_id", Playlist.class);
-        theQuery.setParameter("playlist_id", id);
-
-        return theQuery.getSingleResult();
+        return currentSession.get(Playlist.class, id);
     }
 
     @Override

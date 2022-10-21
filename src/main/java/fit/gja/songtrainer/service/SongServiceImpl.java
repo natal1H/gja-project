@@ -18,6 +18,12 @@ public class SongServiceImpl implements SongService {
 
     @Override
     @Transactional
+    public Song getSongById(Long id) {
+        return songDao.getSongById(id);
+    }
+
+    @Override
+    @Transactional
     public List<Song> getSongsByUser(User user) {
         return songDao.getSongsByUser(user);
     }

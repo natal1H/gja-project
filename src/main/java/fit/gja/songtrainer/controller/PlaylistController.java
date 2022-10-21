@@ -69,7 +69,7 @@ public class PlaylistController {
         theModel.addAttribute("playlist", thePlaylist);
         theModel.addAttribute("instruments", Instrument.values());
 
-        return "add-playlist-form";
+        return "playlist-form";
     }
 
     // TODO - add form validations

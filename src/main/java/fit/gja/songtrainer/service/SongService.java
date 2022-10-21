@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface SongService {
 
+    Song getSongById(Long id);
+
     List<Song> getSongsByUser(User user);
 
     List<Song> getSongsByUserInstrument(User user, Instrument instrument);

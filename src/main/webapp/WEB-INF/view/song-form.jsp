@@ -6,9 +6,10 @@
     <title>Song Trainer Add Song</title>
 </head>
 <body>
-    <h2>Add new song</h2>
+    <h2>Save song</h2>
 
     <form:form action="saveSong" modelAttribute="song" method="POST">
+        <form:hidden path="id" />
 
         <!-- Title -->
         <form:label path="title">Title</form:label>
@@ -28,7 +29,7 @@
         <form:radiobuttons path="tuning" items="${tunings}"/><br>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">SAVE</button>
 
     </form:form>
 

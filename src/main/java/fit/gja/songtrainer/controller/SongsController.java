@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -60,7 +59,7 @@ public class SongsController {
         return mav;
     }
 
-    @GetMapping("/addSong")
+    @GetMapping("/songs/addSong")
     public String showFormForAdd(Model theModel) {
 
         // create model attribute to bind form data
@@ -70,11 +69,11 @@ public class SongsController {
         theModel.addAttribute("instruments", Instrument.values());
         theModel.addAttribute("tunings", Tuning.values());
 
-        return "add-song-form";
+        return "song-form";
     }
 
     // TODO - add form validations
-    @PostMapping("/saveSong")
+    @PostMapping("/songs/saveSong")
     public String  saveSong(@ModelAttribute("song") Song theSong) {
 
         // set user
@@ -90,6 +89,8 @@ public class SongsController {
         // save the customer using our service
         songService.save(theSong);
 
+        System.out.println("BEFORE REDIRECT");
+
         return "redirect:/songs?inst=all";
     }
 
@@ -99,5 +100,19 @@ public class SongsController {
         songService.delete(theId);
 
         return "redirect:/songs?inst=all";
+    }
+
+    @GetMapping("/songs/showUpdateForm")
+    public String showUpdateForm(@RequestParam("songId") Long theId, Model theModel) {
+        // get song from database
+        Song theSong = songService.getSongById(theId);
+
+        // set song as a model attribute to pre-populate the form
+        theModel.addAttribute("song", theSong);
+        theModel.addAttribute("instruments", Instrument.values());
+        theModel.addAttribute("tunings", Tuning.values());
+
+        // send over to the form
+        return "song-form";
     }
 }

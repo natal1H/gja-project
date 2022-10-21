@@ -22,6 +22,10 @@
       <!-- Loop over and print songs -->
       <c:forEach var="tempSong" items="${songs}">
 
+          <!-- construct an "update" link with song id -->
+          <c:url var="updateLink" value="/songs/showUpdateForm">
+              <c:param name="songId" value="${tempSong.id}" />
+          </c:url>
           <!-- construct a "delete" link with song id -->
           <c:url var="deleteLink" value="/songs/delete">
               <c:param name="songId" value="${tempSong.id}" />
@@ -44,7 +48,7 @@
               </td>
               <td>${tempSong.lengthStr}</td>
               <td>
-                  UPDATE <!-- TODO -->
+                  <a href="${updateLink}">UPDATE</a>
                   |
                   <a href="${deleteLink}"
                      onclick="if (!(confirm('Are you sure you want to delete this song?'))) return false">DELETE</a>
@@ -63,7 +67,7 @@
   <a href="${pageContext.request.contextPath}/songs?inst=piano">Piano songs</a><br>
   <hr>
 
-  <a href="${pageContext.request.contextPath}/addSong">Add song</a>
+  <a href="${pageContext.request.contextPath}/songs/addSong">Add song</a>
 
   <hr>
 
