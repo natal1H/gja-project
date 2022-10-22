@@ -4,6 +4,7 @@ import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,7 +68,7 @@ public class PlaylistController {
         Playlist thePlaylist = new Playlist();
 
         theModel.addAttribute("playlist", thePlaylist);
-        theModel.addAttribute("instruments", Instrument.values());
+        theModel.addAttribute("instruments", InstrumentEnum.values());
 
         return "playlist-form";
     }

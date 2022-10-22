@@ -1,6 +1,7 @@
 package fit.gja.songtrainer.dao;
 
 import fit.gja.songtrainer.entity.*;
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -56,16 +57,14 @@ public class PlaylistDaoImpl implements PlaylistDao {
     }
 
     @Override
-    public List<Playlist> getPlaylistsByUserInstrument(User user, Instrument instrument) {
+    public List<Playlist> getPlaylistsByUserInstrument(User user, InstrumentEnum instrument) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
-
-        InstrumentConverter instConv = new InstrumentConverter();
 
         // now retrieve/read from database using name
         Query<Playlist> theQuery = currentSession.createQuery("from Playlist where user_id=:userId and instrument=:instrumentStr", Playlist.class);
         theQuery.setParameter("userId", user.getId());
-        theQuery.setParameter("instrumentStr", instConv.convertToDatabaseColumn(instrument));
+        theQuery.setParameter("instrumentStr", instrument.toString());
 
         return theQuery.getResultList();
     }

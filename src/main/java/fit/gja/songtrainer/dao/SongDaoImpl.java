@@ -1,6 +1,7 @@
 package fit.gja.songtrainer.dao;
 
 import fit.gja.songtrainer.entity.*;
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -58,16 +59,15 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
-    public List<Song> getSongsByUserInstrument(User user, Instrument instrument) {
+    public List<Song> getSongsByUserInstrument(User user, InstrumentEnum instrument) {
         // get the current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
-        InstrumentConverter instConv = new InstrumentConverter();
 
         // now retrieve/read from database using name
         Query<Song> theQuery = currentSession.createQuery("from Song where user_id=:userId and instrument=:instrumentStr", Song.class);
         theQuery.setParameter("userId", user.getId());
-        theQuery.setParameter("instrumentStr", instConv.convertToDatabaseColumn(instrument));
+        theQuery.setParameter("instrumentStr", instrument.toString());
 
         return theQuery.getResultList();
     }

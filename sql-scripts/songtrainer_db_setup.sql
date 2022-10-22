@@ -112,14 +112,14 @@ CREATE TABLE IF NOT EXISTS `song` (
 -- Insert test values
 INSERT INTO `song` (title,artist,instrument,tuning,user_id, length)
 VALUES
-    ('Whatsername', 'Green Day', 'guitar', 'drop D', 1, 123), -- 1
-    ('Holiday', 'Green Day', 'bass', 'E standard', 1, 150), -- 2
-    ('Message in a bottle', 'The Police', 'guitar', 'E standard', 2, 180), -- 3
-    ('Holiday', 'Green Day', 'drums', 'none', 1, 130), -- 4
-    ('Heroes', 'David Bowie', 'guitar', 'E standard', 1,  200), -- 5
-    ('Walking on the moon', 'The Police', 'guitar', 'E standard', 2, 180), -- 6
-    ('Walking on the moon', 'The Police', 'bass', 'E standard', 2, 180), -- 7
-    ('Message in a bottle', 'The Police', 'drums', 'none', 2, 180); -- 8
+    ('Whatsername', 'Green Day', 'GUITAR', 'DROP_D', 1, 123), -- 1
+    ('Holiday', 'Green Day', 'BASS', 'E_STANDARD', 1, 150), -- 2
+    ('Message in a bottle', 'The Police', 'GUITAR', 'E_STANDARD', 2, 180), -- 3
+    ('Holiday', 'Green Day', 'DRUMS', 'NONE', 1, 130), -- 4
+    ('Heroes', 'David Bowie', 'GUITAR', 'E_STANDARD', 1,  200), -- 5
+    ('Walking on the moon', 'The Police', 'GUITAR', 'E_STANDARD', 2, 180), -- 6
+    ('Walking on the moon', 'The Police', 'BASS', 'E_STANDARD', 2, 180), -- 7
+    ('Message in a bottle', 'The Police', 'DRUMS', 'NONE', 2, 180); -- 8
 
 
 --
@@ -144,9 +144,9 @@ CREATE TABLE IF NOT EXISTS `playlist` (
 -- Insert test values
 INSERT INTO `playlist` (name,instrument,user_id)
 VALUES
-    ('New wave', 'guitar', 2),
-    ('My Green Day playlist', 'guitar', 1),
-    ('My drum playlist', 'drums', 1);
+    ('New wave', 'GUITAR', 2),
+    ('My Green Day playlist', 'GUITAR', 1),
+    ('My drum playlist', 'DRUMS', 1);
 --
 -- Table structure for table `songs_playlists`
 --

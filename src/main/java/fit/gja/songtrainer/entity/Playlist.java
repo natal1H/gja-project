@@ -1,5 +1,7 @@
 package fit.gja.songtrainer.entity;
 
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class Playlist {
     private String name;
 
     @Column(name = "instrument")
-    @Convert(converter = InstrumentConverter.class)
-    private Instrument instrument;
+    @Enumerated(EnumType.STRING)
+    private InstrumentEnum instrument;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -31,7 +33,7 @@ public class Playlist {
 
     public Playlist() { }
 
-    public Playlist(String name, Instrument instrument, User user) {
+    public Playlist(String name, InstrumentEnum instrument, User user) {
         this.name = name;
         this.instrument = instrument;
         this.user = user;
@@ -53,16 +55,15 @@ public class Playlist {
         this.name = name;
     }
 
-    public Instrument getInstrument() {
+    public InstrumentEnum getInstrument() {
         return instrument;
     }
 
     public String getInstrumentStr() {
-        InstrumentConverter instConverter = new InstrumentConverter();
-        return instConverter.convertToDatabaseColumn(this.instrument);
+        return this.instrument.toString();
     }
 
-    public void setInstrument(Instrument instrument) {
+    public void setInstrument(InstrumentEnum instrument) {
         this.instrument = instrument;
     }
 

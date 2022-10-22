@@ -29,7 +29,7 @@
         <hr>
     </security:authorize>
 
-    <a href="${pageContext.request.contextPath}/songs?inst=all">View all my songs</a>
+    <a href="${pageContext.request.contextPath}/songs?inst=ALL">View all my songs</a>
     <hr>
 
     <h3>My playlists</h3>

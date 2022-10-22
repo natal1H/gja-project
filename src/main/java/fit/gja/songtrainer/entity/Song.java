@@ -1,5 +1,10 @@
 package fit.gja.songtrainer.entity;
 
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+//import fit.gja.songtrainer.util.InstrumentConverter;
+import fit.gja.songtrainer.util.Tuning.TuningEnum;
+//import fit.gja.songtrainer.util.TuningConverter;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Date;
@@ -20,12 +25,12 @@ public class Song {
     private String artist;
 
     @Column(name = "instrument")
-    @Convert(converter = InstrumentConverter.class)
-    private Instrument instrument;
+    @Enumerated(EnumType.STRING)
+    private InstrumentEnum instrument;
 
     @Column(name = "tuning")
-    @Convert(converter = TuningConverter.class)
-    private Tuning tuning;
+    @Enumerated(EnumType.STRING)
+    private TuningEnum tuning;
 
     @Column(name = "length")
     private int length;
@@ -49,14 +54,14 @@ public class Song {
 
     public Song() { }
 
-    public Song(String title, String artist, Instrument instrument, User user) {
+    public Song(String title, String artist, InstrumentEnum instrument, User user) {
         this.title = title;
         this.artist = artist;
         this.instrument = instrument;
         this.user = user;
     }
 
-    public Song(String title, String artist, Instrument instrument, Tuning tuning, User user) {
+    public Song(String title, String artist, InstrumentEnum instrument, TuningEnum tuning, User user) {
         this.title = title;
         this.artist = artist;
         this.instrument = instrument;
@@ -88,28 +93,26 @@ public class Song {
         this.artist = artist;
     }
 
-    public Instrument getInstrument() {
+    public InstrumentEnum getInstrument() {
         return instrument;
     }
 
     public String getInstrumentStr() {
-        InstrumentConverter instConverter = new InstrumentConverter();
-        return instConverter.convertToDatabaseColumn(this.instrument);
+        return this.instrument.toString();
     }
 
-    public void setInstrument(Instrument instrument) {
+    public void setInstrument(InstrumentEnum instrument) {
         this.instrument = instrument;
     }
 
-    public Tuning getTuning() {
+    public TuningEnum getTuning() {
         return tuning;
     }
 
     public String getTuningStr() {
-        TuningConverter tunConverter = new TuningConverter();
-        return tunConverter.convertToDatabaseColumn(this.tuning);
+        return this.tuning.toString();
     }
-    public void setTuning(Tuning tuning) {
+    public void setTuning(TuningEnum tuning) {
         this.tuning = tuning;
     }
 

@@ -60,11 +60,11 @@
   </table>
 
   <hr>
-  <a href="${pageContext.request.contextPath}/songs?inst=all">All songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=guitar">Guitar songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=bass">Bass songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=drums">Drums songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=piano">Piano songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=ALL">All songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=GUITAR">Guitar songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=BASS">Bass songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=DRUMS">Drums songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=PIANO">Piano songs</a><br>
   <hr>
 
   <a href="${pageContext.request.contextPath}/songs/addSong">Add song</a>

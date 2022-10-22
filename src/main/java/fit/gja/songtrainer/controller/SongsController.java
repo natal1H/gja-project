@@ -4,6 +4,8 @@ import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.Tuning.TuningEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,15 +37,14 @@ public class SongsController {
         User u = userService.findByUserName(userDetail.getUsername());
 
         // depending on GET param choose which type of songs to get
-        InstrumentConverter instConv = new InstrumentConverter();
         List<Song> theSongs = null;
-        if (instrumentStr.equals("all")) {
+        if (instrumentStr.equals("ALL")) {
             theSongs = u.getSongs();
         }
-        else if (instConv.isValidString(instrumentStr)) {
+        else if (InstrumentEnum.isValidStr(instrumentStr)) {
             theSongs = u.getSongs();
             // creating a Predicate condition checking for non instrument songs
-            Predicate<Song> isNotGuitar = item -> item.getInstrument() == instConv.convertToEntityAttribute(instrumentStr);
+            Predicate<Song> isNotGuitar = item -> item.getInstrument() == InstrumentEnum.valueOf(instrumentStr);
             theSongs = theSongs.stream().filter(isNotGuitar).collect(Collectors.toList());
         }
         else { // bad param - redirect to access-denied
@@ -66,8 +67,8 @@ public class SongsController {
         Song theSong = new Song();
 
         theModel.addAttribute("song", theSong);
-        theModel.addAttribute("instruments", Instrument.values());
-        theModel.addAttribute("tunings", Tuning.values());
+        theModel.addAttribute("instruments", InstrumentEnum.values());
+        theModel.addAttribute("tunings", TuningEnum.values());
 
         return "song-form";
     }
@@ -83,15 +84,13 @@ public class SongsController {
         theSong.setUser(u);
 
         // Tuning - if instrument other the guitar or bass set to none
-        if (theSong.getInstrument() != Instrument.GUITAR && theSong.getInstrument() != Instrument.BASS)
-            theSong.setTuning(Tuning.NONE);
+        if (theSong.getInstrument() != InstrumentEnum.GUITAR && theSong.getInstrument() != InstrumentEnum.BASS)
+            theSong.setTuning(TuningEnum.NONE);
 
         // save the customer using our service
         songService.save(theSong);
 
-        System.out.println("BEFORE REDIRECT");
-
-        return "redirect:/songs?inst=all";
+        return "redirect:/songs?inst=ALL";
     }
 
     @GetMapping("/songs/delete")
@@ -99,7 +98,7 @@ public class SongsController {
         // delete the song
         songService.delete(theId);
 
-        return "redirect:/songs?inst=all";
+        return "redirect:/songs?inst=ALL";
     }
 
     @GetMapping("/songs/showUpdateForm")
@@ -109,8 +108,8 @@ public class SongsController {
 
         // set song as a model attribute to pre-populate the form
         theModel.addAttribute("song", theSong);
-        theModel.addAttribute("instruments", Instrument.values());
-        theModel.addAttribute("tunings", Tuning.values());
+        theModel.addAttribute("instruments", InstrumentEnum.values());
+        theModel.addAttribute("tunings", TuningEnum.values());
 
         // send over to the form
         return "song-form";

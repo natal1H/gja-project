@@ -3,7 +3,7 @@ package fit.gja.songtrainer.dao;
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.entity.Instrument;
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import java.util.List;
 
 public interface SongDao {
@@ -14,7 +14,7 @@ public interface SongDao {
 
     List<Song> getSongsByUser(User user);
 
-    List<Song> getSongsByUserInstrument(User user, Instrument instrument);
+    List<Song> getSongsByUserInstrument(User user, InstrumentEnum instrument);
 
     void save(Song song);
 

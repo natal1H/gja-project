@@ -1,7 +1,7 @@
 package fit.gja.songtrainer.service;
 
 import fit.gja.songtrainer.dao.PlaylistDao;
-import fit.gja.songtrainer.entity.Instrument;
+import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     @Transactional
-    public List<Playlist> getPlaylistsByUserInstrument(User user, Instrument instrument) {
+    public List<Playlist> getPlaylistsByUserInstrument(User user, InstrumentEnum instrument) {
         return playlistDao.getPlaylistsByUserInstrument(user, instrument);
     }
 
