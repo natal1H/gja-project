@@ -6,6 +6,7 @@ import fit.gja.songtrainer.service.UserService;
 
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
+import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -80,8 +81,16 @@ public class SongsController {
         // set user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        User u = userService.findByUserName(userDetail.getUsername());
-        theSong.setUser(u);
+        User u = null;
+
+        // the exception caused crash - fix it if you dare
+        try {
+            u = userService.findByUserName(userDetail.getUsername());
+        }
+        catch (org.hibernate.LazyInitializationException ignored) {}
+        finally {
+            theSong.setUser(u);
+        }
 
         // Tuning - if instrument other the guitar or bass set to none
         if (theSong.getInstrument() != InstrumentEnum.GUITAR && theSong.getInstrument() != InstrumentEnum.BASS)

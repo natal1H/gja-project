@@ -5,6 +5,7 @@ import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.Tuning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -61,7 +62,7 @@ public class PlaylistController {
         return mav;
     }
 
-    @GetMapping("/addPlaylist")
+    @GetMapping("/playlist/addPlaylist")
     public String showFormForAdd(Model theModel) {
 
         // create model attribute to bind form data
@@ -74,7 +75,7 @@ public class PlaylistController {
     }
 
     // TODO - add form validations
-    @PostMapping("/savePlaylist")
+    @PostMapping("/playlist/savePlaylist")
     public String saveSong(@ModelAttribute("playlist") Playlist thePlaylist) {
 
         // set user
@@ -103,5 +104,18 @@ public class PlaylistController {
         playlistService.delete(thePlaylistId);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/playlist/showUpdateForm")
+    public String showUpdateForm(@RequestParam("playlistId") Long theId, Model theModel) {
+        // get song from database
+        Playlist thePlaylist = playlistService.getPlaylistById(theId);
+
+        // set song as a model attribute to pre-populate the form
+        theModel.addAttribute("playlist", thePlaylist);
+        theModel.addAttribute("instruments", InstrumentEnum.values());
+
+        // send over to the form
+        return "playlist-form";
     }
 }

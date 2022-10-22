@@ -74,8 +74,10 @@ public class PlaylistDaoImpl implements PlaylistDao {
         // get current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
-        // create the user
-        currentSession.save(playlist);
+        if (playlist.getId() == null)
+            currentSession.save(playlist);
+        else
+            currentSession.update(playlist);
     }
 
     @Override

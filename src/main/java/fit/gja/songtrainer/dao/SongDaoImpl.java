@@ -79,8 +79,19 @@ public class SongDaoImpl implements SongDao {
 
         if (song.getId() == null)
             currentSession.save(song);
-        else
-            currentSession.update(song);
+        else {
+            // This was this only way to make it work
+
+            // Find original song in db
+            Song originalSong = this.getSongById(song.getId());
+            // Copy changed data to original song
+            originalSong.setTitle(song.getTitle());
+            originalSong.setArtist(song.getArtist());
+            originalSong.setInstrument(song.getInstrument());
+            originalSong.setTuning(song.getTuning());
+
+            currentSession.update(originalSong);
+        }
     }
 
     @Override

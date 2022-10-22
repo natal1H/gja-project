@@ -2,6 +2,7 @@ package fit.gja.songtrainer.entity;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -100,10 +101,10 @@ public class User {
 
     public void setPlaylists(List<Playlist> playlists) { this.playlists = playlists; }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
-                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
-                + ", roles=" + roles + '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
+//                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
+//                + ", roles=" + roles + '}';
+//    }
 }

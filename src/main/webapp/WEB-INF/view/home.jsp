@@ -50,7 +50,7 @@
     </table>
 
     <hr>
-    <a href="${pageContext.request.contextPath}/addPlaylist">Create new playlist</a>
+    <a href="${pageContext.request.contextPath}/playlist/addPlaylist">Create new playlist</a>
     <hr>
 
     <!-- Logout button -->
