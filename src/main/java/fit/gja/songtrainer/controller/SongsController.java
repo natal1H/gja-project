@@ -6,7 +6,6 @@ import fit.gja.songtrainer.service.UserService;
 
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
-import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

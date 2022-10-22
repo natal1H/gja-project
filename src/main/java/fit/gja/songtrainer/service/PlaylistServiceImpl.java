@@ -1,6 +1,7 @@
 package fit.gja.songtrainer.service;
 
 import fit.gja.songtrainer.dao.PlaylistDao;
+import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.User;
@@ -51,4 +52,11 @@ public class PlaylistServiceImpl implements PlaylistService {
     public void delete(Long playlistId) {
         playlistDao.delete(playlistId);
     }
+
+    @Override
+    @Transactional
+    public void deleteSongFromPlaylist(Playlist playlist, Song song) {
+        playlistDao.deleteSongFromPlaylist(playlist, song);
+    }
+
 }

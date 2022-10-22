@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -95,13 +96,26 @@ public class SongDaoImpl implements SongDao {
     }
 
     @Override
+    @Transactional
     public void deletePlaylistFromSong(Song song, Playlist playlist) {
         // get current hibernate session
         Session currentSession = sessionFactory.getCurrentSession();
 
-        song.getPlaylists().remove(playlist);
+        Query<Song> theQuery = currentSession.createQuery("from Song where id=:theId", Song.class);
+        theQuery.setParameter("theId", song.getId());
+        Song lazySong = theQuery.getSingleResult();
+        List<Playlist> allPlaylists = lazySong.getPlaylists();
 
-        currentSession.update(song);
+        for (Playlist tempPlaylist: allPlaylists) {
+            if (tempPlaylist.getId().equals(playlist.getId())) {
+                // this is the one we need to remove
+                allPlaylists.remove(tempPlaylist);
+                break;
+            }
+        }
+        lazySong.setPlaylists(allPlaylists); // not sure if necessary
+
+        currentSession.update(lazySong);
     }
 
     @Override

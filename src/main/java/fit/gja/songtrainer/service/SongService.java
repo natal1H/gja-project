@@ -1,5 +1,6 @@
 package fit.gja.songtrainer.service;
 
+import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
@@ -17,4 +18,6 @@ public interface SongService {
     void save(Song theSong);
 
     void delete(Long songId);
+
+    void deletePlaylistFromSong(Song song, Playlist playlist);
 }

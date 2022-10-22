@@ -5,7 +5,6 @@ import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
-import fit.gja.songtrainer.util.Tuning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -117,5 +116,16 @@ public class PlaylistController {
 
         // send over to the form
         return "playlist-form";
+    }
+
+    @GetMapping("/playlist/removeSongFromPlaylist")
+    public String removeSongFromPlaylist(@RequestParam("songId") Long theSongId, @RequestParam("playlistId") Long thePlaylistId) {
+        Playlist thePlaylist = playlistService.getPlaylistById(thePlaylistId);
+        Song theSong = songService.getSongById(theSongId);
+
+        playlistService.deleteSongFromPlaylist(thePlaylist, theSong);
+        songService.deletePlaylistFromSong(theSong, thePlaylist);
+
+        return "redirect:/playlist?id=" + thePlaylistId;
     }
 }

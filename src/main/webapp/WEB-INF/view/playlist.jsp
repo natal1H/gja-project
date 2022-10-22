@@ -51,6 +51,12 @@
                     <c:param name="playlistId" value="${playlist.id}" />
                 </c:url>
 
+                <!-- construct a "removeFromPlaylist" link with song id -->
+                <c:url var="removeFromPlaylistLink" value="/playlist/removeSongFromPlaylist">
+                    <c:param name="songId" value="${tempSong.id}" />
+                    <c:param name="playlistId" value="${playlist.id}" />
+                </c:url>
+
                 <tr>
                     <td>${tempSong.title}</td>
                     <td>${tempSong.artist}</td>
@@ -73,7 +79,7 @@
                         <a href="${deleteLink}"
                            onclick="if (!(confirm('Are you sure you want to delete this song?'))) return false">DELETE</a>
                         |
-                        REMOVE FROM PLAYLIST <!-- TODO -->
+                        <a href="${removeFromPlaylistLink}">REMOVE FROM PLAYLIST</a>
                     </td>
                 </tr>
             </c:forEach>
