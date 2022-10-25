@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = "fit.gja.songtrainer")
-@PropertySource("classpath:persistence-mysql.properties")
+@PropertySource("classpath:application.properties")
 @EnableJpaRepositories
 public class SongtrainerAppConfig {
 
