@@ -50,13 +50,14 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     @Transactional
     public void delete(Long playlistId) {
-        playlistDao.delete(playlistId);
+        playlistDao.deletePlaylistById(playlistId);
     }
 
     @Override
     @Transactional
     public void deleteSongFromPlaylist(Playlist playlist, Song song) {
-        playlistDao.deleteSongFromPlaylist(playlist, song);
+        playlist.getSongs().remove(song);
+        playlistDao.save(playlist);
     }
 
 }

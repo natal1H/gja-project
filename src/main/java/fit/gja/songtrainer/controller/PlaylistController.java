@@ -124,7 +124,6 @@ public class PlaylistController {
         Song theSong = songService.getSongById(theSongId);
 
         playlistService.deleteSongFromPlaylist(thePlaylist, theSong);
-        songService.deletePlaylistFromSong(theSong, thePlaylist);
 
         return "redirect:/playlist?id=" + thePlaylistId;
     }

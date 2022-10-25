@@ -6,6 +6,7 @@ import fit.gja.songtrainer.entity.Role;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.user.CrmUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private RoleDao roleDao;
 
+    @Lazy
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -51,7 +53,6 @@ public class UserServiceImpl implements UserService{
 
         // give user default role of "user"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_USER")));
-
         // save user in the database
         userDao.save(user);
     }
