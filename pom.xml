@@ -66,6 +66,13 @@
             <artifactId>spring-boot-starter-batch</artifactId>
         </dependency>
 
+<!--        Spring boot annotation configuration processor -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--Spring security dependencies-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

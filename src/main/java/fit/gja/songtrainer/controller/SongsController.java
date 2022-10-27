@@ -1,31 +1,47 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.*;
+import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.service.SongService;
+import fit.gja.songtrainer.service.StorageService;
 import fit.gja.songtrainer.service.UserService;
 
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Controller
+@RestController
 public class SongsController {
 
     @Autowired
     private SongService songService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StorageService storageService;
 
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
     public ModelAndView listSongs(@RequestParam("inst") String instrumentStr) {
@@ -40,14 +56,12 @@ public class SongsController {
         List<Song> theSongs = null;
         if (instrumentStr.equals("ALL")) {
             theSongs = u.getSongs();
-        }
-        else if (InstrumentEnum.isValidStr(instrumentStr)) {
+        } else if (InstrumentEnum.isValidStr(instrumentStr)) {
             theSongs = u.getSongs();
             // creating a Predicate condition checking for non instrument songs
             Predicate<Song> isNotGuitar = item -> item.getInstrument() == InstrumentEnum.valueOf(instrumentStr);
             theSongs = theSongs.stream().filter(isNotGuitar).collect(Collectors.toList());
-        }
-        else { // bad param - redirect to access-denied
+        } else { // bad param - redirect to access-denied
             mav.setViewName("access-denied");
             return mav;
         }
@@ -75,7 +89,7 @@ public class SongsController {
 
     // TODO - add form validations
     @PostMapping("/songs/saveSong")
-    public String  saveSong(@ModelAttribute("song") Song theSong) {
+    public String saveSong(@ModelAttribute("song") Song theSong) {
 
         // set user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -85,9 +99,8 @@ public class SongsController {
         // the exception caused crash - fix it if you dare
         try {
             u = userService.findByUserName(userDetail.getUsername());
-        }
-        catch (org.hibernate.LazyInitializationException ignored) {}
-        finally {
+        } catch (org.hibernate.LazyInitializationException ignored) {
+        } finally {
             theSong.setUser(u);
         }
 
@@ -121,5 +134,23 @@ public class SongsController {
 
         // send over to the form
         return "song-form";
+    }
+
+    @PostMapping("/songs/backingTrack")
+    public void uploadBackingTrack(@RequestParam(value = "songId") Long songId, @RequestParam(value = "track") MultipartFile track) throws IOException, InvalidFileExtensionException {
+        Song song = songService.getSongById(songId);
+        Path savedPath = storageService.saveBackingTrack(track, song);
+        song.setBackingTrackFilename(savedPath.toString());
+        songService.save(song);
+    }
+
+    @GetMapping("/songs/backingTrack")
+    public ResponseEntity<FileSystemResource> getBackingTrack(@RequestParam(value = "songId") Long songId) throws IOException {
+        Song song = songService.getSongById(songId);
+        File track = storageService.loadBackingTrack(song);
+        String contentType = Files.probeContentType(track.toPath());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(contentType));
+        return new ResponseEntity<>(new FileSystemResource(track), headers, HttpStatus.OK);
     }
 }

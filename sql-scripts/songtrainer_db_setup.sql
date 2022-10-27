@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS `song` (
     `times_played` INT NULL DEFAULT 0,
     `last_played` DATETIME NULL,
     `user_id` INT(11) NOT NULL,
+    `file_name` VARCHAR(512),
 
     PRIMARY KEY (`id`),
 

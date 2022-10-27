@@ -38,6 +38,9 @@ public class Song {
     @Column(name = "times_played")
     private int times_played;
 
+    @Column(name = "file_name")
+    private String backingTrackFilename;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "last_played")
     private java.util.Date last_played;
@@ -161,5 +164,13 @@ public class Song {
 
     public void setPlaylists(List<Playlist> playlists) {
         this.playlists = playlists;
+    }
+
+    public String getBackingTrackFilename() {
+        return backingTrackFilename;
+    }
+
+    public void setBackingTrackFilename(String backingTrackFilename) {
+        this.backingTrackFilename = backingTrackFilename;
     }
 }

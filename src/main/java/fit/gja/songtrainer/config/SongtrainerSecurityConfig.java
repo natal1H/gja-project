@@ -64,7 +64,7 @@ public class SongtrainerSecurityConfig {
                 .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/access-denied")
-                .and()
+                .and().csrf().disable()//Fixme: only for testing
                 .build();
     }
 
