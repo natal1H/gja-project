@@ -66,7 +66,7 @@
             <artifactId>spring-boot-starter-batch</artifactId>
         </dependency>
 
-<!--        Spring boot annotation configuration processor -->
+        <!--        Spring boot annotation configuration processor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -142,6 +142,13 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <!--        Tests for spring boot-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- Spring Transactions -->
         <!--        <dependency>-->
@@ -176,13 +183,6 @@
         <!--            <artifactId>hibernate-validator</artifactId>-->
         <!--            <version>8.0.0.Final</version>-->
         <!--        </dependency>-->
-
-        <!--        Tests for spring boot-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
 
     </dependencies>
 

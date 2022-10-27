@@ -33,9 +33,9 @@ public class StorageService implements IStorageService {
     }
 
     @Override
-    public File loadBackingTrack(Song song) throws FileNotFoundException {
+    public File loadBackingTrack(Song song) {
         String backingTrackPath = song.getBackingTrackFilename();
-        if(backingTrackPath == null) throw new FileNotFoundException();
+        if(backingTrackPath == null) return null;
         return new File(backingTrackPath);
     }
 

@@ -9,6 +9,14 @@ import java.util.List;
 @ConfigurationProperties("app.storage")
 @ConfigurationPropertiesScan
 public class StorageServiceConfig {
+    public StorageServiceConfig() {
+    }
+
+    public StorageServiceConfig(Path fileStoragePath, List<String> allowedExtensions) {
+        this.fileStoragePath = fileStoragePath;
+        this.allowedExtensions = allowedExtensions;
+    }
+
     private Path fileStoragePath;
     private List<String> allowedExtensions;
 

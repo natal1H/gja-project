@@ -12,5 +12,5 @@ import java.nio.file.Path;
 public interface IStorageService {
     Path saveBackingTrack(MultipartFile file, Song song) throws IOException, InvalidFileExtensionException;
 
-    File loadBackingTrack(Song song) throws FileNotFoundException;
+    File loadBackingTrack(Song song);
 }
