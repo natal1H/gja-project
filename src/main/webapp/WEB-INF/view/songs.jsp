@@ -46,6 +46,9 @@
                   </c:choose>
 
               </td>
+              <td>
+                  <button onclick="new Audio('/songs/backingTrack/?songId=${tempSong.id}').play()">Play</button>
+              </td>
               <td>${tempSong.lengthStr}</td>
               <td>
                   <a href="${updateLink}">UPDATE</a>

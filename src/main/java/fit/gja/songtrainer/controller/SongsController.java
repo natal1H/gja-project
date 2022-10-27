@@ -39,8 +39,6 @@ public class SongsController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private StorageService storageService;
 
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
     public ModelAndView listSongs(@RequestParam("inst") String instrumentStr) {
@@ -135,21 +133,4 @@ public class SongsController {
         return "song-form";
     }
 
-    @PostMapping("/songs/backingTrack")
-    public void uploadBackingTrack(@RequestParam(value = "songId") Long songId, @RequestParam(value = "track") MultipartFile track) throws IOException, InvalidFileExtensionException {
-        Song song = songService.getSongById(songId);
-        Path savedPath = storageService.saveBackingTrack(track, song);
-        song.setBackingTrackFilename(savedPath.toString());
-        songService.save(song);
-    }
-
-    @GetMapping("/songs/backingTrack")
-    public ResponseEntity<FileSystemResource> getBackingTrack(@RequestParam(value = "songId") Long songId) throws IOException {
-        Song song = songService.getSongById(songId);
-        File track = storageService.loadBackingTrack(song);
-        String contentType = Files.probeContentType(track.toPath());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(contentType));
-        return new ResponseEntity<>(new FileSystemResource(track), headers, HttpStatus.OK);
-    }
 }
