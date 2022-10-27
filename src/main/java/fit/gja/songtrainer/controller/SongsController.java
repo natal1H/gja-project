@@ -32,7 +32,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Controller
-@RestController
 public class SongsController {
 
     @Autowired
