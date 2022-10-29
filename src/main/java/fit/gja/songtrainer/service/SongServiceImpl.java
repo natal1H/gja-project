@@ -1,13 +1,17 @@
 package fit.gja.songtrainer.service;
 
 import fit.gja.songtrainer.dao.SongDao;
+import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Service
@@ -32,6 +36,13 @@ public class SongServiceImpl implements SongService {
     @Transactional
     public List<Song> getSongsByUserInstrument(User user, InstrumentEnum instrument) {
         return songDao.getSongsByUserInstrument(user, instrument);
+    }
+
+    @Override
+    @Transactional
+    public void deletePlaylistFromSong(Song song, Playlist playlist) {
+        song.getPlaylists().remove(playlist);
+        songDao.save(song);
     }
 
     @Override

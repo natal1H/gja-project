@@ -60,4 +60,13 @@ public class PlaylistServiceImpl implements PlaylistService {
         playlistDao.save(playlist);
     }
 
+    @Override
+    @Transactional
+    public void addSongToPlaylist(Playlist playlist, Song song) {
+        if(!(playlist.getSongs().contains(song))) {
+            playlist.getSongs().add(song);
+            playlistDao.save(playlist);
+        }
+    }
+
 }

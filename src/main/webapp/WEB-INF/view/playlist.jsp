@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>Playlist</h2>
-    Name: ${playlist.name}<br>
+    Name: ${playlist.name} (${playlist.instrumentStr})<br>
 
     <!-- construct an "update" link with playlist id -->
     <c:url var="updatePlaylistLink" value="/playlist/showUpdateForm">

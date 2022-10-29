@@ -30,6 +30,10 @@
           <c:url var="deleteLink" value="/songs/delete">
               <c:param name="songId" value="${tempSong.id}" />
           </c:url>
+          <!-- construct a "addToPlaylist" link with song id -->
+          <c:url var="addToPlaylistLink" value="/songs/showAddToPlaylistForm">
+              <c:param name="songId" value="${tempSong.id}" />
+          </c:url>
 
           <tr>
               <td>${tempSong.title}</td>
@@ -56,7 +60,7 @@
                   <a href="${deleteLink}"
                      onclick="if (!(confirm('Are you sure you want to delete this song?'))) return false">DELETE</a>
                   |
-                  ADD TO PLAYLIST <!-- TODO -->
+                  <a href="${addToPlaylistLink}">ADD TO PLAYLIST</a>
               </td>
           </tr>
       </c:forEach>

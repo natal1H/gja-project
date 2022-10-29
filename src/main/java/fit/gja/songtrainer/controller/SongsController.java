@@ -2,6 +2,7 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
+import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.StorageService;
 import fit.gja.songtrainer.service.UserService;
@@ -36,6 +37,10 @@ public class SongsController {
 
     @Autowired
     private SongService songService;
+
+    @Autowired
+    private PlaylistService playlistService;
+
     @Autowired
     private UserService userService;
 
@@ -85,6 +90,7 @@ public class SongsController {
     }
 
     // TODO - add form validations
+    // TODO - remove logic from controller and do it in service
     @PostMapping("/songs/saveSong")
     public String saveSong(@ModelAttribute("song") Song theSong) {
 
@@ -105,8 +111,31 @@ public class SongsController {
         if (theSong.getInstrument() != InstrumentEnum.GUITAR && theSong.getInstrument() != InstrumentEnum.BASS)
             theSong.setTuning(TuningEnum.NONE);
 
-        // save the customer using our service
-        songService.save(theSong);
+        // try to see if song already exists:
+        if (theSong.getId() != null) {
+            // song already exists, copy stats from db
+            // Find original song in db
+            Song originalSong = songService.getSongById(theSong.getId());
+
+            // if different instrument now, remove song from playlists
+            if (originalSong.getInstrument() != theSong.getInstrument()) {
+                for (Playlist tempPlaylist : originalSong.getPlaylists()) { // remove songs from all playlists it was in
+                    playlistService.deleteSongFromPlaylist(tempPlaylist, originalSong);
+                }
+                List<Playlist> allPlaylists = originalSong.getPlaylists();
+                originalSong.getPlaylists().removeAll(allPlaylists);
+            }
+
+            // Copy changed data to original song
+            originalSong.setTitle(theSong.getTitle());
+            originalSong.setArtist(theSong.getArtist());
+            originalSong.setInstrument(theSong.getInstrument());
+            originalSong.setTuning(theSong.getTuning());
+
+            songService.save(originalSong);
+        } else { // song doesn't yet exist
+            songService.save(theSong);
+        }
 
         return "redirect:/songs?inst=ALL";
     }
@@ -133,4 +162,29 @@ public class SongsController {
         return "song-form";
     }
 
+    @GetMapping("/songs/showAddToPlaylistForm")
+    public String showAddToPlaylistForm(@RequestParam("songId") Long theSongId, Model theModel) {
+        // get song from database
+        Song theSong = songService.getSongById(theSongId);
+
+        // Select only playlist that are for the same instrument as the song is
+        List<Playlist> playlists = theSong.getUser().getPlaylists();
+        Predicate<Playlist> isCorrectInstrument = item -> item.getInstrument() == theSong.getInstrument();
+        playlists = playlists.stream().filter(isCorrectInstrument).collect(Collectors.toList());
+
+        // add the songs to the model
+        theModel.addAttribute("song", theSong);
+        theModel.addAttribute("playlists", playlists);
+
+        return "song-to-playlist-form";
+    }
+
+    @PostMapping("/songs/saveSongToPlaylist")
+    public String saveSong(@ModelAttribute("songId") Long theSongId, @ModelAttribute("playlist") Playlist thePlaylist) {
+        // get song from database
+        Song theSong = songService.getSongById(theSongId);
+        playlistService.addSongToPlaylist(thePlaylist, theSong);
+
+        return "redirect:/songs?inst=ALL";
+    }
 }

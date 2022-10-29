@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -74,8 +75,10 @@ public class PlaylistController {
     }
 
     // TODO - add form validations
+    // TODO - remove logic from controller and do it in service
     @PostMapping("/playlist/savePlaylist")
     public String saveSong(@ModelAttribute("playlist") Playlist thePlaylist) {
+
 
         // set user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -83,8 +86,27 @@ public class PlaylistController {
         User u = userService.findByUserName(userDetail.getUsername());
         thePlaylist.setUser(u);
 
-        // save the customer using our service
-        playlistService.save(thePlaylist);
+        // try to see if playlist already exists:
+        if (thePlaylist.getId() != null) {
+            // Find original playlist in db
+            Playlist originalPlaylist = playlistService.getPlaylistById(thePlaylist.getId());
+
+            // if different instrument now, remove song from playlists
+            if (originalPlaylist.getInstrument() != thePlaylist.getInstrument()) {
+                for (Song tempSong : originalPlaylist.getSongs()) { // remove playlist from all songs it had
+                    songService.deletePlaylistFromSong(tempSong, originalPlaylist);
+                }
+                List<Song> allSongs = originalPlaylist.getSongs();
+                originalPlaylist.getSongs().removeAll(allSongs);
+            }
+            originalPlaylist.setName(thePlaylist.getName());
+            originalPlaylist.setInstrument(thePlaylist.getInstrument());
+
+            playlistService.save(originalPlaylist);
+        } else {
+            playlistService.save(thePlaylist);
+        }
+
 
         return "redirect:/playlist?id=" + thePlaylist.getId();
     }
