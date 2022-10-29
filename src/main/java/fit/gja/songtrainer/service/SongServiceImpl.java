@@ -8,10 +8,6 @@ import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Service
@@ -19,6 +15,9 @@ public class SongServiceImpl implements SongService {
 
     @Autowired
     private SongDao songDao;
+
+    @Autowired
+    private PlaylistService playlistService;
 
     @Override
     @Transactional
@@ -54,6 +53,12 @@ public class SongServiceImpl implements SongService {
     @Override
     @Transactional
     public void delete(Long songId) {
+        Song theSong = this.getSongById(songId);
+        for (Playlist tempPlaylist: theSong.getPlaylists()) {
+            playlistService.deleteSongFromPlaylist(tempPlaylist, theSong);
+        }
+        List<Playlist> allPlaylists = theSong.getPlaylists();
+        theSong.getPlaylists().removeAll(allPlaylists);
         songDao.deleteSongById(songId);
     }
 }
