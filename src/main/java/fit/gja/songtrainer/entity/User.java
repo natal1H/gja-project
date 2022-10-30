@@ -1,10 +1,13 @@
 package fit.gja.songtrainer.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import fit.gja.songtrainer.util.View;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.lang.annotation.Documented;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,34 +18,49 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonView(View.Public.class)
     private Long id;
 
     @Column(name = "username")
     private String userName;
 
     @Column(name = "password")
+    @JsonView(View.Internal.class)
     private String password;
 
     @Column(name = "first_name")
+    @JsonView(View.Public.class)
     private String firstName;
 
     @Column(name = "last_name")
+    @JsonView(View.Public.class)
     private String lastName;
 
     @Column(name = "email")
+    @JsonView(View.Internal.class)
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonView(View.Internal.class)
     private Collection<Role> roles;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_friend",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    @JsonView(View.Internal.class)
+    private Collection<User> friends;
 
     @OneToMany(mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonView(View.Public.class)
     private List<Song> songs;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonView(View.Public.class)
     private List<Playlist> playlists;
 
     public User() { }
@@ -100,6 +118,14 @@ public class User {
     public List<Playlist> getPlaylists() { return playlists; }
 
     public void setPlaylists(List<Playlist> playlists) { this.playlists = playlists; }
+
+    public Collection<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Collection<User> friends) {
+        this.friends = friends;
+    }
 
 //    @Override
 //    public String toString() {

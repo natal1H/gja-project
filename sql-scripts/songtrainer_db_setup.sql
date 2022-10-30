@@ -178,3 +178,18 @@ VALUES
     (4,3);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- Friends table
+
+CREATE TABLE user_has_friend
+(
+    `user_id` INT(11),
+    `friend_id` INT(11),
+    PRIMARY KEY (`user_id`, `friend_id`),
+    CONSTRAINT `fk_user` FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_friend` FOREIGN KEY (`friend_id`)
+        REFERENCES `user` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+)
