@@ -33,6 +33,8 @@
             <th>Instrument</th>
             <th>Tuning</th>
             <th>Length</th>
+            <th>Times Played</th>
+            <th>Last Played</th>
             <th>Action</th>
         </tr>
 
@@ -73,6 +75,15 @@
 
                     </td>
                     <td>${tempSong.lengthStr}</td>
+                    <td>${tempSong.times_played}</td>
+                    <td><c:choose>
+                        <c:when test="${tempSong.last_played!=null}">
+                            ${tempSong.last_played}
+                        </c:when>
+                        <c:otherwise>
+                            Never
+                        </c:otherwise>
+                    </c:choose></td>
                     <td>
                         <a href="${updateLink}">UPDATE</a> <!-- todo: this redirects back to /songs after update -->
                         |

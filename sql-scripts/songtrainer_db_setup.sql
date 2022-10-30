@@ -111,17 +111,19 @@ CREATE TABLE IF NOT EXISTS `song` (
 ) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- Insert test values
+INSERT INTO `song` (title,artist,instrument,tuning,user_id, length, times_played, last_played)
+VALUES
+    ('Whatsername', 'Green Day', 'GUITAR', 'DROP_D', 1, 123, 4, '2022-10-03 05:15:00'), -- 1
+    ('Holiday', 'Green Day', 'BASS', 'E_STANDARD', 1, 150, 5, '2021-12-31 03:15:00'), -- 2
+    ('Message in a bottle', 'The Police', 'GUITAR', 'E_STANDARD', 2, 180, 12, '2022-09-20 07:15:00'), -- 3
+    ('Holiday', 'Green Day', 'DRUMS', 'NONE', 1, 130, 42, '2022-05-13 08:15:00'), -- 4
+    ('Heroes', 'David Bowie', 'GUITAR', 'E_STANDARD', 1,  200, 3, '2022-11-20 04:15:00'), -- 5
+    ('Walking on the moon', 'The Police', 'GUITAR', 'E_STANDARD', 2, 180, 1, '2021-06-25 06:15:00'); -- 6
+
 INSERT INTO `song` (title,artist,instrument,tuning,user_id, length)
 VALUES
-    ('Whatsername', 'Green Day', 'GUITAR', 'DROP_D', 1, 123), -- 1
-    ('Holiday', 'Green Day', 'BASS', 'E_STANDARD', 1, 150), -- 2
-    ('Message in a bottle', 'The Police', 'GUITAR', 'E_STANDARD', 2, 180), -- 3
-    ('Holiday', 'Green Day', 'DRUMS', 'NONE', 1, 130), -- 4
-    ('Heroes', 'David Bowie', 'GUITAR', 'E_STANDARD', 1,  200), -- 5
-    ('Walking on the moon', 'The Police', 'GUITAR', 'E_STANDARD', 2, 180), -- 6
     ('Walking on the moon', 'The Police', 'BASS', 'E_STANDARD', 2, 180), -- 7
     ('Message in a bottle', 'The Police', 'DRUMS', 'NONE', 2, 180); -- 8
-
 
 --
 -- Table structure for table `playlist`

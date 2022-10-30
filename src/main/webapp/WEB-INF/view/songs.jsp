@@ -4,10 +4,34 @@
 <html>
 <head>
     <title>Song Trainer - Songs</title>
+
+    <script>
+        function submitSortForm() {
+            document.getElementById("sortForm").submit();
+        }
+    </script>
 </head>
 <body>
 
   <h2>All songs I can play</h2>
+
+  SORT BY:
+
+  <form id="sortForm" action="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}" method="get">
+      <input type="hidden" name="inst" value="${pageContext.request.getParameter("inst")}">
+      ArtistASC<input type="radio" name="sort" value="ArtistASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("ArtistASC") ? "checked=\"checked\"" : ""}>
+      ArtistDESC<input type="radio" name="sort" value="ArtistDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("ArtistDESC") ? "checked=\"checked\"" : ""}>
+      TitleASC<input type="radio" name="sort" value="TitleASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TitleASC") ? "checked=\"checked\"" : ""}>
+      TitleDESC<input type="radio" name="sort" value="TitleDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TitleDESC") ? "checked=\"checked\"" : ""}>
+      TuningASC<input type="radio" name="sort" value="TuningASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TuningASC") ? "checked=\"checked\"" : ""}>
+      TuningDESC<input type="radio" name="sort" value="TuningDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TuningDESC") ? "checked=\"checked\"" : ""}>
+      LengthASC<input type="radio" name="sort" value="LengthASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthASC") ? "checked=\"checked\"" : ""}>
+      LengthDESC<input type="radio" name="sort" value="LengthDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthDESC") ? "checked=\"checked\"" : ""}>
+      TimesPlayedASC<input type="radio" name="sort" value="TimesPlayedASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedASC") ? "checked=\"checked\"" : ""}>
+      TimesPlayedDESC<input type="radio" name="sort" value="TimesPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedDESC") ? "checked=\"checked\"" : ""}>
+      LastPlayedASC<input type="radio" name="sort" value="LastPlayedASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LastPlayedASC") ? "checked=\"checked\"" : ""}>
+      LastPlayedDESC<input type="radio" name="sort" value="LastPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LastPlayedDESC") ? "checked=\"checked\"" : ""}>
+  </form>
 
   <table>
       <tr>
@@ -15,7 +39,10 @@
           <th>Artist</th>
           <th>Instrument</th>
           <th>Tuning</th>
+          <th>Play</th>
           <th>Length</th>
+          <th>Times Played</th>
+          <th>Last Played</th>
           <th>Action</th>
       </tr>
 
@@ -54,6 +81,15 @@
                   <button onclick="new Audio('/songs/backingTrack/?songId=${tempSong.id}').play()">Play</button>
               </td>
               <td>${tempSong.lengthStr}</td>
+              <td>${tempSong.times_played}</td>
+              <td><c:choose>
+                  <c:when test="${tempSong.last_played!=null}">
+                      ${tempSong.last_played}
+                  </c:when>
+                  <c:otherwise>
+                      Never
+                  </c:otherwise>
+              </c:choose></td>
               <td>
                   <a href="${updateLink}">UPDATE</a>
                   |
@@ -67,11 +103,11 @@
   </table>
 
   <hr>
-  <a href="${pageContext.request.contextPath}/songs?inst=ALL">All songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=GUITAR">Guitar songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=BASS">Bass songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=DRUMS">Drums songs</a><br>
-  <a href="${pageContext.request.contextPath}/songs?inst=PIANO">Piano songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=ALL&sort=${pageContext.request.getParameter("sort")}">All songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=GUITAR&sort=${pageContext.request.getParameter("sort")}">Guitar songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=BASS&sort=${pageContext.request.getParameter("sort")}">Bass songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=DRUMS&sort=${pageContext.request.getParameter("sort")}">Drums songs</a><br>
+  <a href="${pageContext.request.contextPath}/songs?inst=PIANO&sort=${pageContext.request.getParameter("sort")}">Piano songs</a><br>
   <hr>
 
   <a href="${pageContext.request.contextPath}/songs/addSong">Add song</a>

@@ -1,33 +1,20 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.*;
-import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
-import fit.gja.songtrainer.service.StorageService;
 import fit.gja.songtrainer.service.UserService;
-
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.SongsUtil;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -46,7 +33,7 @@ public class SongsController {
 
 
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
-    public ModelAndView listSongs(@RequestParam("inst") String instrumentStr) {
+    public ModelAndView listSongs(@RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
 
         // get current user
@@ -55,18 +42,13 @@ public class SongsController {
         User u = userService.findByUserName(userDetail.getUsername());
 
         // depending on GET param choose which type of songs to get
-        List<Song> theSongs = null;
-        if (instrumentStr.equals("ALL")) {
-            theSongs = u.getSongs();
-        } else if (InstrumentEnum.isValidStr(instrumentStr)) {
-            theSongs = u.getSongs();
-            // creating a Predicate condition checking for non instrument songs
-            Predicate<Song> isNotGuitar = item -> item.getInstrument() == InstrumentEnum.valueOf(instrumentStr);
-            theSongs = theSongs.stream().filter(isNotGuitar).collect(Collectors.toList());
-        } else { // bad param - redirect to access-denied
+        List<Song> theSongs = SongsUtil.getUsersSongsSorted(songService, u, sortStr);
+
+        if (!InstrumentEnum.isValidStr(instrumentStr) && !instrumentStr.equals("ALL")) {
             mav.setViewName("access-denied");
             return mav;
         }
+        theSongs = SongsUtil.filterSongsByInstrument(theSongs, instrumentStr);
 
         // add the songs to the model
         mav.addObject("songs", theSongs);
@@ -137,7 +119,7 @@ public class SongsController {
             songService.save(theSong);
         }
 
-        return "redirect:/songs?inst=ALL";
+        return "redirect:/songs?inst=ALL&sort=ArtistASC";
     }
 
     @GetMapping("/songs/delete")
@@ -145,7 +127,7 @@ public class SongsController {
         // delete the song
         songService.delete(theId);
 
-        return "redirect:/songs?inst=ALL";
+        return "redirect:/songs?inst=ALL&sort=ArtistASC";
     }
 
     @GetMapping("/songs/showUpdateForm")
@@ -185,6 +167,6 @@ public class SongsController {
         Song theSong = songService.getSongById(theSongId);
         playlistService.addSongToPlaylist(thePlaylist, theSong);
 
-        return "redirect:/songs?inst=ALL";
+        return "redirect:/songs?inst=ALL&sort=ArtistASC";
     }
 }

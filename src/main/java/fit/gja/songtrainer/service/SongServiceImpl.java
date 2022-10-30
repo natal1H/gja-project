@@ -61,4 +61,77 @@ public class SongServiceImpl implements SongService {
         theSong.getPlaylists().removeAll(allPlaylists);
         songDao.deleteSongById(songId);
     }
+
+    // Different song sortings
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByArtistAsc(User user) {
+        return songDao.findByUserOrderByArtistAsc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByArtistDesc(User user) {
+        return songDao.findByUserOrderByArtistDesc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByTitleAsc(User user) {
+        return songDao.findByUserOrderByTitleAsc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByTitleDesc(User user) {
+        return songDao.findByUserOrderByTitleDesc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByTuningAsc(User user) {
+        return songDao.findByUserOrderByTuningAsc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByTuningDesc(User user) {
+        return songDao.findByUserOrderByTuningDesc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByLengthAsc(User user) {
+        return songDao.findByUserOrderByLengthAsc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByLengthDesc(User user) {
+        return songDao.findByUserOrderByLengthDesc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByTimes_playedAsc(User user) {
+        return songDao.findByUserOrderByTimes_playedAsc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByTimes_playedDesc(User user) {
+        return songDao.findByUserOrderByTimes_playedDesc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByLast_playedAsc(User user) {
+        return songDao.findByUserOrderByLast_playedAsc(user);
+    }
+
+    @Override
+    @Transactional
+    public List<Song> findByUserOrderByLast_playedDesc(User user) {
+        return songDao.findByUserOrderByLast_playedDesc(user);
+    }
 }
