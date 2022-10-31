@@ -77,49 +77,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public List<Song> getSortedPlaylistsSongsByOption(Playlist playlist, String sortStr) {
-        List<Song> allSongs = playlist.getSongs();
-
-        allSongs.sort(Comparator.comparing(Song::getArtist));
-
-        // for sorting by last_played - todo: refactor
-        List<Song> playedSongs = SongsUtil.getPlayedFromList(allSongs);
-        List<Song> neverPlayedSongs = SongsUtil.getNeverPlayedFromList(allSongs);
-
-        // get user's songs in order specified by sort
-        switch (sortStr) {
-            case "ArtistASC" -> allSongs.sort(Comparator.comparing(Song::getArtist));
-            case "ArtistDESC" -> {
-                allSongs.sort(Comparator.comparing(Song::getArtist));
-                Collections.reverse(allSongs);
-            }
-            case "TitleASC" -> allSongs.sort(Comparator.comparing(Song::getTitle));
-            case "TitleDESC" -> {
-                allSongs.sort(Comparator.comparing(Song::getTitle));
-                Collections.reverse(allSongs);
-            }
-            case "Tuning" -> allSongs.sort(Comparator.comparing(Song::getTuning));
-            case "LengthASC" -> allSongs.sort(Comparator.comparing(Song::getLength));
-            case "LengthDESC" -> {
-                allSongs.sort(Comparator.comparing(Song::getLength));
-                Collections.reverse(allSongs);
-            }
-            case "TimesPlayedASC" -> allSongs.sort(Comparator.comparing(Song::getTimes_played));
-            case "TimesPlayedDESC" -> {
-                allSongs.sort(Comparator.comparing(Song::getTimes_played));
-                Collections.reverse(allSongs);
-            }
-            case "LastPlayedASC" -> { // by ascending means Never first - last most recently played
-                playedSongs.sort(Comparator.comparing(Song::getLast_played));
-                allSongs = Stream.concat(neverPlayedSongs.stream(), playedSongs.stream()).toList();
-            }
-            case "LastPlayedDESC" -> { // by ascending means Never first - last most recently played
-                playedSongs.sort(Comparator.comparing(Song::getLast_played));
-                Collections.reverse(playedSongs);
-                allSongs = Stream.concat(playedSongs.stream(), neverPlayedSongs.stream()).toList();
-            }
-        }
-
-        return allSongs;
+        return SongsUtil.sortSongS(playlist.getSongs(), sortStr);
     }
 
 }

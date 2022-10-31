@@ -54,6 +54,9 @@ public class SongtrainerSecurityConfig {
         return http
                 .authorizeRequests()
                 .antMatchers("/").hasRole("USER")
+                .antMatchers("/songs").hasRole("USER")
+                .antMatchers("/playlist").hasRole("USER")
+                .antMatchers("/profile").hasRole("USER")
                 .antMatchers("/lectors/**").hasRole("LECTOR")
                 .and()
                 .formLogin().loginPage("/showLoginPage")

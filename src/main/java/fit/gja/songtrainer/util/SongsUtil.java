@@ -5,9 +5,12 @@ import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.service.SongService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SongsUtil {
 
@@ -39,6 +42,13 @@ public class SongsUtil {
         return theSongs;
     }
 
+    // TODO: change this to read from db in UserDao
+    public static List<Song> filterSongsByVisible(List<Song> theSongs) {
+        Predicate<Song> isNotVisible = item -> !item.getVisible();
+        theSongs = theSongs.stream().filter(isNotVisible).collect(Collectors.toList());
+        return theSongs;
+    }
+
     public static List<Song> getNeverPlayedFromList(List<Song> theSongs) {
         List<Song> neverPlayedSongs = new ArrayList<Song>();
         for (Song tempSong : theSongs) {
@@ -57,5 +67,47 @@ public class SongsUtil {
             }
         }
         return playedSongs;
+    }
+
+    public static List<Song> sortSongS(List<Song> allSongs, String sortStr) {
+        // for sorting by last_played - todo: refactor
+        List<Song> playedSongs = SongsUtil.getPlayedFromList(allSongs);
+        List<Song> neverPlayedSongs = SongsUtil.getNeverPlayedFromList(allSongs);
+
+        // get user's songs in order specified by sort
+        switch (sortStr) {
+            case "ArtistASC" -> allSongs.sort(Comparator.comparing(Song::getArtist));
+            case "ArtistDESC" -> {
+                allSongs.sort(Comparator.comparing(Song::getArtist));
+                Collections.reverse(allSongs);
+            }
+            case "TitleASC" -> allSongs.sort(Comparator.comparing(Song::getTitle));
+            case "TitleDESC" -> {
+                allSongs.sort(Comparator.comparing(Song::getTitle));
+                Collections.reverse(allSongs);
+            }
+            case "Tuning" -> allSongs.sort(Comparator.comparing(Song::getTuning));
+            case "LengthASC" -> allSongs.sort(Comparator.comparing(Song::getLength));
+            case "LengthDESC" -> {
+                allSongs.sort(Comparator.comparing(Song::getLength));
+                Collections.reverse(allSongs);
+            }
+            case "TimesPlayedASC" -> allSongs.sort(Comparator.comparing(Song::getTimes_played));
+            case "TimesPlayedDESC" -> {
+                allSongs.sort(Comparator.comparing(Song::getTimes_played));
+                Collections.reverse(allSongs);
+            }
+            case "LastPlayedASC" -> { // by ascending means Never first - last most recently played
+                playedSongs.sort(Comparator.comparing(Song::getLast_played));
+                allSongs = Stream.concat(neverPlayedSongs.stream(), playedSongs.stream()).toList();
+            }
+            case "LastPlayedDESC" -> { // by ascending means Never first - last most recently played
+                playedSongs.sort(Comparator.comparing(Song::getLast_played));
+                Collections.reverse(playedSongs);
+                allSongs = Stream.concat(playedSongs.stream(), neverPlayedSongs.stream()).toList();
+            }
+        }
+
+        return allSongs;
     }
 }

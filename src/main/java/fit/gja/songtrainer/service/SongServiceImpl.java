@@ -5,7 +5,6 @@ import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;

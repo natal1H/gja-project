@@ -113,8 +113,6 @@
 
   <a href="${pageContext.request.contextPath}/songs/addSong">Add song</a>
 
-  <hr>
-
   <a href="${pageContext.request.contextPath}/">Home</a>
 </body>
 </html>
