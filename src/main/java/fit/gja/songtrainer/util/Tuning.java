@@ -12,7 +12,7 @@ public class Tuning {
         C_STANDARD("C_STANDARD"),
         DROP_B("DROP_B");
 
-        private String value;
+        private final String value;
 
         TuningEnum(String value) {
             this.value = value;

@@ -13,11 +13,14 @@ import java.util.List;
 @Service
 public class SongServiceImpl implements SongService {
 
-    @Autowired
-    private SongDao songDao;
+    private final SongDao songDao;
 
-    @Autowired
-    private PlaylistService playlistService;
+    private final PlaylistService playlistService;
+
+    public SongServiceImpl(SongDao songDao, PlaylistService playlistService) {
+        this.songDao = songDao;
+        this.playlistService = playlistService;
+    }
 
     @Override
     @Transactional

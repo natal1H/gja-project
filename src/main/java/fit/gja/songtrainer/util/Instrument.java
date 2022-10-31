@@ -9,7 +9,7 @@ public class Instrument {
         DRUMS("DRUMS"),
         PIANO("PIANO");
 
-        private String value;
+        private final String value;
 
         InstrumentEnum(String value) {
             this.value = value;

@@ -5,7 +5,6 @@ import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,14 +20,17 @@ import java.util.Objects;
 @Controller
 public class PlaylistController {
 
-    @Autowired
-    private PlaylistService playlistService;
+    private final PlaylistService playlistService;
 
-    @Autowired
-    private SongService songService;
+    private final SongService songService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public PlaylistController(PlaylistService playlistService, SongService songService, UserService userService) {
+        this.playlistService = playlistService;
+        this.songService = songService;
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "/playlist", method = RequestMethod.GET)
     public ModelAndView listAllSongsInPlaylist(@RequestParam("id") Long playlistId, @RequestParam("sort") String sortStr) {

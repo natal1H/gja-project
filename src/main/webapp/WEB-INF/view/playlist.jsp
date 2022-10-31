@@ -27,7 +27,9 @@
         LengthASC<input type="radio" name="sort" value="LengthASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthASC") ? "checked=\"checked\"" : ""}>|
         LengthDESC<input type="radio" name="sort" value="LengthDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthDESC") ? "checked=\"checked\"" : ""}>|
         TimesPlayedASC<input type="radio" name="sort" value="TimesPlayedASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedASC") ? "checked=\"checked\"" : ""}>|
-        TimesPlayedDESC<input type="radio" name="sort" value="TimesPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedDESC") ? "checked=\"checked\"" : ""}>
+        TimesPlayedDESC<input type="radio" name="sort" value="TimesPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedDESC") ? "checked=\"checked\"" : ""}>|
+        LastPlayedASC<input type="radio" name="sort" value="LastPlayedASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LastPlayedASC") ? "checked=\"checked\"" : ""}>|
+        LastPlayedDESC<input type="radio" name="sort" value="LastPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LastPlayedDESC") ? "checked=\"checked\"" : ""}>
     </form>
 
 

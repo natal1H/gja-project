@@ -22,14 +22,17 @@ import java.util.stream.Collectors;
 @Controller
 public class SongsController {
 
-    @Autowired
-    private SongService songService;
+    private final SongService songService;
 
-    @Autowired
-    private PlaylistService playlistService;
+    private final PlaylistService playlistService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public SongsController(SongService songService, PlaylistService playlistService, UserService userService) {
+        this.songService = songService;
+        this.playlistService = playlistService;
+        this.userService = userService;
+    }
 
 
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
