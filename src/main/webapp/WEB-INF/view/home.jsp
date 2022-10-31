@@ -43,7 +43,7 @@
         <!-- Loop over and print playlists -->
         <c:forEach var="tempPlaylist" items="${playlists}">
             <tr>
-                <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}">${tempPlaylist.name}</a></td>
+                <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}&sort=ArtistASC">${tempPlaylist.name}</a></td>
                 <td>${tempPlaylist.instrumentStr}</td>
             </tr>
         </c:forEach>

@@ -28,7 +28,6 @@ public interface SongService {
     List<Song> findByUserOrderByTitleAsc(User user);
     List<Song> findByUserOrderByTitleDesc(User user);
     List<Song> findByUserOrderByTuningAsc(User user);
-    List<Song> findByUserOrderByTuningDesc(User user);
     List<Song> findByUserOrderByLengthAsc(User user);
     List<Song> findByUserOrderByLengthDesc(User user);
     List<Song> findByUserOrderByTimes_playedAsc(User user);

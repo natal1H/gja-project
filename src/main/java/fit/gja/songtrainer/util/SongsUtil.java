@@ -27,11 +27,8 @@ public class SongsUtil {
             case "TitleDESC":
                 theSongs = songService.findByUserOrderByTitleDesc(u);
                 break;
-            case "TuningASC":
+            case "Tuning":
                 theSongs = songService.findByUserOrderByTuningAsc(u);
-                break;
-            case "TuningDESC":
-                theSongs = songService.findByUserOrderByTuningDesc(u);
                 break;
             case "LengthASC":
                 theSongs = songService.findByUserOrderByLengthAsc(u);

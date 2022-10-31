@@ -95,12 +95,6 @@ public class SongServiceImpl implements SongService {
 
     @Override
     @Transactional
-    public List<Song> findByUserOrderByTuningDesc(User user) {
-        return songDao.findByUserOrderByTuningDesc(user);
-    }
-
-    @Override
-    @Transactional
     public List<Song> findByUserOrderByLengthAsc(User user) {
         return songDao.findByUserOrderByLengthAsc(user);
     }

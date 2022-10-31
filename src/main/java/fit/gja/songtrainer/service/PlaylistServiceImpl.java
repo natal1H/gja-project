@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -67,6 +69,50 @@ public class PlaylistServiceImpl implements PlaylistService {
             playlist.getSongs().add(song);
             playlistDao.save(playlist);
         }
+    }
+
+    @Override
+    public List<Song> getSortedPlaylistsSongsByOption(Playlist playlist, String sortStr) {
+        List<Song> allSongs = playlist.getSongs();
+
+        allSongs.sort(Comparator.comparing(Song::getArtist));
+
+        // get user's songs in order specified by sort
+        switch (sortStr) {
+            case "ArtistASC":
+                allSongs.sort(Comparator.comparing(Song::getArtist));
+                break;
+            case "ArtistDESC":
+                allSongs.sort(Comparator.comparing(Song::getArtist));
+                Collections.reverse(allSongs);
+                break;
+            case "TitleASC":
+                allSongs.sort(Comparator.comparing(Song::getTitle));
+                break;
+            case "TitleDESC":
+                allSongs.sort(Comparator.comparing(Song::getTitle));
+                Collections.reverse(allSongs);
+                break;
+            case "Tuning":
+                allSongs.sort(Comparator.comparing(Song::getTuning));
+                break;
+            case "LengthASC":
+                allSongs.sort(Comparator.comparing(Song::getLength));
+                break;
+            case "LengthDESC":
+                allSongs.sort(Comparator.comparing(Song::getLength));
+                Collections.reverse(allSongs);
+                break;
+            case "TimesPlayedASC":
+                allSongs.sort(Comparator.comparing(Song::getTimes_played));
+                break;
+            case "TimesPlayedDESC":
+                allSongs.sort(Comparator.comparing(Song::getTimes_played));
+                Collections.reverse(allSongs);
+                break;
+        }
+
+        return allSongs;
     }
 
 }

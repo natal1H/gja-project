@@ -4,10 +4,32 @@
 <html>
 <head>
     <title>Song Trainer - Playlist</title>
+
+    <script>
+        function submitSortForm() {
+            document.getElementById("sortForm").submit();
+        }
+    </script>
 </head>
 <body>
     <h2>Playlist</h2>
     Name: ${playlist.name} (${playlist.instrumentStr})<br>
+
+    SORT SONGS BY:
+
+    <form id="sortForm" action="${pageContext.request.contextPath}/playlist?id=${pageContext.request.getParameter("id")}" method="get">
+        <input type="hidden" name="id" value="${pageContext.request.getParameter("id")}">
+        ArtistASC<input type="radio" name="sort" value="ArtistASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("ArtistASC") ? "checked=\"checked\"" : ""}>|
+        ArtistDESC<input type="radio" name="sort" value="ArtistDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("ArtistDESC") ? "checked=\"checked\"" : ""}>|
+        TitleASC<input type="radio" name="sort" value="TitleASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TitleASC") ? "checked=\"checked\"" : ""}>|
+        TitleDESC<input type="radio" name="sort" value="TitleDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TitleDESC") ? "checked=\"checked\"" : ""}>|
+        Tuning<input type="radio" name="sort" value="Tuning" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("Tuning") ? "checked=\"checked\"" : ""}>|
+        LengthASC<input type="radio" name="sort" value="LengthASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthASC") ? "checked=\"checked\"" : ""}>|
+        LengthDESC<input type="radio" name="sort" value="LengthDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthDESC") ? "checked=\"checked\"" : ""}>|
+        TimesPlayedASC<input type="radio" name="sort" value="TimesPlayedASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedASC") ? "checked=\"checked\"" : ""}>|
+        TimesPlayedDESC<input type="radio" name="sort" value="TimesPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedDESC") ? "checked=\"checked\"" : ""}>
+    </form>
+
 
     <!-- construct an "update" link with playlist id -->
     <c:url var="updatePlaylistLink" value="/playlist/showUpdateForm">

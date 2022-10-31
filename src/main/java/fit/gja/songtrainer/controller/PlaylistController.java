@@ -31,7 +31,7 @@ public class PlaylistController {
     private UserService userService;
 
     @RequestMapping(value = "/playlist", method = RequestMethod.GET)
-    public ModelAndView listAllSongsInPlaylist(@RequestParam("id") Long playlistId) {
+    public ModelAndView listAllSongsInPlaylist(@RequestParam("id") Long playlistId, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
 
         // Get current user
@@ -53,9 +53,11 @@ public class PlaylistController {
             return mav;
         }
 
+        List<Song> theSongs = playlistService.getSortedPlaylistsSongsByOption(thePlaylist, sortStr);
+
         // Add playlist and songs to model
         mav.addObject("playlist", thePlaylist);
-        mav.addObject("songs", thePlaylist.getSongs());
+        mav.addObject("songs", theSongs);
 
         mav.setViewName("playlist");
 
@@ -108,7 +110,7 @@ public class PlaylistController {
         }
 
 
-        return "redirect:/playlist?id=" + thePlaylist.getId();
+        return "redirect:/playlist?id=" + thePlaylist.getId() + "&sort=ArtistASC";
     }
 
     @GetMapping("/playlist/deleteSong")
@@ -116,7 +118,7 @@ public class PlaylistController {
         // delete the song
         songService.delete(theSongId);
 
-        return "redirect:/playlist?id=" + thePlaylistId;
+        return "redirect:/playlist?id=" + thePlaylistId + "&sort=ArtistASC";
     }
 
     @GetMapping("/playlist/deletePlaylist")
@@ -147,6 +149,6 @@ public class PlaylistController {
 
         playlistService.deleteSongFromPlaylist(thePlaylist, theSong);
 
-        return "redirect:/playlist?id=" + thePlaylistId;
+        return "redirect:/playlist?id=" + thePlaylistId + "&sort=ArtistASC";
     }
 }

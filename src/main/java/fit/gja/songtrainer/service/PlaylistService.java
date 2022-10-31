@@ -24,4 +24,6 @@ public interface PlaylistService {
     void deleteSongFromPlaylist(Playlist playlist, Song song);
 
     void addSongToPlaylist(Playlist playlist, Song song);
+
+    List<Song> getSortedPlaylistsSongsByOption(Playlist playlist, String sortStr);
 }
