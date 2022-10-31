@@ -45,6 +45,9 @@ public class Song {
     @Column(name = "last_played")
     private java.util.Date last_played;
 
+    @Column(name = "is_visible")
+    private Boolean visible;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -128,8 +131,9 @@ public class Song {
     public String getLengthStr() {
         int minutes = this.length / 60;
         int seconds = this.length - minutes * 60;
+        String secondsStr = seconds < 10 ? "0" + Integer.toString(seconds) : Integer.toString(seconds);
 
-        return Integer.toString(minutes) + ":" + Integer.toString(seconds);
+        return Integer.toString(minutes) + ":" + secondsStr;
     }
 
     public void setLength(int length) {
@@ -174,5 +178,13 @@ public class Song {
 
     public void setBackingTrackFilename(String backingTrackFilename) {
         this.backingTrackFilename = backingTrackFilename;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 }

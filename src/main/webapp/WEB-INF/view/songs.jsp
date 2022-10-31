@@ -43,6 +43,7 @@
           <th>Length</th>
           <th>Times Played</th>
           <th>Last Played</th>
+          <th>Visible</th>
           <th>Action</th>
       </tr>
 
@@ -90,6 +91,7 @@
                       Never
                   </c:otherwise>
               </c:choose></td>
+              <td>${tempSong.visible}</td>
               <td>
                   <a href="${updateLink}">UPDATE</a>
                   |

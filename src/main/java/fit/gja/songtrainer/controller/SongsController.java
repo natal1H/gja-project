@@ -113,6 +113,7 @@ public class SongsController {
             originalSong.setArtist(theSong.getArtist());
             originalSong.setInstrument(theSong.getInstrument());
             originalSong.setTuning(theSong.getTuning());
+            originalSong.setVisible(theSong.getVisible());
 
             songService.save(originalSong);
         } else { // song doesn't yet exist
