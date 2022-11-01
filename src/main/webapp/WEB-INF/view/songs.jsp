@@ -111,7 +111,7 @@
   <a href="${pageContext.request.contextPath}/songs?inst=PIANO&sort=${pageContext.request.getParameter("sort")}">Piano songs</a><br>
   <hr>
 
-  <a href="${pageContext.request.contextPath}/songs/addSong">Add song</a>
+  <a href="${pageContext.request.contextPath}/songs/addSong">Add song</a><br>
 
   <a href="${pageContext.request.contextPath}/">Home</a>
 </body>

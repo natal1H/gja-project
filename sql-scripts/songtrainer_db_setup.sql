@@ -28,7 +28,9 @@ CREATE TABLE `user` (
 INSERT INTO `user` (username,password,first_name,last_name,email)
 VALUES
     ('john','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K','John','Doe','john@mail.com'),
-    ('mary','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K','Mary','Public','mary@mail.com');
+    ('mary','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K','Mary','Public','mary@mail.com'),
+    ('adam','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K','Adam','Addams','adam@mail.com'),
+    ('susan','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K','Susan','Public','susan@mail.com');
 
 
 --
@@ -124,7 +126,11 @@ VALUES
 INSERT INTO `song` (title,artist,instrument,tuning,user_id, length, is_visible)
 VALUES
     ('Walking on the moon', 'The Police', 'BASS', 'E_STANDARD', 2, 180, true), -- 7
-    ('Message in a bottle', 'The Police', 'DRUMS', 'NONE', 2, 180, false); -- 8
+    ('Message in a bottle', 'The Police', 'DRUMS', 'NONE', 2, 180, false), -- 8
+    ('Square Hammer', 'Ghost', 'GUITAR', 'D_STANDARD', 3, 190, true), -- 9
+    ('Poison', 'Alice Cooper', 'GUITAR', 'E_STANDARD', 3, 180, true), -- 10
+    ('Hey stoopid', 'Alice Cooper', 'BASS', 'E_STANDARD', 4, 180, true); -- 10
+
 
 --
 -- Table structure for table `playlist`
@@ -195,4 +201,12 @@ CREATE TABLE user_has_friend
     CONSTRAINT `fk_friend` FOREIGN KEY (`friend_id`)
         REFERENCES `user` (`id`)
         ON DELETE NO ACTION ON UPDATE NO ACTION
-)
+);
+
+-- Insert test values
+INSERT INTO `user_has_friend` (user_id,friend_id)
+VALUES
+    (1, 2), -- John & Mary
+    (2, 1), -- Mary & John
+    (1, 3), -- John & Adam
+    (3, 1)  -- Adam & John

@@ -15,6 +15,8 @@
 <body>
     <h2>${user.userName}'s profile</h2>
 
+    First name: ${user.firstName}, Last name: ${user.lastName}<br>
+
     Songs ${user.userName} can play:<br>
 
     SORT BY:

@@ -27,7 +27,7 @@ public class UserProfileController {
 
     // TODO - remove logic from controller
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView listSongs(@RequestParam("id") String userIdStr, @RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
+    public ModelAndView showProfile(@RequestParam("id") String userIdStr, @RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
 
         // get requested user

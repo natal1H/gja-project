@@ -6,19 +6,16 @@
 <html>
 <head>
     <title>Song trainer Home Page</title>
+    <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
+    <script src="/js/main.js" />"></script>
 </head>
 <body>
     <h2>Song Trainer Home Page</h2>
 
     Welcome to Song Trainer home page!
     <hr>
-
-    <p>
-        User: <security:authentication property="principal.username" /><br>
-        Role(s): <security:authentication property="principal.authorities" /><br>
-        First name: ${user.firstName}, Last name: ${user.lastName}, Email: ${user.email}
-    </p>
-
+    <a href="${pageContext.request.contextPath}/profile?id=${user.id}&inst=ALL&sort=ArtistASC">GO TO PROFILE</a> |
+    <a href="${pageContext.request.contextPath}/settings">USER SETTINGS</a>
     <hr>
 
     <security:authorize access="hasRole('LECTOR')">
