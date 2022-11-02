@@ -16,5 +16,9 @@ public interface UserService extends UserDetailsService {
 
     void save(CrmUser crmUser);
 
-    //List<Song> getUsersSongsByInstrument(Long id, InstrumentEnum instrument);
+    void save(User user);
+
+    boolean checkIfValidOldPassword(User user, String password);
+
+    void changeUserPassword(User user, String encodedNewPassword);
 }

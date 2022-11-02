@@ -22,7 +22,7 @@ public class RegistrationController {
 
     private final UserService userService;
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     public RegistrationController(UserService userService) {
         this.userService = userService;

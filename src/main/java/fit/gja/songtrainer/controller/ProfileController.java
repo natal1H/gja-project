@@ -16,12 +16,12 @@ import java.util.Objects;
 
 
 @Controller
-public class UserProfileController {
+public class ProfileController {
 
     private final UserService userService;
 
 
-    public UserProfileController(UserService userService) {
+    public ProfileController(UserService userService) {
         this.userService = userService;
     }
 
@@ -57,7 +57,7 @@ public class UserProfileController {
         mav.addObject("user", user);
         mav.addObject("songs", theSongs);
 
-        mav.setViewName("user-profile");
+        mav.setViewName("profile");
 
         return mav;
     }

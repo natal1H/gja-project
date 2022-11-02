@@ -3,10 +3,8 @@ package fit.gja.songtrainer.service;
 import fit.gja.songtrainer.dao.RoleDao;
 import fit.gja.songtrainer.dao.UserDao;
 import fit.gja.songtrainer.entity.Role;
-import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.user.CrmUser;
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,9 +80,22 @@ public class UserServiceImpl implements UserService{
         return userDao.getUserById(id);
     }
 
-    //@Override
-    //@Transactional
-    //public List<Song> getUsersSongsByInstrument(Long id, InstrumentEnum instrument) {
-    //    return userDao.getUsersSongsByInstrument(id, instrument);
-    //}
+    @Override
+    @Transactional
+    public void save(User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    @Transactional
+    public boolean checkIfValidOldPassword(User user, String password) {
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    @Override
+    @Transactional
+    public void changeUserPassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userDao.save(user);
+    }
 }

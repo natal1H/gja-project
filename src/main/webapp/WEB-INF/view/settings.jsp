@@ -17,7 +17,7 @@
     <hr>
     Role(s): <security:authentication property="principal.authorities" /><br>
     <hr>
-    Change password<br><!-- TODO -->
+    <a href="${pageContext.request.contextPath}/settings/changePassword">Change password</a><br>
     <hr>
     <security:authorize access="!hasRole('LECTOR')">
         Become a lector<!-- TODO -->
