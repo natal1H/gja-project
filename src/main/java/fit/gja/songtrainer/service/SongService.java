@@ -5,7 +5,6 @@ import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 public interface SongService {

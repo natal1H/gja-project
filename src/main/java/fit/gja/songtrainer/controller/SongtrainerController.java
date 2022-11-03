@@ -2,6 +2,7 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.service.UserService;
+import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,13 +22,11 @@ public class SongtrainerController {
     @Transactional
     public String showHome(Model theModel) {
         // Get list of user's playlists
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        User u = userService.findByUserName(userDetail.getUsername());
+        User user = UserUtil.getCurrentUser(userService);
 
         // add the songs to the model
-        theModel.addAttribute("playlists", u.getPlaylists());
-        theModel.addAttribute("user", u);
+        theModel.addAttribute("playlists", user.getPlaylists());
+        theModel.addAttribute("user", user);
 
         return "home";
     }

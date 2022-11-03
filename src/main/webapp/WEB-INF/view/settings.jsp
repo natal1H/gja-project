@@ -20,10 +20,14 @@
     <a href="${pageContext.request.contextPath}/settings/changePassword">Change password</a><br>
     <hr>
     <security:authorize access="!hasRole('LECTOR')">
-        Become a lector<!-- TODO -->
+        <form action="${pageContext.request.contextPath}/settings/becomeLector" method="post">
+            <input type="submit" name="becomeLector" value="Become a lector" />
+        </form>
     </security:authorize>
     <security:authorize access="hasRole('LECTOR')">
-        Stop being a lector<!-- TODO -->
+        <form action="${pageContext.request.contextPath}/settings/stopBeingLector" method="post">
+            <input type="submit" name="stopBeingLector" value="Stop being a lector" />
+        </form>
     </security:authorize>
 
     <hr>

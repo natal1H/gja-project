@@ -32,7 +32,6 @@ VALUES
     ('adam','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K','Adam','Addams','adam@mail.com'),
     ('susan','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K','Susan','Public','susan@mail.com');
 
-
 --
 -- Table structure for table `role`
 --
@@ -85,7 +84,9 @@ INSERT INTO `users_roles` (user_id,role_id)
 VALUES
     (1, 1),
     (2, 1),
-    (2, 2);
+    (2, 2),
+    (3, 1),
+    (4, 1);
 
 --
 -- Table structure for table `song`

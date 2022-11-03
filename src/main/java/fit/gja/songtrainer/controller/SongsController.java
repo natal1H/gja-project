@@ -7,7 +7,7 @@ import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.SongsUtil;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
-import org.springframework.beans.factory.annotation.Autowired;
+import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,13 +39,10 @@ public class SongsController {
     public ModelAndView listSongs(@RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
 
-        // get current user
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        User u = userService.findByUserName(userDetail.getUsername());
+        User user = UserUtil.getCurrentUser(userService);
 
         // depending on GET param choose which type of songs to get
-        List<Song> theSongs = SongsUtil.getUsersSongsSorted(songService, u, sortStr);
+        List<Song> theSongs = SongsUtil.getUsersSongsSorted(songService, user, sortStr);
 
         if (!InstrumentEnum.isValidStr(instrumentStr) && !instrumentStr.equals("ALL")) {
             mav.setViewName("access-denied");

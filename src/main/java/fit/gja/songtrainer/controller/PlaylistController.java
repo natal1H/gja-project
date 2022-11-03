@@ -5,9 +5,7 @@ import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +34,7 @@ public class PlaylistController {
     public ModelAndView listAllSongsInPlaylist(@RequestParam("id") Long playlistId, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
 
-        // Get current user
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        User u = userService.findByUserName(userDetail.getUsername());
+        User user = UserUtil.getCurrentUser(userService);
 
         // Load playlist based on id
         Playlist thePlaylist = playlistService.getPlaylistById(playlistId);
@@ -50,7 +45,7 @@ public class PlaylistController {
         }
 
         // Check if playlist belongs to current user
-        if (!Objects.equals(thePlaylist.getUser().getId(), u.getId())) {
+        if (!Objects.equals(thePlaylist.getUser().getId(), user.getId())) {
             mav.setViewName("access-denied");
             return mav;
         }
@@ -82,13 +77,9 @@ public class PlaylistController {
     // TODO - remove logic from controller and do it in service
     @PostMapping("/playlist/savePlaylist")
     public String saveSong(@ModelAttribute("playlist") Playlist thePlaylist) {
-
-
         // set user
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        User u = userService.findByUserName(userDetail.getUsername());
-        thePlaylist.setUser(u);
+        User user = UserUtil.getCurrentUser(userService);
+        thePlaylist.setUser(user);
 
         // try to see if playlist already exists:
         if (thePlaylist.getId() != null) {
