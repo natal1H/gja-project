@@ -12,27 +12,58 @@ public class StorageServiceConfig {
     public StorageServiceConfig() {
     }
 
-    public StorageServiceConfig(Path fileStoragePath, List<String> allowedExtensions) {
-        this.fileStoragePath = fileStoragePath;
-        this.allowedExtensions = allowedExtensions;
+    public StorageServiceConfig(Path fileStorageRootPath, Path backingTrackPath, Path profilePicturePath, List<String> allowedBackingTrackExtensions, List<String> allowedProfilePictureExtensions) {
+        this.fileStorageRootPath = fileStorageRootPath;
+        this.backingTrackPath = backingTrackPath;
+        this.profilePicturePath = profilePicturePath;
+        this.allowedBackingTrackExtensions = allowedBackingTrackExtensions;
+        this.allowedProfilePictureExtensions = allowedProfilePictureExtensions;
     }
 
-    private Path fileStoragePath;
-    private List<String> allowedExtensions;
+    private Path fileStorageRootPath;
+    private Path backingTrackPath;
+    private Path profilePicturePath;
 
-    public Path getFileStoragePath() {
-        return fileStoragePath;
+    private List<String> allowedBackingTrackExtensions;
+    private List<String> allowedProfilePictureExtensions;
+
+    public Path getFileStorageRootPath() {
+        return fileStorageRootPath;
     }
 
-    public void setFileStoragePath(Path fileStoragePath) {
-        this.fileStoragePath = fileStoragePath;
+    public Path getBackingTrackPath() {
+        return backingTrackPath;
     }
 
-    public List<String> getAllowedExtensions() {
-        return allowedExtensions;
+    public void setBackingTrackPath(Path backingTrackPath) {
+        this.backingTrackPath = backingTrackPath;
     }
 
-    public void setAllowedExtensions(List<String> allowedExtensions) {
-        this.allowedExtensions = allowedExtensions;
+    public void setProfilePicturePath(Path profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
+    }
+
+    public void setFileStorageRootPath(Path fileStorageRootPath) {
+        this.fileStorageRootPath = fileStorageRootPath;
+    }
+
+    public List<String> getAllowedBackingTrackExtensions() {
+        return allowedBackingTrackExtensions;
+    }
+
+    public void setAllowedBackingTrackExtensions(List<String> allowedBackingTrackExtensions) {
+        this.allowedBackingTrackExtensions = allowedBackingTrackExtensions;
+    }
+
+    public Path getProfilePicturePath() {
+        return profilePicturePath;
+    }
+
+    public List<String> getAllowedProfilePictureExtensions() {
+        return allowedProfilePictureExtensions;
+    }
+
+    public void setAllowedProfilePictureExtensions(List<String> allowedProfilePictureExtensions) {
+        this.allowedProfilePictureExtensions = allowedProfilePictureExtensions;
     }
 }

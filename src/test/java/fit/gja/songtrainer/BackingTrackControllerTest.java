@@ -4,7 +4,7 @@ import fit.gja.songtrainer.controller.BackingTracksController;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
-import fit.gja.songtrainer.service.IStorageService;
+import fit.gja.songtrainer.service.StorageService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.util.Instrument;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class BackingTrackControllerTest {
     private final MockMultipartFile file = new MockMultipartFile("testFile", "testFile.png", "audio/mpeg", (byte[]) null);
 
     @MockBean
-    private IStorageService storageService;
+    private StorageService storageService;
 
     @MockBean
     private SongService songService;

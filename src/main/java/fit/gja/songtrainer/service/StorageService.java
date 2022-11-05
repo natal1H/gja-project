@@ -1,42 +1,22 @@
 package fit.gja.songtrainer.service;
 
-import fit.gja.songtrainer.config.StorageServiceConfig;
 import fit.gja.songtrainer.entity.Song;
+import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 
-@Service
-public class StorageService implements IStorageService {
-    private final StorageServiceConfig config;
+public interface StorageService {
+    Path saveBackingTrack(MultipartFile file, Song song) throws IOException, InvalidFileExtensionException;
 
-    public StorageService(StorageServiceConfig config) {
-        this.config = config;
-    }
+    Path saveProfilePicture(MultipartFile file, User user) throws IOException, InvalidFileExtensionException;
 
-    @Override
-    public Path saveBackingTrack(MultipartFile file, Song song) throws IOException, InvalidFileExtensionException {
-        String[] fileParts = file.getOriginalFilename().split("\\.");
-        String extension = fileParts[fileParts.length - 1];
+    File loadBackingTrack(Song song);
 
-        if (!config.getAllowedExtensions().contains(extension))
-            throw new InvalidFileExtensionException();
+    File loadProfilePicture(User user);
 
-        File saveFile = new File(config.getFileStoragePath().toFile(), song.getId() + "." + extension);
-        file.transferTo(saveFile);
-        return saveFile.toPath();
-    }
-
-    @Override
-    public File loadBackingTrack(Song song) {
-        String backingTrackPath = song.getBackingTrackFilename();
-        if(backingTrackPath == null) return null;
-        return new File(backingTrackPath);
-    }
-
+    void removeProfilePicture(User user);
 }

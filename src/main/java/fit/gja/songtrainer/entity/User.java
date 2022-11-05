@@ -40,6 +40,10 @@ public class User {
     @JsonView(View.Internal.class)
     private String email;
 
+    @Column(name = "profile_picture_path")
+    @JsonView(View.Internal.class)
+    private String profilePicturePath;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -125,6 +129,14 @@ public class User {
 
     public void setFriends(Collection<User> friends) {
         this.friends = friends;
+    }
+
+    public String getProfilePicturePath() {
+        return profilePicturePath;
+    }
+
+    public void setProfilePicturePath(String profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
     }
 
 //    @Override
