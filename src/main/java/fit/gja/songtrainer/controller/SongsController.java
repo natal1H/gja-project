@@ -52,6 +52,7 @@ public class SongsController {
 
         // add the songs to the model
         mav.addObject("songs", theSongs);
+        mav.addObject("user", user);
 
         mav.setViewName("songs");
 

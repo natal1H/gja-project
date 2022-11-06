@@ -23,7 +23,6 @@
             <a href="${pageContext.request.contextPath}/playlist/addPlaylist"><i class="fa fa-solid fa-plus"></i> Add</a>
         </div>
 
-
         <table>
             <thead>
                 <tr>
@@ -35,12 +34,25 @@
             <tbody>
             <!-- Loop over and print playlists -->
             <c:forEach var="tempPlaylist" items="${playlists}">
+
+                <!-- construct an "update" link with playlist id -->
+                <c:url var="updatePlaylistLink" value="/playlist/showUpdateForm">
+                    <c:param name="playlistId" value="${tempPlaylist.id}" />
+                </c:url>
+
+                <!-- construct a "delete" link with playlist id -->
+                <c:url var="deletePlaylistLink" value="/playlist/deletePlaylist">
+                    <c:param name="playlistId" value="${tempPlaylist.id}" />
+                </c:url>
+
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}&sort=ArtistASC">${tempPlaylist.name}</a></td>
                     <td>${tempPlaylist.instrumentStr}</td>
                     <td class="icons">
-                        <button class="pencil"><i class="fa fa-solid fa-pencil"></i></button>
-                        <button class="trash"><i class="fa fa-solid fa-trash"></i></button>
+                        <a href="${updatePlaylistLink}"><button class="pencil"><i class="fa fa-solid fa-pencil"></i></button></a>
+                        <a href="${deletePlaylistLink}" onclick="if (!(confirm('Are you sure you want to delete this playlist?'))) return false">
+                            <button class="trash"><i class="fa fa-solid fa-trash"></i></button>
+                        </a>
                     </td>
                 </tr>
             </c:forEach>

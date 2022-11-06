@@ -66,17 +66,18 @@
                   <th>
                       <span>
                         Instrument
-                          <span class="carrets">
+                          <!--<span class="carrets">
                               <i class="fa fa-solid fa-filter"></i>
-                          </span>
+                          </span>-->
                       </span>
                   </th>
                   <th>
                       <span>
                         Tuning
                           <span class="carrets">
-                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=Tuning"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
-                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=Tuning"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=Tuning">
+                              <i class="fa fa-solid fa-filter"></i>
+                              </a>
                           </span>
                       </span>
                   </th>

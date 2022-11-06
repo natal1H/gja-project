@@ -7,7 +7,7 @@
     <div class="header-left">
         <span><a href="${pageContext.request.contextPath}/">SongTrainer</a></span>
         <a href="${pageContext.request.contextPath}/songs?inst=ALL&sort=ArtistASC">My Songs</a>
-        <a href="${pageContext.request.contextPath}/settings">My Playlists</a>
+        <a href="${pageContext.request.contextPath}/playlists">My Playlists</a>
         <security:authorize access="hasRole('LECTOR')">
             <!-- Link to point to /lector ... only for lectors -->
             <a href="${pageContext.request.contextPath}/lectors">Lector page</a>

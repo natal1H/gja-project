@@ -7,6 +7,7 @@ import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,19 @@ public class PlaylistController {
         this.playlistService = playlistService;
         this.songService = songService;
         this.userService = userService;
+    }
+
+    @GetMapping("/playlists")
+    @Transactional
+    public String showHome(Model theModel) {
+        // Get list of user's playlists
+        User user = UserUtil.getCurrentUser(userService);
+
+        // add the songs to the model
+        theModel.addAttribute("playlists", user.getPlaylists());
+        theModel.addAttribute("user", user);
+
+        return "playlists";
     }
 
     @RequestMapping(value = "/playlist", method = RequestMethod.GET)
