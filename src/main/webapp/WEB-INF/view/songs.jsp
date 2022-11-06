@@ -47,42 +47,70 @@
               <tr>
                   <th>
                       <span>
-                        Title <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Title
+                          <span class="carrets">
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=TitleDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=TitleASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
+                          </span>
                       </span>
                   </th>
                   <th>
                       <span>
-                        Artist <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Artist
+                          <span class="carrets">
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=ArtistDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=ArtistASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
+                          </span>
                       </span>
                   </th>
                   <th>
                       <span>
-                        Instrument <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Instrument
+                          <span class="carrets">
+                              <i class="fa fa-solid fa-filter"></i>
+                          </span>
                       </span>
                   </th>
                   <th>
                       <span>
-                        Tuning <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Tuning
+                          <span class="carrets">
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=Tuning"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=Tuning"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
+                          </span>
                       </span>
                   </th>
                   <th>
                       <span>
-                        Play <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Play
+
                       </span>
                   </th>
                   <th>
                       <span>
-                        Length <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Length
+                          <span class="carrets">
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=LengthDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=LengthASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
+                          </span>
                       </span>
                   </th>
                   <th>
                       <span>
-                        Played <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Played
+                          <span class="carrets">
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=TimesPlayedDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=TimesPlayedASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
+                          </span>
                       </span>
                   </th>
                   <th>
                       <span>
-                        Last Played <span class="carrets"><i class="fa fa-sharp fa-solid fa-caret-up"></i><i class="fa fa-sharp fa-solid fa-caret-down"></i></span>
+                        Last Played
+                          <span class="carrets">
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=LastPlayedDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
+                              <a href="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}&sort=LastPlayedASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
+                          </span>
                       </span>
                   </th>
                   <th>
