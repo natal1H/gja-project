@@ -1,58 +1,76 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Song trainer Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
     <script src="/js/main.js" />"></script>
 </head>
 <body>
-    <h2>Song Trainer Home Page</h2>
+    <tag:header></tag:header>
 
-    Welcome to Song Trainer home page!
-    <hr>
-    <a href="${pageContext.request.contextPath}/profile?id=${user.id}&inst=ALL&sort=ArtistASC">GO TO PROFILE</a> |
-    <a href="${pageContext.request.contextPath}/settings">USER SETTINGS</a>
-    <hr>
+    <div class="wrapper">
+        <h2>Home</h2>
 
-    <security:authorize access="hasRole('LECTOR')">
-        <!-- Link to point to /lector ... only for lectors -->
-        <p>
-            <a href="${pageContext.request.contextPath}/lectors">Lector page</a> (Only for lectors)
-        </p>
-        <hr>
-    </security:authorize>
+        <div class="playlists-title">
+            <h3>My playlists</h3>
+            <a href="${pageContext.request.contextPath}/playlist/addPlaylist"><i class="fa fa-solid fa-plus"></i> Add</a>
+        </div>
 
-    <a href="${pageContext.request.contextPath}/songs?inst=ALL&sort=ArtistASC">View all my songs</a>
-    <hr>
 
-    <h3>My playlists</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Instrument</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <!-- Loop over and print playlists -->
+            <c:forEach var="tempPlaylist" items="${playlists}">
+                <tr>
+                    <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}&sort=ArtistASC">${tempPlaylist.name}</a></td>
+                    <td>${tempPlaylist.instrumentStr}</td>
+                    <td class="icons">
+                        <button class="pencil"><i class="fa fa-solid fa-pencil"></i></button>
+                        <button class="trash"><i class="fa fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
 
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Instrument</th>
-        </tr>
 
-        <!-- Loop over and print playlists -->
-        <c:forEach var="tempPlaylist" items="${playlists}">
-            <tr>
-                <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}&sort=ArtistASC">${tempPlaylist.name}</a></td>
-                <td>${tempPlaylist.instrumentStr}</td>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <hr>
-    <a href="${pageContext.request.contextPath}/playlist/addPlaylist">Create new playlist</a>
-    <hr>
-
-    <!-- Logout button -->
-    <form:form action="${pageContext.request.contextPath}/logout" method="POST">
-        <input type="submit" value="Logout" />
-    </form:form>
+    </div>
 </body>
 </html>
+
+<style>
+
+
+    .playlists-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .playlists-title a {
+        padding: 12px 20px;
+        background-color: #13b992;
+        color: #1a1d28;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: linear 0.3s;
+    }
+    .playlists-title a:hover {
+        box-shadow: 0px 0px 5px 5px rgba(19, 185, 146, 0.24);
+    }
+
+</style>

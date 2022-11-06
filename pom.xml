@@ -141,6 +141,14 @@
             <version>${c3p0.version}</version>
         </dependency>
 
+        <!-- DEV Tools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
     <build>

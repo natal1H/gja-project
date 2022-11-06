@@ -1,7 +1,254 @@
 body {
-    background-color: #23ff00;
+    background-color: #121318;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
 }
 
 h2{
-    color:red;
+    color:white;
 }
+
+.login-wrapper {
+    margin: auto;
+    margin-top: 20vh;
+    display: flex;
+    width: 50%;
+}
+
+.login-wrapper .left {
+    background-color: #13b992;
+    padding: 40px;
+    width: 40%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    color: black;
+    display: flex;
+    position: relative;
+}
+
+.login-wrapper .left p {
+    padding-top: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.login-wrapper .left img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+
+.login-wrapper .right {
+    background-color: #1a1d28;
+    padding: 90px;
+    width: 60%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: rgb(218, 218, 218);
+    text-align: center;
+}
+
+.login-wrapper .input {
+    width: 100%;
+    height: 46px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    background-color: #161820;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    color: #fff;
+    font-size: 14px;
+}
+
+.login-wrapper .btn {
+    min-width: 46px;
+    width: 100%;
+    height: 46px;
+    padding: 0 20px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    border: 0;
+    border-radius: 8px;
+    background-color: #fcc800;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1F2230 !important;
+    cursor: pointer;
+    line-height: 46px;
+    text-align: center;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+a {
+    color: #13b992;
+}
+
+/** HEADER **/
+.header {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 1300px;
+    margin: auto;
+}
+
+.header-left {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.header-left a {
+    margin-left: 30px;
+    color: white;
+    text-decoration: none;
+}
+.header-left span {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 1px;
+}
+
+
+.dropbtn {
+    background-color: transparent;
+    border: 2px solid #13b992;
+    color: #13b992;
+    border-radius: 12px;
+    padding: 10px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 100px;
+    transition: linear 0.3s;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #13b992;
+    color: white;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin-top: 5px;
+    background-color: #1a1d28;
+    border-radius: 12px;
+    min-width: 130px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 12px;
+    text-align: center;
+}
+
+.dropdown-content a input {
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    display: block;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+
+.dropdown a:hover {
+    background-color: #13b99290;
+}
+
+.show {display: block;}
+.wrapper {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color: #1a1d28;
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 30px;
+    color: white;
+}
+h2 {
+    margin-top: 0px;
+}
+
+table {
+    color: #b0b0b0;
+    width: 100%;
+    border-collapse:collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+table .icons {
+    display: flex;
+    justify-content: right;
+
+}
+
+table .icons .pencil, table .icons .trash {
+    transition: linear 0.3s;
+}
+table .icons .pencil:hover {
+    color: #4de14d;
+    border: 1px solid #4de14d;
+}
+table .icons .trash:hover {
+    color: #ee1d24;
+    border: 1px solid #ee1d24;
+}
+
+table button {
+    font-size: 14px;
+    padding: 7px 15px;
+    border: 1px solid  #b0b0b0;
+    border-radius: 7px;
+    background-color: transparent;
+    color: #b0b0b0;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+thead th {
+    border-bottom: 2px solid rgba(128, 128, 128, 0.66);
+}
+
+td a {
+    color: white;
+    text-decoration: none;
+    transition: linear 0.3s;
+}
+
+td a:hover {
+    color: #13b992;
+}
+
+
+

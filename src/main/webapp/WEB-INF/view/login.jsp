@@ -3,34 +3,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Song Trainer - Login</title>
+  <title>Song Trainer - Login</title>
+  <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
+  <script src="/js/main.js" />"></script>
 </head>
 <body>
 
-  <h2>Login with Username and Password</h2>
+<div class="login-wrapper">
+  <div class="left">
+    <div>
+      <h2>SongTrainer</h2>
+      <p>Your personal musical instrument training instructor</p>
+      <p>Join us in making music better every day!</p>
+    </div>
+    <div>
+      <img src="/img/guitar.png">
+    </div>
 
-  <form:form action="${pageContext.request.contextPath}/authenticateTheUser" method="POST">
-    <!-- Check for login error -->
-    <c:if test="${param.error != null}">
-      <i>You entered invalid username/password.</i>
-    </c:if>
+  </div>
+  <div class="right">
+    <h2>Login to SongTrainer</h2>
 
-    <!-- Check if user logged out -->
-    <c:if test="${param.logout != null}">
-      <i>You have logged out.</i>
-    </c:if>
+    <form:form action="${pageContext.request.contextPath}/authenticateTheUser" method="POST">
+      <!-- Check for login error -->
+      <c:if test="${param.error != null}">
+        <i>You entered invalid username/password.</i>
+      </c:if>
 
-    <p>
-      User name: <input type="text" name="username" />
-    </p>
-    <p>
-      Password: <input type="password" name="password" />
-    </p>
+      <!-- Check if user logged out -->
+      <c:if test="${param.logout != null}">
+        <i>You have logged out.</i>
+      </c:if>
 
-    <input type="submit" value="Login">
-  </form:form>
+      <p>
+        <input type="text" class="input" name="username" placeholder="User name" required/>
+      </p>
+      <p>
+        <input type="password" class="input" name="password" placeholder="Password" required/>
+      </p>
 
-  <a href="${pageContext.request.contextPath}/register/showRegistrationForm">Register New User</a>
+      <input type="submit" class="btn" value="Login">
+    </form:form>
+
+    <p>Don't have an account yet? <a href="${pageContext.request.contextPath}/register/showRegistrationForm">Register here</a></p>
+  </div>
+</div>
+
 
 </body>
 </html>
