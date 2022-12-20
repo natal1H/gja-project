@@ -11,17 +11,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+/**
+ * Controller class responsible for handling request from user settings page.
+ */
 @Controller
 public class SettingsController {
 
     private final UserService userService;
     private final RoleService roleService;
 
+    /**
+     * Class constructor, injects the necessary services
+     * @param userService Service handling database request about users
+     * @param roleService Service handling database request about roles
+     */
     public SettingsController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
+    /**
+     * Controller method responsible for mapping "/settings".
+     * @param theModel handler of attributes
+     * @return "settings.jsp"
+     */
     @RequestMapping(value = "/settings")
     public String showSettingsPage(Model theModel) {
         User user = UserUtil.getCurrentUser(userService);
@@ -29,6 +42,11 @@ public class SettingsController {
         return "settings";
     }
 
+    /**
+     * Controller method responsible for mapping "/settings/edit".
+     * @param theModel handler of attributes
+     * @return user settings edit form
+     */
     @GetMapping("/settings/edit")
     public String showEditForm(Model theModel) {
         User user = UserUtil.getCurrentUser(userService);
@@ -40,6 +58,12 @@ public class SettingsController {
         return "user-info-edit-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/settings/saveEditedInfo".
+     * Saves new user info to database.
+     * @param theUser object containing new user information
+     * @return redirects back to the user settings page
+     */
     @PostMapping("/settings/saveEditedInfo")
     public String saveSong(@ModelAttribute("user") User theUser) {
         User originalUser = userService.getUserById(theUser.getId());
@@ -54,11 +78,23 @@ public class SettingsController {
         return "redirect:/settings";
     }
 
+    /**
+     * Controller method responsible for mapping "/settings/changePassword.
+     * @return page for password change
+     */
     @RequestMapping(value = "/settings/changePassword")
     public String showChangePasswordForm() {
         return "password-change-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/settings/updatePassword".
+     * Updates user's password, requires re-login after
+     * @param newPassword new password
+     * @param passwordConfirm password confirmation
+     * @param oldPassword old password
+     * @return redirects to login page
+     */
     // TODO warning, receives plaintext passwords - fix it!
     // TODO doesn't check if new & confirm pass matches
     @PostMapping("/settings/updatePassword")
@@ -74,6 +110,10 @@ public class SettingsController {
         return "redirect:/showLoginPage";
     }
 
+    /**
+     * Controller method responsible for mapping "/settings/becomeLector".
+     * @return redirects to login page
+     */
     @PostMapping("/settings/becomeLector")
     public String becomeLector() {
         User user = UserUtil.getCurrentUser(userService);
@@ -90,6 +130,10 @@ public class SettingsController {
         return "redirect:/showLoginPage";
     }
 
+    /**
+     * Controller method responsible for mapping "/settings/stopBeingLector".
+     * @return redirects to the login page
+     */
     @PostMapping("/settings/stopBeingLector")
     public String stopBeingLector() {
         User user = UserUtil.getCurrentUser(userService);

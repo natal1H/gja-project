@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * Controller class responsible for handling request for playlists page.
+ */
 @Controller
 public class PlaylistController {
 
@@ -25,12 +28,24 @@ public class PlaylistController {
 
     private final UserService userService;
 
+    /**
+     * Class constructor, injects the necessary services
+     * @param playlistService Service handling database request about playlists
+     * @param songService Service handling database request about songs
+     * @param userService Service handling database request about users
+     */
     public PlaylistController(PlaylistService playlistService, SongService songService, UserService userService) {
         this.playlistService = playlistService;
         this.songService = songService;
         this.userService = userService;
     }
 
+    /**
+     * Controller method responsible for mapping "/playlists"
+     * @param theModel holder of attributes
+     * @return playlists page filename
+     */
+    // TODO rename to showPlaylists
     @GetMapping("/playlists")
     @Transactional
     public String showHome(Model theModel) {
@@ -44,6 +59,12 @@ public class PlaylistController {
         return "playlists";
     }
 
+    /**
+     * Controller method responsible for mapping "/playlist"
+     * @param playlistId id of playlists to display
+     * @param sortStr sorting option
+     * @return model with attributes and selected view
+     */
     @RequestMapping(value = "/playlist", method = RequestMethod.GET)
     public ModelAndView listAllSongsInPlaylist(@RequestParam("id") Long playlistId, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
@@ -75,6 +96,11 @@ public class PlaylistController {
         return mav;
     }
 
+    /**
+     * Controller method responsible for mapping "/playlist/addPlaylist"
+     * @param theModel holder of attributes
+     * @return add playlist form filename
+     */
     @GetMapping("/playlist/addPlaylist")
     public String showFormForAdd(Model theModel) {
 
@@ -87,6 +113,11 @@ public class PlaylistController {
         return "playlist-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/playlist/savePlaylist"
+     * @param thePlaylist the playlist which to save
+     * @return redirects to saved playlist
+     */
     // TODO - add form validations
     // TODO - remove logic from controller and do it in service
     @PostMapping("/playlist/savePlaylist")
@@ -120,6 +151,12 @@ public class PlaylistController {
         return "redirect:/playlist?id=" + thePlaylist.getId() + "&sort=ArtistASC";
     }
 
+    /**
+     * Controller method responsible for mapping "/playlist/deleteSong"
+     * @param theSongId id of song to delete
+     * @param thePlaylistId id of playlist
+     * @return redirects back to the playlist
+     */
     @GetMapping("/playlist/deleteSong")
     public String deleteSong(@RequestParam("songId") Long theSongId, @RequestParam("playlistId") Long thePlaylistId) {
         // delete the song
@@ -128,6 +165,11 @@ public class PlaylistController {
         return "redirect:/playlist?id=" + thePlaylistId + "&sort=ArtistASC";
     }
 
+    /**
+     * Controller method responsible for mapping "/playlist/deletePlaylist"
+     * @param thePlaylistId id of playlist which to delete
+     * @return redirects back to the home page
+     */
     @GetMapping("/playlist/deletePlaylist")
     public String deletePlaylist(@RequestParam("playlistId") Long thePlaylistId) {
         // delete the playlist
@@ -136,6 +178,12 @@ public class PlaylistController {
         return "redirect:/";
     }
 
+    /**
+     * Controller method responsible for mapping "/playlist/showUpdateForm"
+     * @param theId id of playlist which to update
+     * @param theModel holder of attributes
+     * @return update playlist form filename
+     */
     @GetMapping("/playlist/showUpdateForm")
     public String showUpdateForm(@RequestParam("playlistId") Long theId, Model theModel) {
         // get song from database
@@ -149,6 +197,12 @@ public class PlaylistController {
         return "playlist-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/playlist/removeSongFromPlaylist"
+     * @param theSongId id of song to remove
+     * @param thePlaylistId id of playlist from which remove song
+     * @return redirects back to the playlist
+     */
     @GetMapping("/playlist/removeSongFromPlaylist")
     public String removeSongFromPlaylist(@RequestParam("songId") Long theSongId, @RequestParam("playlistId") Long thePlaylistId) {
         Playlist thePlaylist = playlistService.getPlaylistById(thePlaylistId);

@@ -12,12 +12,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Controller class responsible for request mappings coming from the home page.
+ */
 @Controller
 public class SongtrainerController {
 
     @Autowired
     private UserService userService;
 
+    /**
+     * Controller method responsible for mapping "/"
+     * @param theModel holder of attributes
+     * @return filename of .jsp that should be used for "/"
+     */
     @GetMapping("/")
     @Transactional
     public String showHome(Model theModel) {
@@ -31,7 +39,11 @@ public class SongtrainerController {
         return "home";
     }
 
-    // add request mapping for /lectors
+    /**
+     * Controller method responsible for mapping "/lectors".
+     * This mapping is only accessible for users with ROLE_LECTOR.
+     * @return filename of .jsp that should be used for "/lectors"
+     */
     @GetMapping("/lectors")
     public String showLectors() {
         return "lectors";

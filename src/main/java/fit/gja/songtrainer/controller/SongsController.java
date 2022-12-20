@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class responsible for handling request from "songs" page.
+ */
 @Controller
 public class SongsController {
 
@@ -28,6 +31,12 @@ public class SongsController {
 
     private final UserService userService;
 
+    /**
+     * Class constructor, injects the necessary services
+     * @param songService Service handling database request about songs
+     * @param playlistService Service handling database request about playlists
+     * @param userService Service handling database request about users
+     */
     public SongsController(SongService songService, PlaylistService playlistService, UserService userService) {
         this.songService = songService;
         this.playlistService = playlistService;
@@ -35,6 +44,13 @@ public class SongsController {
     }
 
 
+    /**
+     * Controller method responsible for mapping "/songs".
+     * Passes all user's songs to model for display.
+     * @param instrumentStr String representation of which instrument's songs to display
+     * @param sortStr String representing sort option
+     * @return model and view object with added attributes and specified .jsp filename for "/songs"
+     */
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
     public ModelAndView listSongs(@RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
@@ -59,6 +75,12 @@ public class SongsController {
         return mav;
     }
 
+    /**
+     * Controller method responsible for mapping "/songs/addSong".
+     * Prepares data for add song form.
+     * @param theModel holder of attributes
+     * @return filename of .jsp that should be used for "/songs/addSong"
+     */
     @GetMapping("/songs/addSong")
     public String showFormForAdd(Model theModel) {
 
@@ -72,6 +94,12 @@ public class SongsController {
         return "song-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/songs/saveSong".
+     * Takes submitted song and saves it to database.
+     * @param theSong submitted song
+     * @return redirects back to the songs display
+     */
     // TODO - add form validations
     // TODO - remove logic from controller and do it in service
     @PostMapping("/songs/saveSong")
@@ -124,6 +152,11 @@ public class SongsController {
         return "redirect:/songs?inst=ALL&sort=ArtistASC";
     }
 
+    /**
+     * Controller method responsible for mapping "/songs/delete".
+     * @param theId id of the song to delete
+     * @return redirects back to all songs display
+     */
     @GetMapping("/songs/delete")
     public String deleteSong(@RequestParam("songId") Long theId) {
         // delete the song
@@ -132,6 +165,13 @@ public class SongsController {
         return "redirect:/songs?inst=ALL&sort=ArtistASC";
     }
 
+    /**
+     * Controller method responsible for mapping "/songs/showUpdateForm".
+     * Prepares data for update song form.
+     * @param theId id of the song to edit
+     * @param theModel handler of attributes
+     * @return filename of .jsp that should be used for "/songs/showUpdateForm"
+     */
     @GetMapping("/songs/showUpdateForm")
     public String showUpdateForm(@RequestParam("songId") Long theId, Model theModel) {
         // get song from database
@@ -146,6 +186,13 @@ public class SongsController {
         return "song-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/songs/showAddToPlaylistForm".
+     * Prepares data for the form.
+     * @param theSongId id of the song to add to playlist
+     * @param theModel handler of attributes
+     * @return filename of .jsp with form to add song to playlist
+     */
     @GetMapping("/songs/showAddToPlaylistForm")
     public String showAddToPlaylistForm(@RequestParam("songId") Long theSongId, Model theModel) {
         // get song from database
@@ -163,6 +210,12 @@ public class SongsController {
         return "song-to-playlist-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/songs/saveSongToPlaylist".
+     * @param theSongId id of song to add to playlist
+     * @param thePlaylist playlist to which add song
+     * @return redirect back to all songs display
+     */
     @PostMapping("/songs/saveSongToPlaylist")
     public String saveSong(@ModelAttribute("songId") Long theSongId, @ModelAttribute("playlist") Playlist thePlaylist) {
         // get song from database

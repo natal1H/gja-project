@@ -15,17 +15,30 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * Controller class responsible for handling request from user profile page.
+ */
 @Controller
 public class ProfileController {
 
     private final UserService userService;
 
 
+    /**
+     * Class constructor, injects the necessary services
+     * @param userService Service handling database request about users
+     */
     public ProfileController(UserService userService) {
         this.userService = userService;
     }
 
-    // TODO - remove logic from controller
+    /**
+     * Controller method responsible for mapping "/profile".
+     * @param userIdStr id of user whose profile to show
+     * @param instrumentStr instrument option string
+     * @param sortStr sorting option
+     * @return model with added attributes and selected view
+     */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showProfile(@RequestParam("id") String userIdStr, @RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
