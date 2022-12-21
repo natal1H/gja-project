@@ -14,7 +14,7 @@
     </script>
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
     <link rel="icon" href="/favicon.ico" />
-    <script src="/js/main.js" />"></script>
+    <script src="/js/main.js" /></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>

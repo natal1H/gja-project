@@ -2,7 +2,9 @@ package fit.gja.songtrainer.service;
 
 import fit.gja.songtrainer.dao.RoleDao;
 import fit.gja.songtrainer.dao.UserDao;
+import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Role;
+import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.user.CrmUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +101,19 @@ public class UserService implements UserDetailsService {
         student.getLectors().remove(lector);
         userDao.save(student);
         userDao.save(lector);
+    }
+
+    @Transactional
+    public void addStudentLector(User student, User lector) {
+        if(!(student.getLectors().contains(lector))) {
+            student.getLectors().add(lector);
+            userDao.save(student);
+        }
+
+        if(!(lector.getStudents().contains(student))) {
+            lector.getStudents().add(student);
+            userDao.save(lector);
+        }
     }
 
     @Transactional

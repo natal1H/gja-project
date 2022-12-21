@@ -122,6 +122,11 @@ public class SongtrainerController {
         return "redirect:/students";
     }
 
+    /**
+     * @param keyword
+     * @param theModel
+     * @return
+     */
     @RequestMapping(value = "/students/search", method = RequestMethod.POST)
     public String searchLectors(@RequestParam("keyword") String keyword, Model theModel) {
         User user = UserUtil.getCurrentUser(userService);
@@ -136,6 +141,12 @@ public class SongtrainerController {
 
         return "students";
     }
+
+    /**
+     * @param keyword Keyword by which to search for user
+     * @param theModel handler of attributes
+     * @return home page
+     */
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String searchUsers(@RequestParam("keyword") String keyword, Model theModel) {
         User user = UserUtil.getCurrentUser(userService);
@@ -146,5 +157,33 @@ public class SongtrainerController {
         theModel.addAttribute("user", user);
 
         return "home";
+    }
+
+    /**
+     * @param theLectorId id of the lector
+     * @param theStudentId id of the student
+     * @return redirects back to the lector page
+     */
+    @GetMapping("/addStudent")
+    public String addStudent(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId) {
+        User student = userService.getUserById(theStudentId);
+        User lector = userService.getUserById(theLectorId);
+        userService.addStudentLector(student, lector);
+
+        return "redirect:/lectors";
+    }
+
+    /**
+     * @param theLectorId id of the lector
+     * @param theStudentId id of the student
+     * @return redirects back to the student page
+     */
+    @GetMapping("/addLector")
+    public String addLector(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId) {
+        User student = userService.getUserById(theStudentId);
+        User lector = userService.getUserById(theLectorId);
+        userService.addStudentLector(student, lector);
+
+        return "redirect:/students";
     }
 }

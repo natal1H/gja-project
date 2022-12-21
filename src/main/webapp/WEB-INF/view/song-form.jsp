@@ -29,7 +29,7 @@
         <form:label path="tuning">Tuning</form:label>
         <form:radiobuttons path="tuning" items="${tunings}"/><br>
 
-        Is visible for friends: <form:checkbox path="visible" value="true"/><br>
+        Is visible for others: <form:checkbox path="visible" value="true"/><br>
 
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">SAVE</button>

@@ -1,6 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +24,32 @@
     <h2>${profileUser.userName}'s profile</h2>
 
     First name: ${profileUser.firstName}, Last name: ${profileUser.lastName}<br>
+
+    <!-- construct a "addStudent" link with lector & student id -->
+    <c:url var="addStudentLink" value="/addStudent">
+        <c:param name="studentId" value="${profileUser.id}" />
+        <c:param name="lectorId" value="${user.id}" />
+    </c:url>
+
+    <!-- construct a "addLector" link with lector & student id -->
+    <c:url var="addLectorLink" value="/addLector">
+        <c:param name="studentId" value="${user.id}" />
+        <c:param name="lectorId" value="${profileUser.id}" />
+    </c:url>
+
+    <!-- TODO: do not allow user to add themselves -->
+    <security:authorize access="hasRole('LECTOR')">
+        <a href="${addStudentLink}">
+            <button class="plus-btn"><i class="fa fa-solid fa-plus"></i>Add as student</button>
+        </a>
+    </security:authorize>
+    <!-- TODO: do not allow user to add themselves -->
+    <c:if test="${isLector}">
+        <a href="${addLectorLink}">
+            <button class="plus-btn"><i class="fa fa-solid fa-plus"></i>Add as lector</button>
+        </a>
+    </c:if>
+
 
     <div>
         <img src="${pageContext.request.contextPath}/profilePicture">

@@ -143,7 +143,10 @@ public class SettingsController {
             // user has LECTOR role, remove it
             usersRoles.remove(lectorRole);
             user.setRoles(usersRoles);
-            // TODO! when table `lector_has_student` & `student_has_lector`, clean up lector from these!
+            Collection<User> students = user.getStudents();
+            for (User tempStudent: students) {
+                userService.removeLectorStudent(tempStudent, user);
+            }
             userService.save(user);
         }
 

@@ -23,13 +23,16 @@ import java.util.Objects;
 public class ProfileController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
 
     /**
      * Class constructor, injects the necessary services
+     * @param roleService Service handling database request about roles
      * @param userService Service handling database request about users
      */
-    public ProfileController(UserService userService) {
+    public ProfileController(RoleService roleService, UserService userService) {
+        this.roleService = roleService;
         this.userService = userService;
     }
 
@@ -70,10 +73,14 @@ public class ProfileController {
         }
         theSongs = SongsUtil.sortSongS(theSongs, sortStr); // sort songs
 
+        // check if user is lector
+        boolean isLector = profileUser.getRoles().contains(roleService.findRoleByName("ROLE_LECTOR"));
+
         // add attributes to the model
         mav.addObject("user", user);
         mav.addObject("profileUser", profileUser);
         mav.addObject("songs", theSongs);
+        mav.addObject("isLector", isLector);
 
         mav.setViewName("profile");
 
