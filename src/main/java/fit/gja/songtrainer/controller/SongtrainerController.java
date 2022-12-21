@@ -8,7 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * Controller class responsible for request mappings coming from the home page.
@@ -18,6 +22,9 @@ public class SongtrainerController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * Controller method responsible for mapping "/"
@@ -69,6 +76,20 @@ public class SongtrainerController {
         return "redirect:/lectors";
     }
 
+    @RequestMapping(value = "/lectors/search", method = RequestMethod.POST)
+    public String searchStudents(@RequestParam("keyword") String keyword, Model theModel) {
+        User user = UserUtil.getCurrentUser(userService);
+        List<User> users = userService.findUserByName(keyword);
+        users = UserUtil.removeUserFromList(users, user);
+
+        // add the songs to the model
+        theModel.addAttribute("students", user.getStudents());
+        theModel.addAttribute("user", user);
+        theModel.addAttribute("users", users);
+
+        return "lectors";
+    }
+
     /**
      * Controller method responsible for mapping "/students".
      * This mapping is accessible for all users.
@@ -99,5 +120,31 @@ public class SongtrainerController {
         userService.removeLectorStudent(student, lector);
 
         return "redirect:/students";
+    }
+
+    @RequestMapping(value = "/students/search", method = RequestMethod.POST)
+    public String searchLectors(@RequestParam("keyword") String keyword, Model theModel) {
+        User user = UserUtil.getCurrentUser(userService);
+        List<User> users = userService.findUserByName(keyword);
+        users = UserUtil.removeUserFromList(users, user);
+        users = UserUtil.removeNonLectorsFromList(users, roleService);
+
+        // add the songs to the model
+        theModel.addAttribute("lectors", user.getLectors());
+        theModel.addAttribute("user", user);
+        theModel.addAttribute("users", users);
+
+        return "students";
+    }
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    public String searchUsers(@RequestParam("keyword") String keyword, Model theModel) {
+        User user = UserUtil.getCurrentUser(userService);
+        List<User> users = userService.findUserByName(keyword);
+
+        theModel.addAttribute("users", users);
+        theModel.addAttribute("playlists", user.getPlaylists());
+        theModel.addAttribute("user", user);
+
+        return "home";
     }
 }

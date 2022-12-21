@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -9,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
-    <script src="/js/main.js" />"></script>
+    <script src="/js/main.js" /></script>
 </head>
 <body>
 <tag:header></tag:header>
@@ -20,6 +21,14 @@
     <div class="students-title">
         <h3>My lectors</h3>
     </div>
+
+    <form:form action="${pageContext.request.contextPath}/students/search"  method="post">
+        Search Lectors By Name: <input type="text" name="keyword" />
+        <input type ="submit" value="Search">
+    </form:form>
+    <c:forEach var="tempUser" items="${users}">
+        <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL&sort=ArtistASC">${tempUser.userName}</a><br>
+    </c:forEach><br>
 
     <table>
         <thead>

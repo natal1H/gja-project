@@ -74,5 +74,4 @@ public class SongtrainerSecurityConfig {
                 .and().csrf().disable()//Fixme: only for testing
                 .build();
     }
-
 }

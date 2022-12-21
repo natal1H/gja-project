@@ -11,13 +11,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
     <link rel="icon" href="/favicon.ico" />
-    <script src="/js/main.js" />"></script>
+    <script src="/js/main.js" /></script>
 </head>
 <body>
     <tag:header></tag:header>
 
     <div class="wrapper">
         <h2>Home</h2>
+
+        <form:form action="${pageContext.request.contextPath}/search"  method="post">
+            Search Users By Name: <input type="text" name="keyword" />
+            <input type ="submit" value="Search">
+        </form:form>
+
+        <c:forEach var="tempUser" items="${users}">
+        <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL&sort=ArtistASC">${tempUser.userName}</a><br>
+        </c:forEach><br>
 
         <div class="playlists-title">
             <h3>My playlists</h3>
