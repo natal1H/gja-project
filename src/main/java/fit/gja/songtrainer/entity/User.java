@@ -11,6 +11,9 @@ import java.lang.annotation.Documented;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Class representing the "user" table from database
+ */
 @Entity
 @Table(name = "user")
 public class User {
@@ -57,6 +60,20 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     @JsonView(View.Internal.class)
     private Collection<User> friends;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_students",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    @JsonView(View.Internal.class)
+    private Collection<User> students;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_lectors",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "lector_id"))
+    @JsonView(View.Internal.class)
+    private Collection<User> lectors;
 
     @OneToMany(mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -137,6 +154,22 @@ public class User {
 
     public void setProfilePicturePath(String profilePicturePath) {
         this.profilePicturePath = profilePicturePath;
+    }
+
+    public Collection<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Collection<User> students) {
+        this.students = students;
+    }
+
+    public Collection<User> getLectors() {
+        return lectors;
+    }
+
+    public void setLectors(Collection<User> lectors) {
+        this.lectors = lectors;
     }
 
 //    @Override

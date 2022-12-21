@@ -191,9 +191,9 @@ VALUES
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- Friends table
+DROP TABLE IF EXISTS `user_has_friend`;
 
-CREATE TABLE user_has_friend
-(
+CREATE TABLE IF NOT EXISTS `user_has_friend` (
     `user_id` INT(11),
     `friend_id` INT(11),
     PRIMARY KEY (`user_id`, `friend_id`),
@@ -203,7 +203,7 @@ CREATE TABLE user_has_friend
     CONSTRAINT `fk_friend` FOREIGN KEY (`friend_id`)
         REFERENCES `user` (`id`)
         ON DELETE NO ACTION ON UPDATE NO ACTION
-);
+) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 -- Insert test values
 INSERT INTO `user_has_friend` (user_id,friend_id)
@@ -211,4 +211,50 @@ VALUES
     (1, 2), -- John & Mary
     (2, 1), -- Mary & John
     (1, 3), -- John & Adam
-    (3, 1)  -- Adam & John
+    (3, 1);  -- Adam & John
+
+-- -----------------------------------------------------
+-- Table `user_has_students`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `user_has_students`;
+
+CREATE TABLE IF NOT EXISTS `user_has_students` (
+    `user_id` INT(11) NOT NULL,
+    `student_id` INT(11) NOT NULL,
+    PRIMARY KEY (`user_id`, `student_id`),
+    CONSTRAINT `fk_user_students_user` FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_user_students_student` FOREIGN KEY (`student_id`)
+        REFERENCES `user` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+-- Insert test values
+INSERT INTO `user_has_students` (user_id,student_id)
+VALUES
+    (2, 1), -- Mary & John
+    (2, 3); -- Mary & Adam
+
+-- -----------------------------------------------------
+-- Table `user_has_lectors`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `user_has_lectors`;
+
+CREATE TABLE IF NOT EXISTS `user_has_lectors` (
+    `user_id` INT(11) NOT NULL,
+    `lector_id` INT(11) NOT NULL,
+    PRIMARY KEY (`user_id`, `lector_id`),
+    CONSTRAINT `fk_user_lectors_user` FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_user_lectors_lector` FOREIGN KEY (`lector_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION
+    ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+-- Insert test values
+INSERT INTO `user_has_lectors` (user_id,lector_id)
+VALUES
+    (1, 2), -- Mary & John
+    (3, 2); -- Mary & Adam
