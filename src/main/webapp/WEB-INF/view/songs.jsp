@@ -48,11 +48,22 @@
                   </th>
                   <th>
                       <span>
-                        Instrument
-                          <!--<span class="carrets">
-                              <i class="fa fa-solid fa-filter"></i>
-                          </span>-->
+                          Instrument
+                          <div class="dropdown">
+                              <button onclick="filterToggle()" class="dropbtn"><span class="dropbtn"><i class="fa fa-solid fa-filter dropbtn"></i></span></button>
+                              <div id="filter" class="dropdown-content softer">
+                                  <a href="${pageContext.request.contextPath}/songs?inst=ALL&sort=${pageContext.request.getParameter("sort")}">All songs</a>
+                                  <a href="${pageContext.request.contextPath}/songs?inst=GUITAR&sort=${pageContext.request.getParameter("sort")}">Guitar songs</a>
+                                  <a href="${pageContext.request.contextPath}/songs?inst=BASS&sort=${pageContext.request.getParameter("sort")}">Bass songs</a>
+                                  <a href="${pageContext.request.contextPath}/songs?inst=DRUMS&sort=${pageContext.request.getParameter("sort")}">Drums songs</a>
+                                  <a href="${pageContext.request.contextPath}/songs?inst=PIANO&sort=${pageContext.request.getParameter("sort")}">Piano songs</a>
+                              </div>
+                        </div>
+
                       </span>
+
+
+
                   </th>
                   <th>
                       <span>
@@ -181,11 +192,7 @@
       </table>
 
       <hr>
-      <a href="${pageContext.request.contextPath}/songs?inst=ALL&sort=${pageContext.request.getParameter("sort")}">All songs</a><br>
-      <a href="${pageContext.request.contextPath}/songs?inst=GUITAR&sort=${pageContext.request.getParameter("sort")}">Guitar songs</a><br>
-      <a href="${pageContext.request.contextPath}/songs?inst=BASS&sort=${pageContext.request.getParameter("sort")}">Bass songs</a><br>
-      <a href="${pageContext.request.contextPath}/songs?inst=DRUMS&sort=${pageContext.request.getParameter("sort")}">Drums songs</a><br>
-      <a href="${pageContext.request.contextPath}/songs?inst=PIANO&sort=${pageContext.request.getParameter("sort")}">Piano songs</a><br>
+
 
     </div>
 </body>
@@ -236,6 +243,23 @@
     }
 
 
+    .softer a {
+        font-weight: normal;
+        text-align: left;
+    }
+    .softer {
+        background-color: #474956;
+    }
+
+    th span .dropbtn {
+        border: none;
+        min-width: 0px !important;
+        padding: 0px !important;
+        background-color:transparent !important;
+    }
+    th span .dropbtn:hover {
+        background-color:transparent !important;
+    }
 
 
 </style>

@@ -42,42 +42,155 @@
 <body>
 <tag:header></tag:header>
 <div class="wrapper">
-    <h2>User settings</h2>
+    <h2>Settings</h2>
 
-    Username: ${user.userName}<br>
-    First name: ${user.firstName}<br>
-    Last name: ${user.lastName}<br>
-    Email: ${user.email}<br>
-    <a href="${pageContext.request.contextPath}/settings/edit">EDIT INFO</a>
-    <hr>
-    <div>
-        <img src="${pageContext.request.contextPath}/profilePicture">
-        <form id="pictureForm" action="${pageContext.request.contextPath}/profilePicture" method="post"
-              enctype="multipart/form-data">
-            <label for="picture">Change profile picture</label>
-            <input id="picture" name="picture" type="file">
-            <input type="submit">
-        </form>
-        <input type="button" onclick="removeProfilePicture()" value="Remove">
+    <div class="rows">
+        <div>
+            <img src="${pageContext.request.contextPath}/profilePicture">
+            <span>
+                <button onclick="removeProfilePicture()" class="red btn"><i class="fa fa-trash"></i>Remove photo</button>
+            </span>
+            <form id="pictureForm" action="${pageContext.request.contextPath}/profilePicture" method="post"
+                  enctype="multipart/form-data">
+                <label for="picture">Change profile picture:</label>
+                <input id="picture" name="picture" type="file">
+                <input type="submit" class="btn in">
+            </form>
+
+        </div>
+
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        Username
+                    </td>
+                    <td>
+                        ${user.userName}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        First name
+                    </td>
+                    <td>
+                        ${user.firstName}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Last name
+                    </td>
+                    <td>
+                        ${user.lastName}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        ${user.email}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Roles
+                    </td>
+                    <td>
+                        <security:authentication property="principal.authorities" />
+                    </td>
+                </tr>
+
+            </table>
+            <a href="${pageContext.request.contextPath}/settings/edit"><button class="btn"><i class="fa fa-pencil"></i>Edit this info</button></a>
+        </div>
+        <div>
+            <a href="${pageContext.request.contextPath}/settings/changePassword"><button class="btn"><i class="fa fa-lock"></i>Change password</button></a>
+            <security:authorize access="!hasRole('LECTOR')">
+                <form action="${pageContext.request.contextPath}/settings/becomeLector" method="post">
+                    <input type="submit" name="becomeLector" class="btn" value="Become a lector" />
+                </form>
+            </security:authorize>
+            <security:authorize access="hasRole('LECTOR')">
+                <form action="${pageContext.request.contextPath}/settings/stopBeingLector" method="post">
+                    <input type="submit" name="stopBeingLector" class="btn" value="Stop being a lector" />
+                </form>
+            </security:authorize>
+        </div>
     </div>
-    <hr>
-    Role(s): <security:authentication property="principal.authorities" /><br>
-    <hr>
-    <a href="${pageContext.request.contextPath}/settings/changePassword">Change password</a><br>
-    <hr>
-    <security:authorize access="!hasRole('LECTOR')">
-        <form action="${pageContext.request.contextPath}/settings/becomeLector" method="post">
-            <input type="submit" name="becomeLector" value="Become a lector" />
-        </form>
-    </security:authorize>
-    <security:authorize access="hasRole('LECTOR')">
-        <form action="${pageContext.request.contextPath}/settings/stopBeingLector" method="post">
-            <input type="submit" name="stopBeingLector" value="Stop being a lector" />
-        </form>
-    </security:authorize>
 
-    <hr>
-    <a href="${pageContext.request.contextPath}/">Home</a>
+
+
+
+
 </div>
 </body>
 </html>
+
+<style>
+    .rows {
+        display: flex;
+        justify-content: space-between;
+    }
+    .rows div {
+        margin-right: 100px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .rows form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .rows img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    .btn {
+        display: flex;
+        justify-content: space-between;
+        background-color: transparent;
+        border-radius: 7px;
+        border: 1px solid #13b992;
+        padding: 7px 14px;
+        cursor: pointer;
+        color: #13b992;
+        font-size: 15px;
+        align-items: baseline;
+        margin-top: 10px;
+        max-width: 200px;
+    }
+
+    input {
+    text-align: center
+    }
+
+    a {
+        text-decoration: none;
+        color: #13b992;
+    }
+
+    .red {
+        color: rgba(255, 0, 7, 0.79);
+        border: 1px solid rgba(255, 0, 7, 0.79);
+    }
+
+    button i {
+        padding-right: 20px;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    form label {
+        margin-bottom: 5px;
+    }
+
+    .in {
+        width: 80px;
+    }
+</style>

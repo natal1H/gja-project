@@ -150,7 +150,7 @@ a {
     min-width: 130px;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 2;
 }
 
 .dropdown-content a {
@@ -213,14 +213,14 @@ table .icons {
 
 }
 
-table .icons .pencil, table .icons .trash {
+.icons .pencil, .icons .trash {
     transition: linear 0.3s;
 }
-table .icons .pencil:hover {
+.icons .pencil:hover {
     color: #4de14d;
     border: 1px solid #4de14d;
 }
-table .icons .trash:hover {
+.icons .trash:hover {
     color: #ee1d24;
     border: 1px solid #ee1d24;
 }
@@ -250,5 +250,69 @@ td a:hover {
     color: #13b992;
 }
 
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: left;
+    margin-bottom: 30px;
+}
 
+.input-group label {
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.text-input {
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 7px;
+    height: 35px;
+    width: 300px;
+    color: white;
+    padding: 0px 4px;
+    font-size: medium;
+}
+
+.input-group span label {
+    letter-spacing: 0px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.input-group span {
+    padding-bottom: 7px;
+    cursor: pointer;
+}
+
+
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #ffffff;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #13b992;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+    cursor: pointer;
+}
 
