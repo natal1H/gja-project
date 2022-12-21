@@ -33,12 +33,21 @@
         <tbody>
         <!-- Loop over and print students -->
         <c:forEach var="tempLector" items="${lectors}">
+
+            <!-- construct a "delete" link with lector & student id -->
+            <c:url var="removeLectorLink" value="/students/removeLector">
+                <c:param name="studentId" value="${user.id}" />
+                <c:param name="lectorId" value="${tempLector.id}" />
+            </c:url>
+
             <tr>
                 <td><a href="${pageContext.request.contextPath}/profile?id=${tempLector.id}&inst=ALL&sort=ArtistASC">${tempLector.userName}</a></td>
                 <td>${tempLector.firstName}</td>
                 <td>${tempLector.lastName}</td>
                 <td>
-                    REMOVE
+                    <a href="${removeLectorLink}" onclick="if (!(confirm('Are you sure you want to remove this lector?'))) return false">
+                        <button class="trash"><i class="fa fa-solid fa-trash"></i></button>
+                    </a>
                 </td>
             </tr>
         </c:forEach>

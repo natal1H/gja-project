@@ -17,7 +17,7 @@
     <div class="wrapper">
         <h2>Lectors Page</h2>
 
-        This page is visible only to users is LECTOR role.
+        This page is visible only to users with LECTOR role.
 
         <div class="students-title">
             <h3>My students</h3>
@@ -35,12 +35,31 @@
             <tbody>
             <!-- Loop over and print students -->
             <c:forEach var="tempStudent" items="${students}">
+                <!-- construct a "delete" link with lector & student id -->
+                <c:url var="removeStudentLink" value="/lectors/removeStudent">
+                    <c:param name="studentId" value="${tempStudent.id}" />
+                    <c:param name="lectorId" value="${user.id}" />
+                </c:url>
+
+                <!-- construct a "delete" link with lector & student id -->
+                <c:url var="addSongToStudentLink" value="/lectors/addSongToStudent">
+                    <c:param name="studentId" value="${tempStudent.id}" />
+                    <c:param name="lectorId" value="${user.id}" />
+                </c:url>
+
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/profile?id=${tempStudent.id}&inst=ALL&sort=ArtistASC">${tempStudent.userName}</a></td>
                     <td>${tempStudent.firstName}</td>
                     <td>${tempStudent.lastName}</td>
                     <td>
-                        ASSIGN SONG | REMOVE
+                        <a href="${addSongToStudentLink}" >
+                            <button class="plus"><i class="fa fa-solid fa-plus"></i></button>
+                        </a>
+                        <td>
+                            <a href="${removeStudentLink}" onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
+                                <button class="trash"><i class="fa fa-solid fa-trash"></i></button>
+                            </a>
+                        </td>
                     </td>
                 </tr>
             </c:forEach>
@@ -68,8 +87,16 @@
         text-decoration: none;
         transition: linear 0.3s;
     }
-    .playlists-title a:hover {
+    .students-title a:hover {
         box-shadow: 0px 0px 5px 5px rgba(19, 185, 146, 0.24);
+    }
+
+    table .icons .plus {
+        transition: linear 0.3s;
+    }
+    table .icons .plus:hover {
+        color: #4de1dc;
+        border: 1px solid #4de1dc;
     }
 
 </style>

@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,5 +95,14 @@ public class UserServiceImpl implements UserService{
     public void changeUserPassword(User user, String newPassword) {
         user.setPassword(passwordEncoder.encode(newPassword));
         userDao.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void removeLectorStudent(User student, User lector) {
+        lector.getStudents().remove(student);
+        student.getLectors().remove(lector);
+        userDao.save(student);
+        userDao.save(lector);
     }
 }

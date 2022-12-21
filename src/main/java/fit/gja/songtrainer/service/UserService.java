@@ -18,4 +18,6 @@ public interface UserService extends UserDetailsService {
     boolean checkIfValidOldPassword(User user, String password);
 
     void changeUserPassword(User user, String encodedNewPassword);
+
+    void removeLectorStudent(User student, User lector);
 }
