@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Song Trainer</title>
+    <link rel="icon" href="/favicon.ico" />
     <!-- TODO!!! post sends passwords as plaintext, fix -->
 </head>
 <a>

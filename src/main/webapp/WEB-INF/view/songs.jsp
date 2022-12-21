@@ -13,6 +13,7 @@
         }
     </script>
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" />
     <script src="/js/main.js" />"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -24,24 +25,6 @@
             <a href="${pageContext.request.contextPath}/songs/addSong"><i class="fa fa-solid fa-plus"></i> Add</a>
         </div>
 
-        <!--
-      SORT BY:
-
-      <form id="sortForm" action="${pageContext.request.contextPath}/songs?inst=${pageContext.request.getParameter("inst")}" method="get">
-          <input type="hidden" name="inst" value="${pageContext.request.getParameter("inst")}">
-          ArtistASC<input type="radio" name="sort" value="ArtistASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("ArtistASC") ? "checked=\"checked\"" : ""}>|
-          ArtistDESC<input type="radio" name="sort" value="ArtistDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("ArtistDESC") ? "checked=\"checked\"" : ""}>|
-          TitleASC<input type="radio" name="sort" value="TitleASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TitleASC") ? "checked=\"checked\"" : ""}>|
-          TitleDESC<input type="radio" name="sort" value="TitleDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TitleDESC") ? "checked=\"checked\"" : ""}>|
-          Tuning<input type="radio" name="sort" value="Tuning" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("Tuning") ? "checked=\"checked\"" : ""}>|
-          LengthASC<input type="radio" name="sort" value="LengthASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthASC") ? "checked=\"checked\"" : ""}>|
-          LengthDESC<input type="radio" name="sort" value="LengthDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LengthDESC") ? "checked=\"checked\"" : ""}>|
-          TimesPlayedASC<input type="radio" name="sort" value="TimesPlayedASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedASC") ? "checked=\"checked\"" : ""}>|
-          TimesPlayedDESC<input type="radio" name="sort" value="TimesPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("TimesPlayedDESC") ? "checked=\"checked\"" : ""}>|
-          LastPlayedASC<input type="radio" name="sort" value="LastPlayedASC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LastPlayedASC") ? "checked=\"checked\"" : ""}>|
-          LastPlayedDESC<input type="radio" name="sort" value="LastPlayedDESC" onclick="submitSortForm()" ${pageContext.request.getParameter("sort").equals("LastPlayedDESC") ? "checked=\"checked\"" : ""}>
-      </form>
-        -->
       <table>
           <thead>
               <tr>

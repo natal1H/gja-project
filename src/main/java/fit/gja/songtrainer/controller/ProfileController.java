@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import fit.gja.songtrainer.util.UserUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,23 +44,26 @@ public class ProfileController {
     public ModelAndView showProfile(@RequestParam("id") String userIdStr, @RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
         ModelAndView mav = new ModelAndView();
 
+        // get logged in user
+        User user = UserUtil.getCurrentUser(userService);
+
         // get requested user
-        Long userId;
+        Long profileUserId;
         try {
-            userId = Long.parseLong(userIdStr);
+            profileUserId = Long.parseLong(userIdStr);
         } catch (NumberFormatException e) {
             mav.setViewName("access-denied");
             return mav;
         }
 
-        User user = userService.getUserById(userId);
-        if (user == null || !InstrumentEnum.isValidStr(instrumentStr) && !instrumentStr.equals("ALL")) {
+        User profileUser = userService.getUserById(profileUserId);
+        if (profileUser == null || !InstrumentEnum.isValidStr(instrumentStr) && !instrumentStr.equals("ALL")) {
             mav.setViewName("access-denied");
             return mav;
         }
 
         // Get user's songs
-        List<Song> theSongs = user.getSongs();
+        List<Song> theSongs = profileUser.getSongs();
         theSongs = SongsUtil.filterSongsByVisible(theSongs); // Remove those set to invisible
         if (!Objects.equals(instrumentStr, "ALL")) {
             theSongs = SongsUtil.filterSongsByInstrument(theSongs, instrumentStr);
@@ -68,6 +72,7 @@ public class ProfileController {
 
         // add attributes to the model
         mav.addObject("user", user);
+        mav.addObject("profileUser", profileUser);
         mav.addObject("songs", theSongs);
 
         mav.setViewName("profile");

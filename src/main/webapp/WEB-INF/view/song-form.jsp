@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Song Trainer Add Song</title>
+    <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
     <h2>Save song</h2>

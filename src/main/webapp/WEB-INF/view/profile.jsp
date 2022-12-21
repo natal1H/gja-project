@@ -6,6 +6,7 @@
 <head>
     <title>Song Trainer</title>
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" />
     <script src="/js/main.js" /></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -18,16 +19,16 @@
 <body>
 <tag:header></tag:header>
 <div class="wrapper">
-    <h2>${user.userName}'s profile</h2>
+    <h2>${profileUser.userName}'s profile</h2>
 
-    First name: ${user.firstName}, Last name: ${user.lastName}<br>
+    First name: ${profileUser.firstName}, Last name: ${profileUser.lastName}<br>
 
     <div>
         <img src="${pageContext.request.contextPath}/profilePicture">
     </div>
 
 
-    Songs ${user.userName} can play:<br>
+    Songs ${profileUser.userName} can play:<br>
 
     SORT BY:
     <form id="sortForm"

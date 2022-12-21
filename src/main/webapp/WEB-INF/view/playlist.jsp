@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Song Trainer - Playlist</title>
+    <link rel="icon" href="/favicon.ico" />
 
     <script>
         function submitSortForm() {

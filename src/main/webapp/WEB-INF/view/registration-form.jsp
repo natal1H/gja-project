@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Song Trainer - Register</title>
+    <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
     <h2>Register new user</h2>

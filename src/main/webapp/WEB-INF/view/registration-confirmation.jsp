@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Song Trainer - Registration Confirmation</title>
+    <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
     <h2>User registered successfully!</h2>

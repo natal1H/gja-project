@@ -4,6 +4,7 @@
 <html>
 <head>
   <title>Song Trainer Add playlist</title>
+  <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
 <h2>Save playlist</h2>

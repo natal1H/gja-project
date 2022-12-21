@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Song Trainer</title>
+    <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
     <h2>Edit user's info</h2>

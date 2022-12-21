@@ -5,6 +5,7 @@
 <head>
   <title>Song Trainer - Login</title>
   <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" />
   <script src="/js/main.js" />"></script>
 </head>
 <body>
