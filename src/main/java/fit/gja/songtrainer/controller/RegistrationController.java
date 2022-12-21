@@ -2,6 +2,8 @@ package fit.gja.songtrainer.controller;
 
 import java.util.logging.Logger;
 import javax.validation.Valid;
+
+import fit.gja.songtrainer.service.*;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import fit.gja.songtrainer.user.CrmUser;
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.service.UserService;
 
 @Controller
 @RequestMapping("/register")

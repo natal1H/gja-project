@@ -1,9 +1,7 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.*;
-import fit.gja.songtrainer.service.PlaylistService;
-import fit.gja.songtrainer.service.SongService;
-import fit.gja.songtrainer.service.UserService;
+import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.stereotype.Controller;

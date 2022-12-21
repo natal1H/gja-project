@@ -1,7 +1,7 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.service.UserService;
+import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

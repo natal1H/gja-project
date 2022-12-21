@@ -1,23 +1,102 @@
 package fit.gja.songtrainer.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+import fit.gja.songtrainer.dao.RoleDao;
+import fit.gja.songtrainer.dao.UserDao;
+import fit.gja.songtrainer.entity.Role;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.user.CrmUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-public interface UserService extends UserDetailsService {
+@Service
+public class UserService implements UserDetailsService {
 
-    User findByUserName(String userName);
+    // need to inject user dao
+    @Autowired
+    private UserDao userDao;
 
-    User getUserById(Long id);
+    @Autowired
+    private RoleDao roleDao;
 
-    void save(CrmUser crmUser);
+    @Lazy
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-    void save(User user);
+    @Transactional
+    public User findByUserName(String userName) {
+        // check the database if the user already exists
+        return userDao.findByUserName(userName);
+    }
 
-    boolean checkIfValidOldPassword(User user, String password);
+    @Transactional
+    public void save(CrmUser crmUser) {
+        User user = new User();
+        // assign user details to the user object
+        user.setUserName(crmUser.getUserName());
+        user.setPassword(passwordEncoder.encode(crmUser.getPassword()));
+        user.setFirstName(crmUser.getFirstName());
+        user.setLastName(crmUser.getLastName());
+        user.setEmail(crmUser.getEmail());
 
-    void changeUserPassword(User user, String encodedNewPassword);
+        // give user default role of "user"
+        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_USER")));
+        // save user in the database
+        userDao.save(user);
+    }
 
-    void removeLectorStudent(User student, User lector);
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        User user = userDao.findByUserName(userName);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+                mapRolesToAuthorities(user.getRoles()));
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public User getUserById(Long id) {
+        return userDao.getUserById(id);
+    }
+
+    @Transactional
+    public void save(User user) {
+        userDao.save(user);
+    }
+
+    @Transactional
+    public boolean checkIfValidOldPassword(User user, String password) {
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    @Transactional
+    public void changeUserPassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userDao.save(user);
+    }
+
+    @Transactional
+    public void removeLectorStudent(User student, User lector) {
+        lector.getStudents().remove(student);
+        student.getLectors().remove(lector);
+        userDao.save(student);
+        userDao.save(lector);
+    }
 }

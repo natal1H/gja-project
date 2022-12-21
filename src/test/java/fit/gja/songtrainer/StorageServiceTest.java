@@ -4,7 +4,7 @@ import fit.gja.songtrainer.config.StorageServiceConfig;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
-import fit.gja.songtrainer.service.StorageServiceImpl;
+import fit.gja.songtrainer.service.StorageService;
 import fit.gja.songtrainer.util.Instrument;
 import org.assertj.core.util.Lists;
 import org.junit.After;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 public class StorageServiceTest {
     private final Path rootPath = Paths.get("./storageServiceTest");
-    private StorageServiceImpl storageService = new StorageServiceImpl(
+    private StorageService storageService = new StorageService(
             new StorageServiceConfig(
                     rootPath,
                     Paths.get("backingTracks"), Paths.get("profilePictures"), Lists.list("mp3"),
