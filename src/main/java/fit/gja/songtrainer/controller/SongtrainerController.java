@@ -1,6 +1,7 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.service.FollowerService;
 import fit.gja.songtrainer.service.RoleService;
 import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument;
@@ -28,6 +29,9 @@ public class SongtrainerController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private FollowerService followerService;
+
     /**
      * Controller method responsible for mapping "/"
      * @param theModel holder of attributes
@@ -43,6 +47,7 @@ public class SongtrainerController {
         theModel.addAttribute("playlists", user.getPlaylists());
         theModel.addAttribute("lectorPlaylists", user.getLectorPlaylists());
         theModel.addAttribute("user", user);
+        theModel.addAttribute("followed", followerService.getFollowedPlaylists());
 
         return "home";
     }
@@ -155,9 +160,13 @@ public class SongtrainerController {
         User user = UserUtil.getCurrentUser(userService);
         List<User> users = userService.findUserByName(keyword);
 
+
+
         theModel.addAttribute("users", users);
         theModel.addAttribute("playlists", user.getPlaylists());
+        theModel.addAttribute("lectorPlaylists", user.getLectorPlaylists());
         theModel.addAttribute("user", user);
+        theModel.addAttribute("followed", followerService.getFollowedPlaylists());
 
         return "home";
     }

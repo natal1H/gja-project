@@ -77,4 +77,8 @@ public class PlaylistService {
         return SongsUtil.sortSongS(playlist.getSongs(), sortStr);
     }
 
+    public List<Playlist> getPublicPlaylistsForUser(User user) {
+        return playlistDao.getPlaylistByUserAndIsPublicTrue(user);
+    }
+
 }

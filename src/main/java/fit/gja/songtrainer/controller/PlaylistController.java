@@ -82,7 +82,7 @@ public class PlaylistController {
         }
 
         // Check if playlist belongs to current user
-        if (!Objects.equals(thePlaylist.getUser().getId(), user.getId()) && userHasLectorDao.findByUserAndPlaylistId(user, playlistId) == null) {
+        if (!Objects.equals(thePlaylist.getUser().getId(), user.getId()) && userHasLectorDao.findByUserAndPlaylistId(user, playlistId) == null && !thePlaylist.isPublic()) {
             mav.setViewName("access-denied");
             return mav;
         }
@@ -143,6 +143,7 @@ public class PlaylistController {
             }
             originalPlaylist.setName(thePlaylist.getName());
             originalPlaylist.setInstrument(thePlaylist.getInstrument());
+            originalPlaylist.setPublic(thePlaylist.isPublic());
 
             playlistService.save(originalPlaylist);
         } else {

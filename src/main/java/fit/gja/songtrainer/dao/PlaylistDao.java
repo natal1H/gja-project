@@ -19,5 +19,7 @@ public interface PlaylistDao extends JpaRepository<Playlist, Long> {
     @Query("from Playlist where user=:user and instrument=:instrument")
     List<Playlist> getPlaylistsByUserInstrument(@Param("user") User user, @Param("instrument") InstrumentEnum instrument);
 
+    List<Playlist> getPlaylistByUserAndIsPublicTrue(User user);
+
     void deletePlaylistById(Long playlistId);
 }

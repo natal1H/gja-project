@@ -21,6 +21,9 @@ public class Playlist {
     @Enumerated(EnumType.STRING)
     private InstrumentEnum instrument;
 
+    @Column(name = "public")
+    private boolean isPublic;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -83,5 +86,13 @@ public class Playlist {
 
     public void setSongs(List<Song> songs) {
         this.songs = songs;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 }

@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import fit.gja.songtrainer.util.View;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
-import java.lang.annotation.Documented;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -57,9 +55,9 @@ public class User {
     private Collection<Role> roles;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_has_friend",
+    @JoinTable(name = "user_follows",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+            inverseJoinColumns = @JoinColumn(name = "followed_id"))
     @JsonView(View.Internal.class)
     private Collection<User> friends;
 
@@ -189,7 +187,7 @@ public class User {
         this.playlists = playlists;
     }
 
-    public Collection<User> getFriends() {
+    public Collection<User> getFollowed() {
         return friends;
     }
 

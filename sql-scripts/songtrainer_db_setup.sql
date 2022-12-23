@@ -144,6 +144,7 @@ CREATE TABLE IF NOT EXISTS `playlist` (
     `name` VARCHAR(45) NOT NULL,
     `instrument` VARCHAR(45) NULL,
     `user_id` INT(11) NOT NULL,
+    `public` BOOLEAN NOT NULL DEFAULT FALSE,
 
     PRIMARY KEY (`id`),
 
@@ -191,22 +192,22 @@ VALUES
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- Friends table
-DROP TABLE IF EXISTS `user_has_friend`;
+DROP TABLE IF EXISTS `user_follows`;
 
-CREATE TABLE IF NOT EXISTS `user_has_friend` (
+CREATE TABLE IF NOT EXISTS `user_follows` (
     `user_id` INT(11),
-    `friend_id` INT(11),
-    PRIMARY KEY (`user_id`, `friend_id`),
+    `followed_id` INT(11),
+    PRIMARY KEY (`user_id`, `followed_id`),
     CONSTRAINT `fk_user` FOREIGN KEY (`user_id`)
         REFERENCES `user` (`id`)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
-    CONSTRAINT `fk_friend` FOREIGN KEY (`friend_id`)
+    CONSTRAINT `fk_followed` FOREIGN KEY (`followed_id`)
         REFERENCES `user` (`id`)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 -- Insert test values
-INSERT INTO `user_has_friend` (user_id,friend_id)
+INSERT INTO `user_follows` (user_id,followed_id)
 VALUES
     (1, 2), -- John & Mary
     (2, 1), -- Mary & John

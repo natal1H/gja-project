@@ -74,6 +74,15 @@
             </tbody>
         </table>
 
+        <h3>Followed users</h3>
+        <c:forEach var="follow" items="${followed}">
+            <a href="/profile?id=${follow.key.id}&inst=ALL&sort=ArtistASC">${follow.key.userName}</a><br>
+            <br/>
+            <c:forEach var="playlist" items="${follow.value}">
+                <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.id}&sort=ArtistASC">${playlist.name}</a></td>
+            </c:forEach>
+        </c:forEach>
+
 
     </div>
 </body>

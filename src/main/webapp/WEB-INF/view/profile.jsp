@@ -16,6 +16,32 @@
         function submitSortForm() {
             document.getElementById("sortForm").submit();
         }
+
+
+        function follow(userId) {
+            fetch('/profile/follow?userId=' + userId, {
+                method: 'POST',
+            }).then(_ => document.location.reload())
+        }
+
+        function unfollow(userId) {
+            fetch('/profile/unfollow?userId=' + userId, {
+                method: 'POST',
+            }).then(_ => document.location.reload())
+        }
+
+        let followForm = document.getElementById("followForm");
+        followForm.onsubmit = function (event) {
+            event.preventDefault();
+            console.log(followForm.serialize())
+        }
+
+        let unfollowForm = document.getElementById("unfollowForm");
+        unfollowForm.onsubmit = function (event) {
+            event.preventDefault();
+            console.log(unfollowForm.serialize())
+        }
+        // }
     </script>
 </head>
 <body>
@@ -51,6 +77,14 @@
         </a>
     </c:if>
 
+    <c:choose>
+        <c:when test="${isFollowed}">
+            <button onclick="unfollow(${profileUser.id})">Unfollow</button>
+        </c:when>
+        <c:otherwise>
+            <button onclick="follow(${profileUser.id})">Follow</button>
+        </c:otherwise>
+    </c:choose>
 
     <div>
         <img src="${pageContext.request.contextPath}/profilePicture">
@@ -159,8 +193,6 @@
             </tr>
         </c:forEach>
     </table>
-
-    <div>
 </body>
 </html>
 

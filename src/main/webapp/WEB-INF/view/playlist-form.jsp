@@ -34,6 +34,8 @@
         <form:radiobuttons path="instrument" items="${instruments}" class="options"/>
       </div>
 
+      <form:checkbox path="public"></form:checkbox> Public
+
       <!-- Submit Button -->
       <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle-o"></i> <span>SAVE</span></button>
 
