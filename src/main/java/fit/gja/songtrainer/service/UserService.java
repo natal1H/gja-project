@@ -1,12 +1,12 @@
 package fit.gja.songtrainer.service;
 
+import fit.gja.songtrainer.dao.PlaylistDao;
 import fit.gja.songtrainer.dao.RoleDao;
 import fit.gja.songtrainer.dao.UserDao;
-import fit.gja.songtrainer.entity.Playlist;
-import fit.gja.songtrainer.entity.Role;
-import fit.gja.songtrainer.entity.Song;
-import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.dao.UserHasLectorDao;
+import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.user.CrmUser;
+import fit.gja.songtrainer.util.Instrument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,6 +32,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private PlaylistDao playlistDao;
+
+    @Autowired
+    private UserHasLectorDao userHasLectorDao;
 
     @Lazy
     @Autowired
@@ -97,23 +103,30 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void removeLectorStudent(User student, User lector) {
-        lector.getStudents().remove(student);
-        student.getLectors().remove(lector);
-        userDao.save(student);
-        userDao.save(lector);
+        UserHasLectors userHasLectors = userHasLectorDao.findById(new UserHasLectorsPk(student.getId(), lector.getId())).get();
+        Playlist playlist = userHasLectors.getPlaylist();
+        userHasLectorDao.delete(userHasLectors);
+        playlistDao.delete(playlist);
     }
 
     @Transactional
-    public void addStudentLector(User student, User lector) {
-        if(!(student.getLectors().contains(lector))) {
-            student.getLectors().add(lector);
-            userDao.save(student);
-        }
+    public void addStudentLector(User student, User lector, Instrument.InstrumentEnum instrument) {
 
-        if(!(lector.getStudents().contains(student))) {
-            lector.getStudents().add(student);
-            userDao.save(lector);
-        }
+        Playlist playlist = playlistDao.save(
+                new Playlist(
+                        "Playlist for lector: " + lector.getUserName(),
+                        instrument,
+                        lector
+                )
+        );
+
+        userHasLectorDao.save(
+                new UserHasLectors(
+                        student,
+                        lector,
+                        playlist
+                )
+        );
     }
 
     @Transactional

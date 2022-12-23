@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Scope;
 import javax.persistence.*;
 import java.lang.annotation.Documented;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class representing the "user" table from database
@@ -61,19 +63,29 @@ public class User {
     @JsonView(View.Internal.class)
     private Collection<User> friends;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_has_students",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = "user_has_students",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "lector",
+            orphanRemoval = true
+    )
     @JsonView(View.Internal.class)
-    private Collection<User> students;
+    private Collection<UserHasLectors> students;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_has_lectors",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "lector_id"))
+    //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = "user_has_lectors",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "lector_id"))
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "user",
+            orphanRemoval = true
+    )
     @JsonView(View.Internal.class)
-    private Collection<User> lectors;
+    private Collection<UserHasLectors> lectors;
 
     @OneToMany(mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -84,7 +96,8 @@ public class User {
     @JsonView(View.Public.class)
     private List<Playlist> playlists;
 
-    public User() { }
+    public User() {
+    }
 
     public User(String userName, String password, String firstName, String lastName, String email) {
         this.userName = userName;
@@ -104,41 +117,77 @@ public class User {
         this.roles = roles;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getUserName() { return userName; }
+    public String getUserName() {
+        return userName;
+    }
 
-    public void setUserName(String userName) { this.userName = userName; }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public String getFirstName() { return firstName; }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getLastName() { return lastName; }
+    public String getLastName() {
+        return lastName;
+    }
 
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public Collection<Role> getRoles() { return roles; }
+    public Collection<Role> getRoles() {
+        return roles;
+    }
 
-    public void setRoles(Collection<Role> roles) { this.roles = roles; }
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
 
-    public List<Song> getSongs() { return songs; }
+    public List<Song> getSongs() {
+        return songs;
+    }
 
-    public void setSongs(List<Song> songs) { this.songs = songs; }
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
+    }
 
-    public List<Playlist> getPlaylists() { return playlists; }
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
 
-    public void setPlaylists(List<Playlist> playlists) { this.playlists = playlists; }
+    public void setPlaylists(List<Playlist> playlists) {
+        this.playlists = playlists;
+    }
 
     public Collection<User> getFriends() {
         return friends;
@@ -157,25 +206,18 @@ public class User {
     }
 
     public Collection<User> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Collection<User> students) {
-        this.students = students;
+        return students.stream().map(UserHasLectors::getUser).toList();
     }
 
     public Collection<User> getLectors() {
-        return lectors;
+        return lectors.stream().map(UserHasLectors::getLector).toList();
     }
 
-    public void setLectors(Collection<User> lectors) {
-        this.lectors = lectors;
+    public Map<User, Playlist> getLectorPlaylists() {
+        var playlists = new HashMap<User, Playlist>();
+        for (var userHasLector:lectors) {
+            playlists.put(userHasLector.getLector(), userHasLector.getPlaylist());
+        }
+        return playlists;
     }
-
-//    @Override
-//    public String toString() {
-//        return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
-//                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
-//                + ", roles=" + roles + '}';
-//    }
 }

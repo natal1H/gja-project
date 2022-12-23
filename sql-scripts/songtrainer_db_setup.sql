@@ -244,17 +244,21 @@ DROP TABLE IF EXISTS `user_has_lectors`;
 CREATE TABLE IF NOT EXISTS `user_has_lectors` (
     `user_id` INT(11) NOT NULL,
     `lector_id` INT(11) NOT NULL,
+    `playlist_id` INT(11) NOT NULL,
     PRIMARY KEY (`user_id`, `lector_id`),
     CONSTRAINT `fk_user_lectors_user` FOREIGN KEY (`user_id`)
     REFERENCES `user` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT `fk_user_lectors_lector` FOREIGN KEY (`lector_id`)
     REFERENCES `user` (`id`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_user_lectors_playlist` FOREIGN KEY (`playlist_id`)
+    REFERENCES `playlist` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION
     ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 -- Insert test values
-INSERT INTO `user_has_lectors` (user_id,lector_id)
-VALUES
-    (1, 2), -- Mary & John
-    (3, 2); -- Mary & Adam
+# INSERT INTO `user_has_lectors` (user_id,lector_id)
+# VALUES
+#     (1, 2), -- Mary & John
+#     (3, 2); -- Mary & Adam

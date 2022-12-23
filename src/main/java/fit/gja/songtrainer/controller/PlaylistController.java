@@ -1,5 +1,6 @@
 package fit.gja.songtrainer.controller;
 
+import fit.gja.songtrainer.dao.UserHasLectorDao;
 import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
@@ -25,6 +26,7 @@ public class PlaylistController {
     private final SongService songService;
 
     private final UserService userService;
+    private UserHasLectorDao userHasLectorDao;
 
     /**
      * Class constructor, injects the necessary services
@@ -32,10 +34,11 @@ public class PlaylistController {
      * @param songService Service handling database request about songs
      * @param userService Service handling database request about users
      */
-    public PlaylistController(PlaylistService playlistService, SongService songService, UserService userService) {
+    public PlaylistController(PlaylistService playlistService, SongService songService, UserService userService, UserHasLectorDao userHasLectorDao) {
         this.playlistService = playlistService;
         this.songService = songService;
         this.userService = userService;
+        this.userHasLectorDao = userHasLectorDao;
     }
 
     /**
@@ -52,6 +55,7 @@ public class PlaylistController {
 
         // add the songs to the model
         theModel.addAttribute("playlists", user.getPlaylists());
+        theModel.addAttribute("lectorPlaylists", user.getLectorPlaylists());
         theModel.addAttribute("user", user);
 
         return "playlists";
@@ -78,7 +82,7 @@ public class PlaylistController {
         }
 
         // Check if playlist belongs to current user
-        if (!Objects.equals(thePlaylist.getUser().getId(), user.getId())) {
+        if (!Objects.equals(thePlaylist.getUser().getId(), user.getId()) && userHasLectorDao.findByUserAndPlaylistId(user, playlistId) == null) {
             mav.setViewName("access-denied");
             return mav;
         }
@@ -171,7 +175,8 @@ public class PlaylistController {
     @GetMapping("/playlist/deletePlaylist")
     public String deletePlaylist(@RequestParam("playlistId") Long thePlaylistId) {
         // delete the playlist
-        playlistService.delete(thePlaylistId);
+        User user = UserUtil.getCurrentUser(userService);
+        playlistService.delete(user, thePlaylistId);
 
         return "redirect:/";
     }

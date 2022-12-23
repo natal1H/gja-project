@@ -15,7 +15,7 @@
         <h2 style="text-align: center">User registered successfully!</h2>
 
 
-        <a href="${pageContext.request.contextPath}/showMyLoginPage">Login now</a>
+        <a href="${pageContext.request.contextPath}/showLoginPage">Login now</a>
     </div>
 </body>
 </html>

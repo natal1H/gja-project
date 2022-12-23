@@ -1,7 +1,9 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.service.*;
+import fit.gja.songtrainer.service.RoleService;
+import fit.gja.songtrainer.service.UserService;
+import fit.gja.songtrainer.util.Instrument;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,7 @@ public class SongtrainerController {
 
         // add the songs to the model
         theModel.addAttribute("playlists", user.getPlaylists());
+        theModel.addAttribute("lectorPlaylists", user.getLectorPlaylists());
         theModel.addAttribute("user", user);
 
         return "home";
@@ -168,7 +171,7 @@ public class SongtrainerController {
     public String addStudent(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId) {
         User student = userService.getUserById(theStudentId);
         User lector = userService.getUserById(theLectorId);
-        userService.addStudentLector(student, lector);
+        userService.addStudentLector(student, lector, Instrument.InstrumentEnum.GUITAR); //Todo: Add selection of instrument
 
         return "redirect:/lectors";
     }
@@ -182,7 +185,7 @@ public class SongtrainerController {
     public String addLector(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId) {
         User student = userService.getUserById(theStudentId);
         User lector = userService.getUserById(theLectorId);
-        userService.addStudentLector(student, lector);
+        userService.addStudentLector(student, lector, Instrument.InstrumentEnum.GUITAR); //TODO: Add selection of instrument
 
         return "redirect:/students";
     }
