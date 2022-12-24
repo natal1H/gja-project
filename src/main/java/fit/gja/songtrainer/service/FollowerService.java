@@ -25,7 +25,7 @@ public class FollowerService {
         var map = new HashMap<User, List<Playlist>>();
         var user = UserUtil.getCurrentUser(userService);
         for (var followed: user.getFollowed()) {
-            map.put(user, playlistService.getPublicPlaylistsForUser(followed));
+            map.put(followed, playlistService.getPublicPlaylistsForUser(followed));
         }
         return map;
     }
