@@ -61,6 +61,13 @@ public class User {
     @JsonView(View.Internal.class)
     private Collection<User> friends;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_ratings",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "rating_id"))
+    @JsonView(View.Internal.class)
+    private Collection<Rating> ratings;
+
     //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinTable(name = "user_has_students",
 //            joinColumns = @JoinColumn(name = "user_id"),
@@ -189,6 +196,10 @@ public class User {
 
     public Collection<User> getFollowed() {
         return friends;
+    }
+
+    public Collection<Rating> getRatings() {
+        return ratings;
     }
 
     public void setFriends(Collection<User> friends) {

@@ -163,6 +163,44 @@ VALUES
 --
 -- Table structure for table `songs_playlists`
 --
+
+DROP TABLE IF EXISTS `rating`;
+
+CREATE TABLE IF NOT EXISTS `rating` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `tempo` VARCHAR(45) NOT NULL,
+    `rhythm` VARCHAR(45) NULL,
+    `technique` VARCHAR(45) NULL,
+    `number_of_mistakes` VARCHAR(45) NULL,
+    `external_expression` VARCHAR(45) NULL,
+    `user_id` INT(11) NOT NULL,
+    PRIMARY KEY (`id`),
+
+    INDEX `fk_rating_user1_idx` (`user_id` ASC) VISIBLE,
+    CONSTRAINT `fk_rating_user1`
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `user_ratings`;
+
+CREATE TABLE IF NOT EXISTS `user_ratings` (
+    `user_id` INT(11) NOT NULL,
+    `rating_id` INT(11) NOT NULL,
+    `song_id` INT(11) NOT NULL,
+    PRIMARY KEY (`user_id`, `rating_id`),
+    CONSTRAINT `fk_user_ratings_user` FOREIGN KEY (`user_id`)
+      REFERENCES `user` (`id`)
+      ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_user_ratings_rating` FOREIGN KEY (`rating_id`)
+      REFERENCES `rating` (`id`)
+      ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_user_ratings_song` FOREIGN KEY (`song_id`)
+      REFERENCES `song` (`id`)
+      ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+
 DROP TABLE IF EXISTS `songs_playlists`;
 
 CREATE TABLE IF NOT EXISTS `songs_playlists` (
