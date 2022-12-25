@@ -2,11 +2,9 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.form.StudentSongForm;
-import fit.gja.songtrainer.service.FollowerService;
-import fit.gja.songtrainer.service.RoleService;
-import fit.gja.songtrainer.service.SongService;
-import fit.gja.songtrainer.service.UserService;
+import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.Instrument;
 import fit.gja.songtrainer.util.Tuning;
 import fit.gja.songtrainer.util.UserUtil;
@@ -15,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,6 +35,9 @@ public class SongtrainerController {
 
     @Autowired
     private SongService songService;
+
+    @Autowired
+    private StorageService storageService;
 
     /**
      * Controller method responsible for mapping "/"
@@ -218,11 +221,18 @@ public class SongtrainerController {
     }
 
     @PostMapping("/lectors/saveStudentSong")
-    public String saveStudentSong(@ModelAttribute("studentSongForm") StudentSongForm studentSongForm) {
+    public String saveStudentSong(
+            @ModelAttribute("studentSongForm") StudentSongForm studentSongForm,
+            @RequestParam("backing_track") MultipartFile backingTrack
+    ) throws InvalidFileExtensionException, IOException {
         User lector = UserUtil.getCurrentUser(userService);
         User formstudent = studentSongForm.getStudent();
         User student = userService.getUserById(formstudent.getId());
         Song theSong = studentSongForm.getSong();
+
+
+        var path = storageService.saveBackingTrack(backingTrack, theSong);
+        theSong.setBackingTrackFilename(path.toString());
 
         // Set song user to student
         theSong.setUser(student);

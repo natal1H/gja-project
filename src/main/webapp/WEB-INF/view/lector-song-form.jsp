@@ -18,7 +18,7 @@
 
         Fill out song details for student ${student.userName}:<br>
 
-        <form:form action="saveStudentSong" modelAttribute="studentSongForm" method="POST">
+        <form:form action="saveStudentSong" modelAttribute="studentSongForm" method="POST" enctype="multipart/form-data">
             <!-- Student info -->
             <form:hidden path="student.id" value="${student.id}" />
             <form:hidden path="student.userName" value="${student.userName}" />
@@ -36,6 +36,11 @@
             <div class="input-group">
                 <form:label path="song.artist">Artist</form:label>
                 <form:input path="song.artist" class="text-input"/>
+            </div>
+
+            <div class="input-group">
+                <label for="backing_track">Backing track</label>
+                <input id="backing_track" type="file" name="backing_track">
             </div>
 
             <!-- Instrument -->

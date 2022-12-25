@@ -34,7 +34,6 @@
             <div class="input-group">
                 <label for="backing_track">Backing track</label>
                 <input id="backing_track" type="file" name="backing_track">
-
             </div>
             <!-- Instrument -->
             <div class="input-group">
