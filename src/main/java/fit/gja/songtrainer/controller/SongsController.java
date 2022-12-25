@@ -1,7 +1,13 @@
 package fit.gja.songtrainer.controller;
 
-import fit.gja.songtrainer.entity.*;
-import fit.gja.songtrainer.service.*;
+import fit.gja.songtrainer.entity.Playlist;
+import fit.gja.songtrainer.entity.Song;
+import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
+import fit.gja.songtrainer.service.PlaylistService;
+import fit.gja.songtrainer.service.SongService;
+import fit.gja.songtrainer.service.StorageService;
+import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.SongsUtil;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
@@ -12,7 +18,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -29,16 +38,19 @@ public class SongsController {
 
     private final UserService userService;
 
+    private final StorageService storageService;
+
     /**
      * Class constructor, injects the necessary services
      * @param songService Service handling database request about songs
      * @param playlistService Service handling database request about playlists
      * @param userService Service handling database request about users
      */
-    public SongsController(SongService songService, PlaylistService playlistService, UserService userService) {
+    public SongsController(SongService songService, PlaylistService playlistService, UserService userService, StorageService storageService) {
         this.songService = songService;
         this.playlistService = playlistService;
         this.userService = userService;
+        this.storageService = storageService;
     }
 
 
@@ -101,7 +113,7 @@ public class SongsController {
     // TODO - add form validations
     // TODO - remove logic from controller and do it in service
     @PostMapping("/songs/saveSong")
-    public String saveSong(@ModelAttribute("song") Song theSong) {
+    public String saveSong(@ModelAttribute("song") Song theSong, @RequestParam("backing_track") MultipartFile backingTrack) throws InvalidFileExtensionException, IOException {
 
         // set user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -141,9 +153,16 @@ public class SongsController {
             originalSong.setInstrument(theSong.getInstrument());
             originalSong.setTuning(theSong.getTuning());
             originalSong.setVisible(theSong.getVisible());
+            storageService.removeBackingTrack(theSong);
+            var path = storageService.saveBackingTrack(backingTrack, theSong);
+            originalSong.setBackingTrackFilename(path.toString());
+
+
 
             songService.save(originalSong);
         } else { // song doesn't yet exist
+            var path = storageService.saveBackingTrack(backingTrack, theSong);
+            theSong.setBackingTrackFilename(path.toString());
             songService.save(theSong);
         }
 

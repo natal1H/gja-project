@@ -16,7 +16,7 @@
     <div class="wrapper">
         <h2>Edit song</h2>
 
-        <form:form action="saveSong" modelAttribute="song" method="POST">
+        <form:form action="saveSong" modelAttribute="song" method="POST" enctype="multipart/form-data">
             <form:hidden path="id" />
 
             <!-- Title -->
@@ -31,6 +31,11 @@
                 <form:input path="artist" class="text-input"/>
             </div>
 
+            <div class="input-group">
+                <label for="backing_track">Backing track</label>
+                <input id="backing_track" type="file" name="backing_track">
+
+            </div>
             <!-- Instrument -->
             <div class="input-group">
                 <form:label path="instrument">Instrument</form:label>

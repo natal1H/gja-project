@@ -73,4 +73,10 @@ public class StorageService {
         picture.delete();
     }
 
+    public void removeBackingTrack(Song song) {
+        var backingTrack = loadBackingTrack(song);
+        if(backingTrack == null) return;
+        backingTrack.delete();
+    }
+
 }
