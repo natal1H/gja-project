@@ -52,6 +52,10 @@ public class Song {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "assigned_by")
+    private User assignedBy;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
     })
@@ -122,6 +126,14 @@ public class Song {
     }
     public void setTuning(TuningEnum tuning) {
         this.tuning = tuning;
+    }
+
+    public User getAssignedBy() {
+        return assignedBy;
+    }
+
+    public void setAssignedBy(User assignedBy) {
+        this.assignedBy = assignedBy;
     }
 
     public int getLength() {

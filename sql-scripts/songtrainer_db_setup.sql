@@ -106,11 +106,15 @@ CREATE TABLE IF NOT EXISTS `song` (
     `user_id` INT(11) NOT NULL,
     `file_name` VARCHAR(512) DEFAULT NULL,
     `is_visible` BOOLEAN DEFAULT false,
+    `assigned_by` INT(11) DEFAULT NULL,
 
     PRIMARY KEY (`id`),
 
     INDEX `fk_song_user1_idx` (`user_id` ASC) VISIBLE,
     CONSTRAINT `fk_song_user1` FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`id`)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `fk_song_assigned_by` FOREIGN KEY (`assigned_by`)
         REFERENCES `user` (`id`)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

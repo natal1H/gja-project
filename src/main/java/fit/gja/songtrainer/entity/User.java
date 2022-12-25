@@ -95,6 +95,11 @@ public class User {
     @JsonView(View.Public.class)
     private List<Playlist> playlists;
 
+    @OneToMany(mappedBy = "assignedBy")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonView(View.Public.class)
+    private List<Song> assignedSongs;
+
     public User() {
     }
 
@@ -214,5 +219,13 @@ public class User {
 
     public Collection<User> getLectors() {
         return lectors;
+    }
+
+    public List<Song> getAssignedSongs() {
+        return assignedSongs;
+    }
+
+    public void setAssignedSongs(List<Song> assignedSongs) {
+        this.assignedSongs = assignedSongs;
     }
 }

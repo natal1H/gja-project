@@ -220,6 +220,22 @@ public class SongtrainerController {
         return "lector-song-form";
     }
 
+    @GetMapping("/lectors/assignedSongs")
+    public String getAssignedSongs(
+            @RequestParam("lectorId") Long lectorId,
+            @RequestParam("studentId") Long studentId,
+            Model theModel
+    ) {
+        User student = userService.getUserById(studentId);
+        User lector = userService.getUserById(lectorId);
+        var songs = songService.getSongsAssignedByLector(student, lector);
+
+        theModel.addAttribute("student", student);
+        theModel.addAttribute("songs", songs);
+
+        return "lector-assigned-songs";
+    }
+
     @PostMapping("/lectors/saveStudentSong")
     public String saveStudentSong(
             @ModelAttribute("studentSongForm") StudentSongForm studentSongForm,
@@ -229,6 +245,7 @@ public class SongtrainerController {
         User formstudent = studentSongForm.getStudent();
         User student = userService.getUserById(formstudent.getId());
         Song theSong = studentSongForm.getSong();
+        theSong.setAssignedBy(lector);
 
 
         var path = storageService.saveBackingTrack(backingTrack, theSong);

@@ -31,6 +31,8 @@ public interface SongDao extends JpaRepository<Song, Long> {
     List<Song> findByUserOrderByLengthAsc(User user);
     List<Song> findByUserOrderByLengthDesc(User user);
 
+    List<Song> findSongByUserAndAssignedBy(User student, User assignedBy);
+
     @Query("from Song where user=:user order by times_played asc")
     List<Song> findByUserOrderByTimes_playedAsc(@Param("user") User user);
 

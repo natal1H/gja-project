@@ -113,4 +113,8 @@ public class SongService {
     public List<Song> findByUserOrderByLast_playedDesc(User user) {
         return songDao.findByUserOrderByLast_playedDesc(user);
     }
+
+    public List<Song> getSongsAssignedByLector(User student, User lector) {
+        return songDao.findSongByUserAndAssignedBy(student, lector);
+    }
 }

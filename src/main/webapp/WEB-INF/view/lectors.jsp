@@ -56,19 +56,25 @@
                     <c:param name="lectorId" value="${user.id}" />
                 </c:url>
 
+                <c:url var="showAssignedSongsLink" value="/lectors/assignedSongs">
+                    <c:param name="studentId" value="${tempStudent.id}"/>
+                    <c:param name="lectorId" value="${user.id}"/>
+                </c:url>
+
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/profile?id=${tempStudent.id}&inst=ALL&sort=ArtistASC">${tempStudent.userName}</a></td>
                     <td>${tempStudent.firstName}</td>
                     <td>${tempStudent.lastName}</td>
-                    <td>
+                        <td>
+                        <a href="${showAssignedSongsLink}" >
+                            <button>Show assigned songs</button>
+                        </a>
                         <a href="${addSongToStudentLink}" >
                             <button class="plus"><i class="fa fa-solid fa-plus"></i></button>
                         </a>
-                        <td>
-                            <a href="${removeStudentLink}" onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
-                                <button class="trash"><i class="fa fa-solid fa-trash"></i></button>
-                            </a>
-                        </td>
+                        <a href="${removeStudentLink}" onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
+                            <button class="trash"><i class="fa fa-solid fa-trash"></i></button>
+                        </a>
                     </td>
                 </tr>
             </c:forEach>
