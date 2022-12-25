@@ -3,7 +3,6 @@ package fit.gja.songtrainer.service;
 import fit.gja.songtrainer.dao.PlaylistDao;
 import fit.gja.songtrainer.dao.RoleDao;
 import fit.gja.songtrainer.dao.UserDao;
-import fit.gja.songtrainer.dao.UserHasLectorDao;
 import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.user.CrmUser;
 import fit.gja.songtrainer.util.Instrument;
@@ -32,12 +31,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private RoleDao roleDao;
-
-    @Autowired
-    private PlaylistDao playlistDao;
-
-    @Autowired
-    private UserHasLectorDao userHasLectorDao;
 
     @Lazy
     @Autowired
@@ -103,31 +96,25 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void removeLectorStudent(User student, User lector) {
-        UserHasLectors userHasLectors = userHasLectorDao.findById(new UserHasLectorsPk(student.getId(), lector.getId())).get();
-        Playlist playlist = userHasLectors.getPlaylist();
-        userHasLectorDao.delete(userHasLectors);
-        playlistDao.delete(playlist);
+        lector.getStudents().remove(student);
+        student.getLectors().remove(lector);
+        userDao.save(student);
+        userDao.save(lector);
     }
 
     @Transactional
-    public void addStudentLector(User student, User lector, Instrument.InstrumentEnum instrument) {
+    public void addStudentLector(User student, User lector) {
+        if(!(student.getLectors().contains(lector))) {
+            student.getLectors().add(lector);
+            userDao.save(student);
+        }
 
-        Playlist playlist = playlistDao.save(
-                new Playlist(
-                        "Playlist for lector: " + lector.getUserName(),
-                        instrument,
-                        lector
-                )
-        );
-
-        userHasLectorDao.save(
-                new UserHasLectors(
-                        student,
-                        lector,
-                        playlist
-                )
-        );
+        if(!(lector.getStudents().contains(student))) {
+            lector.getStudents().add(student);
+            userDao.save(lector);
+        }
     }
+
 
     @Transactional
     public List<User> findUserByName(String keyword) {

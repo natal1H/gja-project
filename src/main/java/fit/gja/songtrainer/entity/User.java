@@ -72,25 +72,19 @@ public class User {
 //    @JoinTable(name = "user_has_students",
 //            joinColumns = @JoinColumn(name = "user_id"),
 //            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            mappedBy = "lector",
-            orphanRemoval = true
-    )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_students",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     @JsonView(View.Internal.class)
-    private Collection<UserHasLectors> students;
+    private Collection<User> students;
 
-    //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(name = "user_has_lectors",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "lector_id"))
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            mappedBy = "user",
-            orphanRemoval = true
-    )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_lectors",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "lector_id"))
     @JsonView(View.Internal.class)
-    private Collection<UserHasLectors> lectors;
+    private Collection<User> lectors;
 
     @OneToMany(mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -215,18 +209,10 @@ public class User {
     }
 
     public Collection<User> getStudents() {
-        return students.stream().map(UserHasLectors::getUser).toList();
+        return students;
     }
 
     public Collection<User> getLectors() {
-        return lectors.stream().map(UserHasLectors::getLector).toList();
-    }
-
-    public Map<User, Playlist> getLectorPlaylists() {
-        var playlists = new HashMap<User, Playlist>();
-        for (var userHasLector:lectors) {
-            playlists.put(userHasLector.getLector(), userHasLector.getPlaylist());
-        }
-        return playlists;
+        return lectors;
     }
 }

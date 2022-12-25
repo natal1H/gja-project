@@ -1,25 +1,19 @@
 package fit.gja.songtrainer.service;
 
 import fit.gja.songtrainer.dao.PlaylistDao;
-import fit.gja.songtrainer.dao.UserHasLectorDao;
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
 import fit.gja.songtrainer.util.SongsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
 @Service
 public class PlaylistService {
-
-    @Autowired
-    private UserHasLectorDao userHasLectorDao;
 
     private final PlaylistDao playlistDao;
 
@@ -54,8 +48,6 @@ public class PlaylistService {
 
     @Transactional
     public void delete(User user, Long playlistId) {
-        if (userHasLectorDao.findByUserAndPlaylistId(user, playlistId) != null)
-            throw new IllegalArgumentException("Cannot remove lector playlist");
         playlistDao.deletePlaylistById(playlistId);
     }
 

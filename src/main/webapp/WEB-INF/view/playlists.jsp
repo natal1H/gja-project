@@ -31,12 +31,6 @@
     </tr>
     </thead>
     <tbody>
-<%--    List lector playlists --%>
-    <c:forEach var="playlist" items="${lectorPlaylists}">
-        <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.value.id}&sort=ArtistASC">${playlist.value.name}</a></td>
-        <td>${playlist.value.instrumentStr}</td>
-    </c:forEach>
-
   <!-- construct a "delete" link with playlist id -->
   <c:url var="deletePlaylistLink" value="/playlist/deletePlaylist">
     <c:param name="playlistId" value="${tempPlaylist.id}" />

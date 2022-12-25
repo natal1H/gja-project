@@ -2,7 +2,6 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.Role;
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.entity.UserHasLectors;
 import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.stereotype.Controller;

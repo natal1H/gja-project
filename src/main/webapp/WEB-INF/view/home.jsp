@@ -42,12 +42,6 @@
                 </tr>
             </thead>
             <tbody>
-<%--            List lector playlists --%>
-            <c:forEach var="playlist" items="${lectorPlaylists}">
-                <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.value.id}&sort=ArtistASC">${playlist.value.name}</a></td>
-                <td>${playlist.value.instrumentStr}</td>
-            </c:forEach>
-            <!-- Loop over and print playlists -->
             <c:forEach var="tempPlaylist" items="${playlists}">
 
                 <!-- construct an "update" link with playlist id -->

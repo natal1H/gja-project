@@ -1,6 +1,5 @@
 package fit.gja.songtrainer.controller;
 
-import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.form.StudentSongForm;
@@ -12,9 +11,6 @@ import fit.gja.songtrainer.util.Instrument;
 import fit.gja.songtrainer.util.Tuning;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -53,7 +49,6 @@ public class SongtrainerController {
 
         // add the songs to the model
         theModel.addAttribute("playlists", user.getPlaylists());
-        theModel.addAttribute("lectorPlaylists", user.getLectorPlaylists());
         theModel.addAttribute("user", user);
         theModel.addAttribute("followed", followerService.getFollowedPlaylists());
 
@@ -170,14 +165,13 @@ public class SongtrainerController {
 
         theModel.addAttribute("users", users);
         theModel.addAttribute("playlists", user.getPlaylists());
-        theModel.addAttribute("lectorPlaylists", user.getLectorPlaylists());
         theModel.addAttribute("user", user);
         theModel.addAttribute("followed", followerService.getFollowedPlaylists());
 
         return "home";
     }
 
-    /**
+     /**
      * @param theLectorId id of the lector
      * @param theStudentId id of the student
      * @return redirects back to the lector page
@@ -186,7 +180,7 @@ public class SongtrainerController {
     public String addStudent(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId) {
         User student = userService.getUserById(theStudentId);
         User lector = userService.getUserById(theLectorId);
-        userService.addStudentLector(student, lector, Instrument.InstrumentEnum.GUITAR); //Todo: Add selection of instrument
+        userService.addStudentLector(student, lector);
 
         return "redirect:/lectors";
     }
@@ -200,10 +194,11 @@ public class SongtrainerController {
     public String addLector(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId) {
         User student = userService.getUserById(theStudentId);
         User lector = userService.getUserById(theLectorId);
-        userService.addStudentLector(student, lector, Instrument.InstrumentEnum.GUITAR); //TODO: Add selection of instrument
+        userService.addStudentLector(student, lector);
 
         return "redirect:/students";
     }
+
 
     @GetMapping("/lectors/addSongToStudent")
     public String addSongToStudent(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId, Model theModel) {
