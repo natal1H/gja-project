@@ -1,19 +1,24 @@
 package fit.gja.songtrainer.controller;
 
+import fit.gja.songtrainer.entity.Playlist;
+import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.form.StudentSongForm;
 import fit.gja.songtrainer.service.FollowerService;
 import fit.gja.songtrainer.service.RoleService;
+import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.Instrument;
+import fit.gja.songtrainer.util.Tuning;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +36,9 @@ public class SongtrainerController {
 
     @Autowired
     private FollowerService followerService;
+
+    @Autowired
+    private SongService songService;
 
     /**
      * Controller method responsible for mapping "/"
@@ -160,8 +168,6 @@ public class SongtrainerController {
         User user = UserUtil.getCurrentUser(userService);
         List<User> users = userService.findUserByName(keyword);
 
-
-
         theModel.addAttribute("users", users);
         theModel.addAttribute("playlists", user.getPlaylists());
         theModel.addAttribute("lectorPlaylists", user.getLectorPlaylists());
@@ -197,5 +203,46 @@ public class SongtrainerController {
         userService.addStudentLector(student, lector, Instrument.InstrumentEnum.GUITAR); //TODO: Add selection of instrument
 
         return "redirect:/students";
+    }
+
+    @GetMapping("/lectors/addSongToStudent")
+    public String addSongToStudent(@RequestParam("lectorId") Long theLectorId, @RequestParam("studentId") Long theStudentId, Model theModel) {
+        User student = userService.getUserById(theStudentId);
+
+        // create model attribute to bind form data
+        Song theSong = new Song();
+        StudentSongForm studentSongForm = new StudentSongForm(student, theSong);
+
+
+        theModel.addAttribute("student", student);
+        theModel.addAttribute("studentSongForm", studentSongForm);
+        theModel.addAttribute("instruments", Instrument.InstrumentEnum.values());
+        theModel.addAttribute("tunings", Tuning.TuningEnum.values());
+
+        return "lector-song-form";
+    }
+
+    @PostMapping("/lectors/saveStudentSong")
+    public String saveStudentSong(@ModelAttribute("studentSongForm") StudentSongForm studentSongForm) {
+        User lector = UserUtil.getCurrentUser(userService);
+        User formstudent = studentSongForm.getStudent();
+        User student = userService.getUserById(formstudent.getId());
+        Song theSong = studentSongForm.getSong();
+
+        // Set song user to student
+        theSong.setUser(student);
+        // Tuning - if instrument other the guitar or bass set to none
+        if (theSong.getInstrument() != Instrument.InstrumentEnum.GUITAR && theSong.getInstrument() != Instrument.InstrumentEnum.BASS)
+            theSong.setTuning(Tuning.TuningEnum.NONE);
+        songService.save(theSong);
+
+        // Set song belong to student
+        student.getSongs().add(theSong);
+        userService.save(student);
+
+        // Add song to student's lector playlist
+        // Get lector-student playlist
+
+        return "redirect:/lectors";
     }
 }
