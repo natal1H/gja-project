@@ -2,13 +2,10 @@ package fit.gja.songtrainer.service;
 
 
 import fit.gja.songtrainer.dao.RatingDao;
-
+import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Rating;
-
-import fit.gja.songtrainer.entity.User;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,13 +18,20 @@ public class RatingService {
         this.ratingDao = ratingDao;
     }
 
-
-    public List<Rating> getRatingsByUser(User user) {
-        return ratingDao.getRatingsByUser(user);
+    @Transactional
+    public Rating getRatingById(Long id) {
+        return ratingDao.getRatingById(id);
     }
 
-    public Rating getRatingById(Long id){
-       return ratingDao.getRatingById(id);
+    @Transactional
+    public void save(Rating rating) {
+        ratingDao.save(rating);
     }
+
+
+    /*public List<Rating> getRatingsBySong(Song song) {
+        return ratingDao.getRatingsBySong(song);
+    }*/
+
 
 }

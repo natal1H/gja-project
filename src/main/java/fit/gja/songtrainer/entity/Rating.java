@@ -2,6 +2,7 @@ package fit.gja.songtrainer.entity;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "rating")
@@ -12,34 +13,34 @@ public class Rating {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "tempo")
-    private String tempo;
+    @Column(name = "feelings")
+    private String feelings;
 
-    @Column(name = "rhythm")
-    private String rhythm;
+    @Column(name = "accuracy")
+    private String accuracy;
 
-    @Column(name = "technique")
-    private String technique;
 
     @Column(name = "number_of_mistakes")
     private Integer numberMistakes;
 
-    @Column(name = "external_expression")
-    private String externalExpression;
+    @Column(name = "comment")
+    private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+            CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
+    })
+    @JoinTable(name = "song_ratings",
+            joinColumns = @JoinColumn(name = "rating_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private List<Song> songs;
 
     public Rating() { }
 
-    public Rating(String tempo, String rhythm, String technique,Integer numberMistakes,String externalExpression, User user) {
-        this.tempo = tempo;
-        this.rhythm = rhythm;
-        this.technique = technique;
+    public Rating(String feelings, String accuracy, Integer numberMistakes,String comment) {
+        this.feelings = feelings;
+        this.accuracy = accuracy;
         this.numberMistakes = numberMistakes;
-        this.externalExpression = externalExpression;
-        this.user = user;
+        this.comment = comment;
     }
 
     public Long getId() {
@@ -50,29 +51,22 @@ public class Rating {
         this.id = id;
     }
 
-    public String getTempo() {
-        return tempo;
+    public String getFeelings() {
+        return feelings;
     }
 
-    public void setTempo(String tempo) {
-        this.tempo = tempo;
+    public void setFeelings(String feelings) {
+        this.feelings = feelings;
     }
 
-    public String getRhythm() {
-        return rhythm;
+    public String getAccuracy() {
+        return accuracy;
     }
 
-    public void setRhythm(String rhythm) {
-        this.rhythm = rhythm;
+    public void setAccuracy(String accuracy) {
+        this.accuracy = accuracy;
     }
 
-    public String getTechnique() {
-        return technique;
-    }
-
-    public void setTechnique(String technique) {
-        this.technique = technique;
-    }
 
     public Integer getNumberMistakes() {
         return numberMistakes;
@@ -82,20 +76,13 @@ public class Rating {
         this.numberMistakes = numberMistakes;
     }
 
-    public String getExternalExpression() {
-        return externalExpression;
+    public String getComment() {
+        return comment;
     }
 
-    public void setExternalExpression(String externalExpression) {
-        this.externalExpression = externalExpression;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 }

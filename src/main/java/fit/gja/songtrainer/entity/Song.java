@@ -64,6 +64,14 @@ public class Song {
             inverseJoinColumns = @JoinColumn(name = "playlist_id"))
     private List<Playlist> playlists;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
+    })
+    @JoinTable(name = "song_ratings",
+            joinColumns = @JoinColumn(name = "song_id"),
+            inverseJoinColumns = @JoinColumn(name = "rating_id"))
+    private List<Rating> ratings;
+
     public Song() { }
 
     public Song(String title, String artist, InstrumentEnum instrument, User user) {
@@ -182,6 +190,14 @@ public class Song {
 
     public void setPlaylists(List<Playlist> playlists) {
         this.playlists = playlists;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
     }
 
     public String getBackingTrackFilename() {

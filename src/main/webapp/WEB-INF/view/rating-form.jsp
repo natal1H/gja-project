@@ -21,26 +21,24 @@
   <form:form action="saveRating" modelAttribute="rating" method="POST">
 
     <form:hidden path="id" />
+
     <!-- Name -->
+    <input type="hidden" name="songId" value="${song.id}">
     <div class="input-group">
-      <form:label path="technique">Tempo</form:label>
-      <form:input path="tempo" class="text-input"/>
+      <form:label path="feelings">How did you feel about playing this song?</form:label>
+      <form:input path="feelings" class="text-input"/>
     </div>
     <div class="input-group">
-      <form:label path="technique">Rhythm</form:label>
-      <form:input path="rhythm" class="text-input"/>
+      <form:label path="accuracy">With what precision did you play this song?</form:label>
+      <form:input path="accuracy" class="text-input"/>
     </div>
     <div class="input-group">
-      <form:label path="technique">Technique</form:label>
-      <form:input path="technique" class="text-input"/>
-    </div>
-    <div class="input-group">
-      <form:label path="numberMistakes">Number of Mistakes</form:label>
+      <form:label path="numberMistakes">How many mistakes did you make?</form:label>
       <form:input path="numberMistakes" class="text-input"/>
     </div>
     <div class="input-group">
-      <form:label path="externalExpression">External Expression</form:label>
-      <form:input path="externalExpression" class="text-input"/>
+      <form:label path="comment">Note:</form:label>
+      <form:input path="comment" class="text-input"/>
     </div>
 
     <!-- Submit Button -->
