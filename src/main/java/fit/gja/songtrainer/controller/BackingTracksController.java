@@ -1,7 +1,6 @@
 package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.Song;
-import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.exceptions.NoBackingTrackException;
 import fit.gja.songtrainer.exceptions.SongNotFoundException;
 import fit.gja.songtrainer.service.SongService;
@@ -18,12 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Controller
 public class BackingTracksController {
@@ -36,15 +33,6 @@ public class BackingTracksController {
         this.songService = songService;
         this.storageService = storageService;
         this.userService = userService;
-    }
-
-    @PostMapping("/songs/backingTrack")
-    public void uploadBackingTrack(@RequestParam(value = "songId") Long songId, @RequestParam(value = "track") MultipartFile track) throws IOException, InvalidFileExtensionException, SongNotFoundException {
-        Song song = songService.getSongById(songId);
-        if(song == null) throw new SongNotFoundException();
-        Path savedPath = storageService.saveBackingTrack(track, song);
-        song.setBackingTrackFilename(savedPath.toString());
-        songService.save(song);
     }
 
     @GetMapping("/songs/backingTrack")

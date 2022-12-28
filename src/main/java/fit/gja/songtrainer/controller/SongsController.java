@@ -20,9 +20,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.tritonus.share.sampled.file.TAudioFileFormat;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -42,9 +47,10 @@ public class SongsController {
 
     /**
      * Class constructor, injects the necessary services
-     * @param songService Service handling database request about songs
+     *
+     * @param songService     Service handling database request about songs
      * @param playlistService Service handling database request about playlists
-     * @param userService Service handling database request about users
+     * @param userService     Service handling database request about users
      */
     public SongsController(SongService songService, PlaylistService playlistService, UserService userService, StorageService storageService) {
         this.songService = songService;
@@ -57,8 +63,9 @@ public class SongsController {
     /**
      * Controller method responsible for mapping "/songs".
      * Passes all user's songs to model for display.
+     *
      * @param instrumentStr String representation of which instrument's songs to display
-     * @param sortStr String representing sort option
+     * @param sortStr       String representing sort option
      * @return model and view object with added attributes and specified .jsp filename for "/songs"
      */
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
@@ -88,6 +95,7 @@ public class SongsController {
     /**
      * Controller method responsible for mapping "/songs/addSong".
      * Prepares data for add song form.
+     *
      * @param theModel holder of attributes
      * @return filename of .jsp that should be used for "/songs/addSong"
      */
@@ -100,6 +108,7 @@ public class SongsController {
         theModel.addAttribute("song", theSong);
         theModel.addAttribute("instruments", InstrumentEnum.values());
         theModel.addAttribute("tunings", TuningEnum.values());
+        theModel.addAttribute("allowedAudioExtensions", storageService.getAllowedBackingTrackExtensions());
 
         return "song-form";
     }
@@ -107,13 +116,14 @@ public class SongsController {
     /**
      * Controller method responsible for mapping "/songs/saveSong".
      * Takes submitted song and saves it to database.
+     *
      * @param theSong submitted song
      * @return redirects back to the songs display
      */
     // TODO - add form validations
     // TODO - remove logic from controller and do it in service
     @PostMapping("/songs/saveSong")
-    public String saveSong(@ModelAttribute("song") Song theSong, @RequestParam("backing_track") MultipartFile backingTrack) throws InvalidFileExtensionException, IOException {
+    public String saveSong(@ModelAttribute("song") Song theSong, @RequestParam("backing_track") MultipartFile backingTrack) throws InvalidFileExtensionException, IOException, UnsupportedAudioFileException {
 
         // set user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -156,13 +166,14 @@ public class SongsController {
             storageService.removeBackingTrack(theSong);
             var path = storageService.saveBackingTrack(backingTrack, theSong);
             originalSong.setBackingTrackFilename(path.toString());
-
+            originalSong.setLength(getSongDuration(path));
 
 
             songService.save(originalSong);
         } else { // song doesn't yet exist
             var path = storageService.saveBackingTrack(backingTrack, theSong);
             theSong.setBackingTrackFilename(path.toString());
+            theSong.setLength(getSongDuration(path));
             songService.save(theSong);
         }
 
@@ -171,6 +182,7 @@ public class SongsController {
 
     /**
      * Controller method responsible for mapping "/songs/delete".
+     *
      * @param theId id of the song to delete
      * @return redirects back to all songs display
      */
@@ -185,7 +197,8 @@ public class SongsController {
     /**
      * Controller method responsible for mapping "/songs/showUpdateForm".
      * Prepares data for update song form.
-     * @param theId id of the song to edit
+     *
+     * @param theId    id of the song to edit
      * @param theModel handler of attributes
      * @return filename of .jsp that should be used for "/songs/showUpdateForm"
      */
@@ -199,6 +212,8 @@ public class SongsController {
         theModel.addAttribute("instruments", InstrumentEnum.values());
         theModel.addAttribute("tunings", TuningEnum.values());
 
+        theModel.addAttribute("allowedAudioExtensions", storageService.getAllowedBackingTrackExtensions());
+
         // send over to the form
         return "song-form";
     }
@@ -206,8 +221,9 @@ public class SongsController {
     /**
      * Controller method responsible for mapping "/songs/showAddToPlaylistForm".
      * Prepares data for the form.
+     *
      * @param theSongId id of the song to add to playlist
-     * @param theModel handler of attributes
+     * @param theModel  handler of attributes
      * @return filename of .jsp with form to add song to playlist
      */
     @GetMapping("/songs/showAddToPlaylistForm")
@@ -229,7 +245,8 @@ public class SongsController {
 
     /**
      * Controller method responsible for mapping "/songs/saveSongToPlaylist".
-     * @param theSongId id of song to add to playlist
+     *
+     * @param theSongId   id of song to add to playlist
      * @param thePlaylist playlist to which add song
      * @return redirect back to all songs display
      */
@@ -240,5 +257,29 @@ public class SongsController {
         playlistService.addSongToPlaylist(thePlaylist, theSong);
 
         return "redirect:/songs?inst=ALL&sort=ArtistASC";
+    }
+
+    /**
+     * Returns backing track duration in seconds
+     *
+     * @param path path to backing track file
+     * @return Duration of audio file in seconds
+     * @throws UnsupportedAudioFileException when audio file is not supported
+     * @throws IOException                   on IO error
+     */
+    private int getSongDuration(Path path) throws UnsupportedAudioFileException, IOException {
+        var fileFormat = AudioSystem.getAudioFileFormat(path.toFile());
+        if (fileFormat instanceof TAudioFileFormat) {
+            Map<?, ?> properties = fileFormat.properties();
+            String key = "duration";
+            Long microseconds = (Long) properties.get(key);
+            return (int) (microseconds / 1000_000);
+        } else {
+            var stream = AudioSystem.getAudioInputStream(path.toFile());
+            var format = stream.getFormat();
+            var frames = stream.getFrameLength();
+            Float duration = frames / format.getFrameRate();
+            return duration.intValue();
+        }
     }
 }
