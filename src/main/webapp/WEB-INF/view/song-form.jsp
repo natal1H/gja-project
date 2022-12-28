@@ -33,7 +33,7 @@
 
             <div class="input-group">
                 <label for="backing_track">Backing track</label>
-                <input id="backing_track" type="file" name="backing_track">
+                <input id="backing_track" type="file" name="backing_track" accept="${String.join(",",allowedAudioExtensions)}">
             </div>
             <!-- Instrument -->
             <div class="input-group">

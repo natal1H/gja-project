@@ -22,7 +22,7 @@ public class StorageService {
 
     private String checkFileExtensions(MultipartFile file, List<String> extensions) throws InvalidFileExtensionException {
         String[] fileParts = file.getOriginalFilename().split("\\.");
-        String extension = fileParts[fileParts.length - 1];
+        String extension = "." + fileParts[fileParts.length - 1];
 
         if (!extensions.contains(extension))
             throw new InvalidFileExtensionException();
@@ -34,7 +34,7 @@ public class StorageService {
         if (!backingTrackDir.exists()) backingTrackDir.mkdirs(); //Create directory path if not exist
 
         String extension = checkFileExtensions(file, config.getAllowedBackingTrackExtensions());
-        File saveFile = new File(backingTrackDir, song.getId() + "." + extension);
+        File saveFile = new File(backingTrackDir, song.getId() + extension);
         file.transferTo(saveFile);
         return saveFile.toPath();
     }
@@ -44,7 +44,7 @@ public class StorageService {
         if (!profilePictureDir.exists()) profilePictureDir.mkdirs(); //Create directory path if not exist
 
         String extension = checkFileExtensions(file, config.getAllowedProfilePictureExtensions());
-        File saveFile = new File(profilePictureDir, user.getId() + "." + extension);
+        File saveFile = new File(profilePictureDir, user.getId() + extension);
         file.transferTo(saveFile);
         return saveFile.toPath();
     }
@@ -77,6 +77,14 @@ public class StorageService {
         var backingTrack = loadBackingTrack(song);
         if(backingTrack == null) return;
         backingTrack.delete();
+    }
+
+    public List<String> getAllowedBackingTrackExtensions() {
+        return config.getAllowedBackingTrackExtensions();
+    }
+
+    public List<String> getAllowedProfilePictureExtensions() {
+        return config.getAllowedProfilePictureExtensions();
     }
 
 }

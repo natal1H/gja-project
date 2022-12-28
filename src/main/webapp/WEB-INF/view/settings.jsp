@@ -53,7 +53,7 @@
             <form id="pictureForm" action="${pageContext.request.contextPath}/profilePicture" method="post"
                   enctype="multipart/form-data">
                 <label for="picture">Change profile picture:</label>
-                <input id="picture" name="picture" type="file">
+                <input id="picture" name="picture" type="file" accept="${String.join(",",allowedProfilePictureFormats)}">
                 <input type="submit" class="btn in">
             </form>
 

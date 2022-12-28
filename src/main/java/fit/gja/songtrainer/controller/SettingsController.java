@@ -18,15 +18,17 @@ public class SettingsController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final StorageService storageService;
 
     /**
      * Class constructor, injects the necessary services
      * @param userService Service handling database request about users
      * @param roleService Service handling database request about roles
      */
-    public SettingsController(UserService userService, RoleService roleService) {
+    public SettingsController(UserService userService, RoleService roleService, StorageService storageService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.storageService = storageService;
     }
 
     /**
@@ -37,6 +39,7 @@ public class SettingsController {
     @RequestMapping(value = "/settings")
     public String showSettingsPage(Model theModel) {
         User user = UserUtil.getCurrentUser(userService);
+        theModel.addAttribute("allowedProfilePictureFormats", storageService.getAllowedProfilePictureExtensions());
         theModel.addAttribute("user", user);
         return "settings";
     }
