@@ -12,7 +12,7 @@
     <script src="/js/main.js" /></script>
 </head>
 <body>
-    <tag:header></tag:header>
+<tag:header user="${user}"/>
     <div class="wrapper">
         <h2>Edit song</h2>
 

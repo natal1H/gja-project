@@ -1,6 +1,6 @@
 package fit.gja.songtrainer.entity;
 
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.InstrumentEnum;
 //import fit.gja.songtrainer.util.InstrumentConverter;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
 //import fit.gja.songtrainer.util.TuningConverter;
@@ -151,9 +151,9 @@ public class Song {
     public String getLengthStr() {
         int minutes = this.length / 60;
         int seconds = this.length - minutes * 60;
-        String secondsStr = seconds < 10 ? "0" + Integer.toString(seconds) : Integer.toString(seconds);
+        String secondsStr = seconds < 10 ? "0" + seconds : Integer.toString(seconds);
 
-        return Integer.toString(minutes) + ":" + secondsStr;
+        return minutes + ":" + secondsStr;
     }
 
     public void setLength(int length) {

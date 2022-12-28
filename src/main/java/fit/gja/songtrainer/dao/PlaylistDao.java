@@ -2,7 +2,7 @@ package fit.gja.songtrainer.dao;
 
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

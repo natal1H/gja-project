@@ -8,7 +8,7 @@ import fit.gja.songtrainer.service.PlaylistService;
 import fit.gja.songtrainer.service.SongService;
 import fit.gja.songtrainer.service.StorageService;
 import fit.gja.songtrainer.service.UserService;
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import fit.gja.songtrainer.util.SongsUtil;
 import fit.gja.songtrainer.util.Tuning.TuningEnum;
 import fit.gja.songtrainer.util.UserUtil;
@@ -65,17 +65,16 @@ public class SongsController {
      * Passes all user's songs to model for display.
      *
      * @param instrumentStr String representation of which instrument's songs to display
-     * @param sortStr       String representing sort option
      * @return model and view object with added attributes and specified .jsp filename for "/songs"
      */
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
-    public ModelAndView listSongs(@RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
+    public ModelAndView listSongs(@RequestParam("inst") String instrumentStr) {
         ModelAndView mav = new ModelAndView();
 
         User user = UserUtil.getCurrentUser(userService);
 
         // depending on GET param choose which type of songs to get
-        List<Song> theSongs = SongsUtil.getUsersSongsSorted(songService, user, sortStr);
+        List<Song> theSongs = user.getSongs();
 
         if (!InstrumentEnum.isValidStr(instrumentStr) && !instrumentStr.equals("ALL")) {
             mav.setViewName("access-denied");
@@ -177,7 +176,7 @@ public class SongsController {
             songService.save(theSong);
         }
 
-        return "redirect:/songs?inst=ALL&sort=ArtistASC";
+        return "redirect:/songs?inst=ALL";
     }
 
     /**
@@ -191,7 +190,7 @@ public class SongsController {
         // delete the song
         songService.delete(theId);
 
-        return "redirect:/songs?inst=ALL&sort=ArtistASC";
+        return "redirect:/songs?inst=ALL";
     }
 
     /**
@@ -206,6 +205,7 @@ public class SongsController {
     public String showUpdateForm(@RequestParam("songId") Long theId, Model theModel) {
         // get song from database
         Song theSong = songService.getSongById(theId);
+        var user = UserUtil.getCurrentUser(userService);
 
         // set song as a model attribute to pre-populate the form
         theModel.addAttribute("song", theSong);
@@ -213,6 +213,7 @@ public class SongsController {
         theModel.addAttribute("tunings", TuningEnum.values());
 
         theModel.addAttribute("allowedAudioExtensions", storageService.getAllowedBackingTrackExtensions());
+        theModel.addAttribute("user", user);
 
         // send over to the form
         return "song-form";
@@ -230,6 +231,7 @@ public class SongsController {
     public String showAddToPlaylistForm(@RequestParam("songId") Long theSongId, Model theModel) {
         // get song from database
         Song theSong = songService.getSongById(theSongId);
+        var user = UserUtil.getCurrentUser(userService);
 
         // Select only playlist that are for the same instrument as the song is
         List<Playlist> playlists = theSong.getUser().getPlaylists();
@@ -237,6 +239,7 @@ public class SongsController {
         playlists = playlists.stream().filter(isCorrectInstrument).collect(Collectors.toList());
 
         // add the songs to the model
+        theModel.addAttribute("user", user);
         theModel.addAttribute("song", theSong);
         theModel.addAttribute("playlists", playlists);
 
@@ -256,7 +259,7 @@ public class SongsController {
         Song theSong = songService.getSongById(theSongId);
         playlistService.addSongToPlaylist(thePlaylist, theSong);
 
-        return "redirect:/songs?inst=ALL&sort=ArtistASC";
+        return "redirect:/songs?inst=ALL";
     }
 
     /**

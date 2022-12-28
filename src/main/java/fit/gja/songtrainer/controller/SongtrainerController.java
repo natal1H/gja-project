@@ -5,7 +5,7 @@ import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.form.StudentSongForm;
 import fit.gja.songtrainer.service.*;
-import fit.gja.songtrainer.util.Instrument;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import fit.gja.songtrainer.util.Tuning;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,7 +214,7 @@ public class SongtrainerController {
 
         theModel.addAttribute("student", student);
         theModel.addAttribute("studentSongForm", studentSongForm);
-        theModel.addAttribute("instruments", Instrument.InstrumentEnum.values());
+        theModel.addAttribute("instruments", InstrumentEnum.values());
         theModel.addAttribute("tunings", Tuning.TuningEnum.values());
 
         return "lector-song-form";
@@ -228,10 +228,12 @@ public class SongtrainerController {
     ) {
         User student = userService.getUserById(studentId);
         User lector = userService.getUserById(lectorId);
+        User user = UserUtil.getCurrentUser(userService);
         var songs = songService.getSongsAssignedByLector(student, lector);
 
         theModel.addAttribute("student", student);
         theModel.addAttribute("songs", songs);
+        theModel.addAttribute("user", user);
 
         return "lector-assigned-songs";
     }
@@ -254,7 +256,7 @@ public class SongtrainerController {
         // Set song user to student
         theSong.setUser(student);
         // Tuning - if instrument other the guitar or bass set to none
-        if (theSong.getInstrument() != Instrument.InstrumentEnum.GUITAR && theSong.getInstrument() != Instrument.InstrumentEnum.BASS)
+        if (theSong.getInstrument() != InstrumentEnum.GUITAR && theSong.getInstrument() != InstrumentEnum.BASS)
             theSong.setTuning(Tuning.TuningEnum.NONE);
         songService.save(theSong);
 

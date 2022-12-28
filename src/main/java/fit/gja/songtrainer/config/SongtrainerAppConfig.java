@@ -29,7 +29,7 @@ public class SongtrainerAppConfig extends WebMvcConfigurerAdapter {
 
     // set up a logger for diagnostics
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     // define a bean for ViewResolver
 

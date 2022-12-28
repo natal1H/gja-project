@@ -1,13 +1,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Song Trainer</title>
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico"/>
     <script src="/js/main.js"></script>
     <script>
         async function removeProfilePicture() {
@@ -17,6 +17,7 @@
             console.log(response);
             location.reload()
         }
+
         document.addEventListener("DOMContentLoaded", function () {
             const pictureForm = document.getElementById("pictureForm");
             pictureForm.onsubmit = async (e) => {
@@ -40,7 +41,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<tag:header></tag:header>
+<tag:header user="${user}"></tag:header>
 <div class="wrapper">
     <h2>Settings</h2>
 
@@ -48,12 +49,14 @@
         <div>
             <img src="${pageContext.request.contextPath}/profilePicture">
             <span>
-                <button onclick="removeProfilePicture()" class="red btn"><i class="fa fa-trash"></i>Remove photo</button>
+                <button onclick="removeProfilePicture()" class="red btn"><i
+                        class="fa fa-trash"></i>Remove photo</button>
             </span>
             <form id="pictureForm" action="${pageContext.request.contextPath}/profilePicture" method="post"
                   enctype="multipart/form-data">
                 <label for="picture">Change profile picture:</label>
-                <input id="picture" name="picture" type="file" accept="${String.join(",",allowedProfilePictureFormats)}">
+                <input id="picture" name="picture" type="file"
+                       accept="${String.join(",",allowedProfilePictureFormats)}">
                 <input type="submit" class="btn in">
             </form>
 
@@ -62,66 +65,47 @@
         <div>
             <table>
                 <tr>
-                    <td>
-                        Username
-                    </td>
-                    <td>
-                        ${user.userName}
-                    </td>
+                    <td>Username</td>
+                    <td>${user.userName}</td>
                 </tr>
                 <tr>
-                    <td>
-                        First name
-                    </td>
-                    <td>
-                        ${user.firstName}
-                    </td>
+                    <td>First name</td>
+                    <td>${user.firstName}</td>
                 </tr>
                 <tr>
-                    <td>
-                        Last name
-                    </td>
-                    <td>
-                        ${user.lastName}
-                    </td>
+                    <td>Last name</td>
+                    <td>${user.lastName}</td>
                 </tr>
                 <tr>
-                    <td>
-                        Email
-                    </td>
-                    <td>
-                        ${user.email}
-                    </td>
+                    <td>Email</td>
+                    <td>${user.email}</td>
                 </tr>
                 <tr>
-                    <td>
-                        Roles
-                    </td>
-                    <td>
-                        <security:authentication property="principal.authorities" />
-                    </td>
+                    <td>Roles</td>
+                    <td><security:authentication property="principal.authorities"/></td>
                 </tr>
 
             </table>
-            <a href="${pageContext.request.contextPath}/settings/edit"><button class="btn"><i class="fa fa-pencil"></i>Edit this info</button></a>
+            <a href="${pageContext.request.contextPath}/settings/edit">
+                <button class="btn"><i class="fa fa-pencil"></i>Edit this info</button>
+            </a>
         </div>
         <div>
-            <a href="${pageContext.request.contextPath}/settings/changePassword"><button class="btn"><i class="fa fa-lock"></i>Change password</button></a>
+            <a href="${pageContext.request.contextPath}/settings/changePassword">
+                <button class="btn"><i class="fa fa-lock"></i>Change password</button>
+            </a>
             <security:authorize access="!hasRole('LECTOR')">
                 <form action="${pageContext.request.contextPath}/settings/becomeLector" method="post">
-                    <input type="submit" name="becomeLector" class="btn" value="Become a lector" />
+                    <input type="submit" name="becomeLector" class="btn" value="Become a lector"/>
                 </form>
             </security:authorize>
             <security:authorize access="hasRole('LECTOR')">
                 <form action="${pageContext.request.contextPath}/settings/stopBeingLector" method="post">
-                    <input type="submit" name="stopBeingLector" class="btn" value="Stop being a lector" />
+                    <input type="submit" name="stopBeingLector" class="btn" value="Stop being a lector"/>
                 </form>
             </security:authorize>
         </div>
     </div>
-
-
-
 
 
 </div>
@@ -133,6 +117,7 @@
         display: flex;
         justify-content: space-between;
     }
+
     .rows div {
         margin-right: 100px;
         display: flex;
@@ -165,7 +150,7 @@
     }
 
     input {
-    text-align: center
+        text-align: center
     }
 
     a {

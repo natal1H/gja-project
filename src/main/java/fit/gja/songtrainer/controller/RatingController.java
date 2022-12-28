@@ -47,6 +47,7 @@ public class RatingController {
         // add the songs to the model
         mav.addObject("ratings", ratings);
         mav.addObject("song", song);
+        mav.addObject("user", user);
 
         mav.setViewName("ratings");
 
@@ -60,8 +61,11 @@ public class RatingController {
         Song theSong = songService.getSongById(theSongId);
         Rating theRating = new Rating();
 
+        User user = UserUtil.getCurrentUser(userService);
+
         theModel.addAttribute("song", theSong);
         theModel.addAttribute("rating", theRating);
+        theModel.addAttribute("user", user);
 
         return "rating-form";
     }

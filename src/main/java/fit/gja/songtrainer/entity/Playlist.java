@@ -1,6 +1,6 @@
 package fit.gja.songtrainer.entity;
 
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.InstrumentEnum;
 
 import javax.persistence.*;
 import java.util.List;

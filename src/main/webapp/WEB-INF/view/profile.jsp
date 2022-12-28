@@ -45,7 +45,7 @@
     </script>
 </head>
 <body>
-<tag:header></tag:header>
+<tag:header user="${user}"></tag:header>
 <div class="wrapper">
     <h2>${profileUser.userName}'s profile</h2>
 
@@ -93,106 +93,7 @@
 
     Songs ${profileUser.userName} can play:<br>
 
-
-    <table>
-        <thead>
-            <th>
-                <span>
-                    Title
-                    <span class="carrets">
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=TitleDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=TitleASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
-                    </span>
-                </span>
-            </th>
-            <th>
-                <span>
-                    Artist
-                    <span class="carrets">
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=ArtistDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=ArtistASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
-                    </span>
-                </span>
-            </th>
-            <th>
-                <span>
-                    Instrument
-                    <div class="dropdown">
-                          <button onclick="filterToggle()" class="dropbtn"><span class="dropbtn"><i class="fa fa-solid fa-filter dropbtn"></i></span></button>
-                          <div id="filter" class="dropdown-content softer">
-                              <a href="${pageContext.request.contextPath}/profile?id=${user.id}&inst=ALL&sort=${pageContext.request.getParameter("sort")}">All songs</a>
-                              <a href="${pageContext.request.contextPath}/profile?id=${user.id}&inst=GUITAR&sort=${pageContext.request.getParameter("sort")}">Guitar songs</a>
-                              <a href="${pageContext.request.contextPath}/profile?id=${user.id}&inst=BASS&sort=${pageContext.request.getParameter("sort")}">Bass songs</a>
-                              <a href="${pageContext.request.contextPath}/profile?id=${user.id}&inst=DRUMS&sort=${pageContext.request.getParameter("sort")}">Drums songs</a>
-                              <a href="${pageContext.request.contextPath}/profile?id=${user.id}&inst=PIANO&sort=${pageContext.request.getParameter("sort")}">Piano songs</a>
-                          </div>
-                    </div>
-
-                </span>
-            </th>
-            <th>
-                <span>
-                    Tuning
-                </span>
-            </th>
-            <th>
-                <span>
-                    Length
-                    <span class="carrets">
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=LengthDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=LengthASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
-                    </span>
-                </span>
-            </th>
-            <th>
-                <span>
-                    Times Played
-                    <span class="carrets">
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=TimesPlayedDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=TimesPlayedASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
-                    </span>
-                </span>
-            </th>
-            <th>
-                <span>
-                    Last Played
-                    <span class="carrets">
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=LastPlayedDESC"><i class="fa fa-sharp fa-solid fa-caret-up"></i></a>
-                        <a href="${pageContext.request.contextPath}/profile?id=${pageContext.request.getParameter("id")}&inst=${pageContext.request.getParameter("inst")}&sort=LastPlayedASC"><i class="fa fa-sharp fa-solid fa-caret-down"></i></a>
-                    </span>
-                </span>
-            </th>
-        </thead>
-
-        <!-- Loop over and print songs -->
-        <c:forEach var="tempSong" items="${songs}">
-            <tr>
-                <td>${tempSong.title}</td>
-                <td>${tempSong.artist}</td>
-                <td>${tempSong.instrumentStr}</td>
-                <td>
-                    <c:choose>
-                        <c:when test="${tempSong.tuning!=null}">
-                            ${tempSong.tuningStr}
-                        </c:when>
-                        <c:otherwise>
-                            -
-                        </c:otherwise>
-                    </c:choose>
-                </td>
-                <td>${tempSong.lengthStr}</td>
-                <td>${tempSong.times_played}</td>
-                <td><c:choose>
-                    <c:when test="${tempSong.last_played!=null}">
-                        ${tempSong.last_played}
-                    </c:when>
-                    <c:otherwise>
-                        Never
-                    </c:otherwise>
-                </c:choose></td>
-            </tr>
-        </c:forEach>
-    </table>
+    <tag:songList songs="${songs}" showVisibleColumn="false" showPlayButton="false" editable="false" showRemoveFromPlaylist="false" showAddToPlaylist="false"/>
 </body>
 </html>
 

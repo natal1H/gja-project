@@ -14,7 +14,7 @@
     <script src="/js/main.js" /></script>
 </head>
 <body>
-    <tag:header></tag:header>
+    <tag:header user="${user}"></tag:header>
 
     <div class="wrapper">
         <h2>Home</h2>
@@ -25,7 +25,7 @@
         </form:form>
 
         <c:forEach var="tempUser" items="${users}">
-        <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL&sort=ArtistASC">${tempUser.userName}</a><br>
+        <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL">${tempUser.userName}</a><br>
         </c:forEach><br>
 
         <div class="playlists-title">
@@ -55,7 +55,7 @@
                 </c:url>
 
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}&sort=ArtistASC">${tempPlaylist.name}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}">${tempPlaylist.name}</a></td>
                     <td>${tempPlaylist.instrumentStr}</td>
                     <td class="icons">
                         <a href="${updatePlaylistLink}"><button class="pencil"><i class="fa fa-solid fa-pencil"></i></button></a>
@@ -70,10 +70,10 @@
 
         <h3>Followed users</h3>
         <c:forEach var="follow" items="${followed}">
-            <a href="/profile?id=${follow.key.id}&inst=ALL&sort=ArtistASC">${follow.key.userName}</a><br>
+            <a href="/profile?id=${follow.key.id}&inst=ALL">${follow.key.userName}</a><br>
             <br/>
             <c:forEach var="playlist" items="${follow.value}">
-                <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.id}&sort=ArtistASC">${playlist.name}</a></td>
+                <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.id}">${playlist.name}</a></td>
             </c:forEach>
         </c:forEach>
 

@@ -4,9 +4,7 @@ import fit.gja.songtrainer.dao.PlaylistDao;
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
-import fit.gja.songtrainer.util.SongsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,10 +61,6 @@ public class PlaylistService {
             playlist.getSongs().add(song);
             playlistDao.save(playlist);
         }
-    }
-
-    public List<Song> getSortedPlaylistsSongsByOption(Playlist playlist, String sortStr) {
-        return SongsUtil.sortSongS(playlist.getSongs(), sortStr);
     }
 
     public List<Playlist> getPublicPlaylistsForUser(User user) {

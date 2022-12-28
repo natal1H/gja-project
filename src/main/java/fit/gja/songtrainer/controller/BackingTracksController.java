@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.Date;
+import java.time.Instant;
 
 @Controller
 public class BackingTracksController {
@@ -61,6 +63,7 @@ public class BackingTracksController {
     public void addTimesPlayed(@RequestParam(value = "songId") Long songId) {
         var song = songService.getSongById(songId);
         song.setTimes_played(song.getTimes_played() + 1);
+        song.setLast_played(Date.from(Instant.now()));
         songService.save(song);
     }
 }

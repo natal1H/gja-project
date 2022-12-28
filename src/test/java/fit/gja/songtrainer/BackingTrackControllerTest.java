@@ -5,7 +5,7 @@ import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.service.*;
-import fit.gja.songtrainer.util.Instrument;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = BackingTracksController.class)
 public class BackingTrackControllerTest {
     private final User user = new User("tester", "test", "test", "test", "test@test.test");
-    private final Song song = new Song("Test", "Test", Instrument.InstrumentEnum.GUITAR, user);
-    private final Song song2 = new Song("Test2", "Test2", Instrument.InstrumentEnum.GUITAR, user);
+    private final Song song = new Song("Test", "Test", InstrumentEnum.GUITAR, user);
+    private final Song song2 = new Song("Test2", "Test2", InstrumentEnum.GUITAR, user);
     private final MockMultipartFile file = new MockMultipartFile("testFile", "testFile.png", "audio/mpeg", (byte[]) null);
 
     @MockBean

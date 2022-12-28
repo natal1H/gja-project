@@ -16,7 +16,7 @@
     <script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.cursor.min.js" type="text/javascript"></script>
 </head>
 <body>
-<tag:header></tag:header>
+<tag:header user="${user}"></tag:header>
 
 
 <div class="wrapper">
@@ -89,8 +89,6 @@
             method: 'POST',
         })
             .then(() => window.location.href = "${addRating}")
-
-        //TODO: Add to times played and redirect to evaluation page
     })
 </script>
 </body>

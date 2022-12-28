@@ -2,7 +2,7 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.service.*;
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,11 +60,10 @@ public class PlaylistController {
     /**
      * Controller method responsible for mapping "/playlist"
      * @param playlistId id of playlists to display
-     * @param sortStr sorting option
      * @return model with attributes and selected view
      */
     @RequestMapping(value = "/playlist", method = RequestMethod.GET)
-    public ModelAndView listAllSongsInPlaylist(@RequestParam("id") Long playlistId, @RequestParam("sort") String sortStr) {
+    public ModelAndView listAllSongsInPlaylist(@RequestParam("id") Long playlistId) {
         ModelAndView mav = new ModelAndView();
 
         User user = UserUtil.getCurrentUser(userService);
@@ -83,11 +82,9 @@ public class PlaylistController {
             return mav;
         }
 
-        List<Song> theSongs = playlistService.getSortedPlaylistsSongsByOption(thePlaylist, sortStr);
-
         // Add playlist and songs to model
         mav.addObject("playlist", thePlaylist);
-        mav.addObject("songs", theSongs);
+        mav.addObject("user", user);
 
         mav.setViewName("playlist");
 
@@ -147,7 +144,7 @@ public class PlaylistController {
         }
 
 
-        return "redirect:/playlist?id=" + thePlaylist.getId() + "&sort=ArtistASC";
+        return "redirect:/playlist?id=" + thePlaylist.getId();
     }
 
     /**
@@ -161,7 +158,7 @@ public class PlaylistController {
         // delete the song
         songService.delete(theSongId);
 
-        return "redirect:/playlist?id=" + thePlaylistId + "&sort=ArtistASC";
+        return "redirect:/playlist?id=" + thePlaylistId;
     }
 
     /**
@@ -188,9 +185,11 @@ public class PlaylistController {
     public String showUpdateForm(@RequestParam("playlistId") Long theId, Model theModel) {
         // get song from database
         Playlist thePlaylist = playlistService.getPlaylistById(theId);
+        var user = UserUtil.getCurrentUser(userService);
 
         // set song as a model attribute to pre-populate the form
         theModel.addAttribute("playlist", thePlaylist);
+        theModel.addAttribute("user", user);
         theModel.addAttribute("instruments", InstrumentEnum.values());
 
         // send over to the form
@@ -210,6 +209,6 @@ public class PlaylistController {
 
         playlistService.deleteSongFromPlaylist(thePlaylist, theSong);
 
-        return "redirect:/playlist?id=" + thePlaylistId + "&sort=ArtistASC";
+        return "redirect:/playlist?id=" + thePlaylistId;
     }
 }

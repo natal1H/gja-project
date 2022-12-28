@@ -1,11 +1,10 @@
 package fit.gja.songtrainer.service;
 
-import fit.gja.songtrainer.dao.PlaylistDao;
 import fit.gja.songtrainer.dao.RoleDao;
 import fit.gja.songtrainer.dao.UserDao;
-import fit.gja.songtrainer.entity.*;
+import fit.gja.songtrainer.entity.Role;
+import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.user.CrmUser;
-import fit.gja.songtrainer.util.Instrument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,8 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +52,7 @@ public class UserService implements UserDetailsService {
         user.setEmail(crmUser.getEmail());
 
         // give user default role of "user"
-        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_USER")));
+        user.setRoles(Collections.singletonList(roleDao.findRoleByName("ROLE_USER")));
         // save user in the database
         userDao.save(user);
     }

@@ -9,7 +9,7 @@
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
 </head>
 <body>
-    <tag:header></tag:header>
+<tag:header user="${user}"></tag:header>
 
     <div class="wrapper">
         <h2 style="text-align: center">User registered successfully!</h2>

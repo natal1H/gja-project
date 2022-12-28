@@ -5,7 +5,7 @@ import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.FriendAlreadyExistException;
 import fit.gja.songtrainer.exceptions.UserNotFoundException;
 import fit.gja.songtrainer.service.*;
-import fit.gja.songtrainer.util.Instrument.InstrumentEnum;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import fit.gja.songtrainer.util.SongsUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,11 +46,10 @@ public class ProfileController {
      * Controller method responsible for mapping "/profile".
      * @param userIdStr id of user whose profile to show
      * @param instrumentStr instrument option string
-     * @param sortStr sorting option
      * @return model with added attributes and selected view
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView showProfile(@RequestParam("id") String userIdStr, @RequestParam("inst") String instrumentStr, @RequestParam("sort") String sortStr) {
+    public ModelAndView showProfile(@RequestParam("id") String userIdStr, @RequestParam("inst") String instrumentStr) {
         ModelAndView mav = new ModelAndView();
 
         // get logged in user
@@ -77,7 +76,6 @@ public class ProfileController {
         if (!Objects.equals(instrumentStr, "ALL")) {
             theSongs = SongsUtil.filterSongsByInstrument(theSongs, instrumentStr);
         }
-        theSongs = SongsUtil.sortSongS(theSongs, sortStr); // sort songs
 
         // check if user is lector
         boolean isLector = profileUser.getRoles().contains(roleService.findRoleByName("ROLE_LECTOR"));

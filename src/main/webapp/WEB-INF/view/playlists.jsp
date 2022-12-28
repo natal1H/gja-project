@@ -14,7 +14,7 @@
   <script src="/js/main.js" />"></script>
 </head>
 <body>
-<tag:header></tag:header>
+<tag:header user="${user}"></tag:header>
 
 <div class="wrapper">
   <div class="playlists-title">
@@ -49,7 +49,7 @@
       </c:url>
 
       <tr>
-        <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}&sort=ArtistASC">${tempPlaylist.name}</a></td>
+        <td><a href="${pageContext.request.contextPath}/playlist?id=${tempPlaylist.id}">${tempPlaylist.name}</a></td>
         <td>${tempPlaylist.instrumentStr}</td>
         <td class="icons">
           <a href="${updatePlaylistLink}"><button class="pencil"><i class="fa fa-solid fa-pencil"></i></button></a>

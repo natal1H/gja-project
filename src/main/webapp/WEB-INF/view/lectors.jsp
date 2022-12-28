@@ -13,7 +13,7 @@
     <script src="/js/main.js" /></script>
 </head>
 <body>
-    <tag:header></tag:header>
+<tag:header user="${user}"></tag:header>
 
     <div class="wrapper">
         <h2>Lectors Page</h2>
@@ -25,7 +25,7 @@
             <input type ="submit" value="Search">
         </form:form>
         <c:forEach var="tempUser" items="${users}">
-            <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL&sort=ArtistASC">${tempUser.userName}</a><br>
+            <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL">${tempUser.userName}</a><br>
         </c:forEach><br>
 
         <div class="students-title">
@@ -62,7 +62,7 @@
                 </c:url>
 
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/profile?id=${tempStudent.id}&inst=ALL&sort=ArtistASC">${tempStudent.userName}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/profile?id=${tempStudent.id}&inst=ALL">${tempStudent.userName}</a></td>
                     <td>${tempStudent.firstName}</td>
                     <td>${tempStudent.lastName}</td>
                         <td>

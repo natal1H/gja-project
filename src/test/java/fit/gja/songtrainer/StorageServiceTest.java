@@ -5,7 +5,7 @@ import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.service.StorageService;
-import fit.gja.songtrainer.util.Instrument;
+import fit.gja.songtrainer.util.InstrumentEnum;
 import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 public class StorageServiceTest {
     private final Path rootPath = Paths.get("./storageServiceTest");
-    private StorageService storageService = new StorageService(
+    private final StorageService storageService = new StorageService(
             new StorageServiceConfig(
                     rootPath,
                     Paths.get("backingTracks"), Paths.get("profilePictures"), Lists.list("mp3"),
@@ -29,7 +29,7 @@ public class StorageServiceTest {
     );
 
     private final User user = new User("tester", "test", "test", "test", "test@test.test");
-    private final Song song = new Song("Test", "Test", Instrument.InstrumentEnum.GUITAR, user);
+    private final Song song = new Song("Test", "Test", InstrumentEnum.GUITAR, user);
 
     @Before
     public void before() {
@@ -56,7 +56,7 @@ public class StorageServiceTest {
     public void fileLoad() throws InvalidFileExtensionException, IOException {
         File file = new File(rootPath.toFile(), song.getId() + ".mp3");
         file.createNewFile();
-        song.setBackingTrackFilename(file.getPath().toString());
+        song.setBackingTrackFilename(file.getPath());
         File file2 = storageService.loadBackingTrack(song);
         assertEquals(file, file2);
     }

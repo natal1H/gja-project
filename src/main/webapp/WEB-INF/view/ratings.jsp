@@ -14,7 +14,7 @@
   <script src="/js/main.js" />"></script>
 </head>
 <body>
-<tag:header></tag:header>
+<tag:header user="${user}"></tag:header>
 
 <div class="wrapper">
   <div class="playlists-title">
