@@ -4,17 +4,20 @@ import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.exceptions.NoBackingTrackException;
 import fit.gja.songtrainer.exceptions.SongNotFoundException;
-import fit.gja.songtrainer.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import fit.gja.songtrainer.service.SongService;
+import fit.gja.songtrainer.service.StorageService;
+import fit.gja.songtrainer.service.UserService;
+import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,13 +25,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@RestController
+@Controller
 public class BackingTracksController {
-    @Autowired
-    private SongService songService;
+    private final SongService songService;
 
-    @Autowired
-    private StorageService storageService;
+    private final StorageService storageService;
+    private final UserService userService;
+
+    public BackingTracksController(SongService songService, StorageService storageService, UserService userService) {
+        this.songService = songService;
+        this.storageService = storageService;
+        this.userService = userService;
+    }
 
     @PostMapping("/songs/backingTrack")
     public void uploadBackingTrack(@RequestParam(value = "songId") Long songId, @RequestParam(value = "track") MultipartFile track) throws IOException, InvalidFileExtensionException, SongNotFoundException {
@@ -49,5 +57,22 @@ public class BackingTracksController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(contentType));
         return new ResponseEntity<>(new FileSystemResource(track), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/song")
+    public String getPlayPage(@RequestParam(value = "songId") Long songId, Model model) {
+        var song = songService.getSongById(songId);
+        var user = UserUtil.getCurrentUser(userService);
+        model.addAttribute("song", song);
+        model.addAttribute("user", user);
+
+        return "song-play";
+    }
+
+    @PostMapping("/songs/addTimesPlayed")
+    public void addTimesPlayed(@RequestParam(value = "songId") Long songId) {
+        var song = songService.getSongById(songId);
+        song.setTimes_played(song.getTimes_played() + 1);
+        songService.save(song);
     }
 }
