@@ -37,12 +37,6 @@ public class SongService {
     }
 
     @Transactional
-    public void deletePlaylistFromSong(Song song, Playlist playlist) {
-        song.getPlaylists().remove(playlist);
-        songDao.save(song);
-    }
-
-    @Transactional
     public void save(Song theSong) {
         songDao.save(theSong);
     }

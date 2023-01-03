@@ -4,10 +4,12 @@ import fit.gja.songtrainer.entity.*;
 import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.InstrumentEnum;
 import fit.gja.songtrainer.util.UserUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -110,41 +112,24 @@ public class PlaylistController {
 
     /**
      * Controller method responsible for mapping "/playlist/savePlaylist"
-     * @param thePlaylist the playlist which to save
+     * @param playlist the playlist which to save
      * @return redirects to saved playlist
      */
     // TODO - add form validations
     // TODO - remove logic from controller and do it in service
     @PostMapping("/playlist/savePlaylist")
-    public String saveSong(@ModelAttribute("playlist") Playlist thePlaylist) {
+    public String saveSong(@ModelAttribute("playlist") Playlist playlist) {
         // set user
         User user = UserUtil.getCurrentUser(userService);
-        thePlaylist.setUser(user);
+        playlist.setUser(user);
 
-        // try to see if playlist already exists:
-        if (thePlaylist.getId() != null) {
-            // Find original playlist in db
-            Playlist originalPlaylist = playlistService.getPlaylistById(thePlaylist.getId());
-
-            // if different instrument now, remove song from playlists
-            if (originalPlaylist.getInstrument() != thePlaylist.getInstrument()) {
-                for (Song tempSong : originalPlaylist.getSongs()) { // remove playlist from all songs it had
-                    songService.deletePlaylistFromSong(tempSong, originalPlaylist);
-                }
-                List<Song> allSongs = originalPlaylist.getSongs();
-                originalPlaylist.getSongs().removeAll(allSongs);
-            }
-            originalPlaylist.setName(thePlaylist.getName());
-            originalPlaylist.setInstrument(thePlaylist.getInstrument());
-            originalPlaylist.setPublic(thePlaylist.isPublic());
-
-            playlistService.save(originalPlaylist);
-        } else {
-            playlistService.save(thePlaylist);
+        if(playlist.getInstrument() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing required instrument value");
         }
 
+        playlistService.updatePlaylist(playlist);
 
-        return "redirect:/playlist?id=" + thePlaylist.getId();
+        return "redirect:/playlist?id=" + playlist.getId();
     }
 
     /**
