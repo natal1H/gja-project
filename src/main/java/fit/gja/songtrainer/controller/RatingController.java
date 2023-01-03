@@ -71,7 +71,12 @@ public class RatingController {
     }
 
     @PostMapping("/rating/saveRating")
-    public String saveRating(@ModelAttribute("rating") Rating theRating,@RequestParam("songId") Long theSongId) {
+    public String saveRating(
+            @ModelAttribute("rating") Rating theRating,
+            @RequestParam("songId") Long theSongId,
+            @RequestParam(value = "playlistId", required = false) Long playlistId,
+            @RequestParam(value = "nextSongId", required = false) Long nextSongId
+    ) {
         Song song = songService.getSongById(theSongId);
         // try to see if rating already exists:
         if (theRating.getId() != null) {
@@ -91,6 +96,9 @@ public class RatingController {
             ratingService.save(theRating);
         }
 
+        if(playlistId != null && nextSongId != null) {
+            return "redirect:/song?songId=" + nextSongId + "&playlistId=" + playlistId;
+        }
 
         return "redirect:/rating/showAll?songId=" + song.getId();
     }

@@ -2,7 +2,7 @@ package fit.gja.songtrainer.service;
 
 import fit.gja.songtrainer.entity.Playlist;
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.exceptions.FriendAlreadyExistException;
+import fit.gja.songtrainer.exceptions.AlreadyFollowingException;
 import fit.gja.songtrainer.exceptions.UserNotFoundException;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +35,11 @@ public class FollowerService {
         return user.getFollowed();
     }
 
-    public void addFollow(User userToFollow) throws UserNotFoundException, FriendAlreadyExistException {
+    public void addFollow(User userToFollow) throws UserNotFoundException, AlreadyFollowingException {
         var user = UserUtil.getCurrentUser(userService);
         if(userToFollow == null) throw new UserNotFoundException();
 
-        if(user.getFollowed().contains(userToFollow)) throw new FriendAlreadyExistException();
+        if(user.getFollowed().contains(userToFollow)) throw new AlreadyFollowingException();
         user.getFollowed().add(userToFollow);
         userService.save(user);
     }

@@ -53,7 +53,7 @@
 
             <div style="display: flex; align-items: center">
                 <div>
-                    <img src="${pageContext.request.contextPath}/profilePicture" style="max-width: 150px; max-height: 150px;" onerror="this.onerror=null;this.src='/img/img.png';">
+                    <img src="${pageContext.request.contextPath}/profilePicture?userId=${profileUser.id}" style="max-width: 150px; max-height: 150px;" onerror="this.onerror=null;this.src='/img/img.png';">
 
                 </div>
                 <div>

@@ -15,6 +15,9 @@
 <body>
 <tag:header user="${user}"></tag:header>
 
+<c:set var="playlistId" value='<%=request.getParameter("playlistId")%>'/>
+<c:set var="nextSongId" value='<%=request.getParameter("nextSongId")%>'/>
+
 <div class="wrapper">
   <h2>New rating</h2>
 
@@ -52,6 +55,9 @@
 
     <!-- Submit Button -->
     <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle-o"></i> <span>SAVE</span></button>
+
+    <input type="hidden" name="playlistId" value="${playlistId}">
+    <input type="hidden" name="nextSongId" value="${nextSongId}">
 
   </form:form>
 </div>

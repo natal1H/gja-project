@@ -2,7 +2,7 @@ package fit.gja.songtrainer.controller;
 
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
-import fit.gja.songtrainer.exceptions.FriendAlreadyExistException;
+import fit.gja.songtrainer.exceptions.AlreadyFollowingException;
 import fit.gja.songtrainer.exceptions.UserNotFoundException;
 import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.InstrumentEnum;
@@ -96,14 +96,25 @@ public class ProfileController {
         return mav;
     }
 
+    /**
+     * Follow specific user. Public playlists of this user will be visible on main page
+     * @param userId id of followed user
+     * @throws UserNotFoundException if user with specified id was not found
+     * @throws AlreadyFollowingException if user is already followed
+     */
     @PostMapping("/profile/follow")
-    public void follow(@RequestParam Long userId) throws UserNotFoundException, FriendAlreadyExistException {
+    public void follow(@RequestParam Long userId) throws UserNotFoundException, AlreadyFollowingException {
         User user = userService.getUserById(userId);
         followerService.addFollow(user);
     }
 
+    /**
+     * Unfollows specific user
+     * @param userId id of followed user
+     * @throws UserNotFoundException user with speficied id was not found
+     */
     @PostMapping("/profile/unfollow")
-    public void unfollow(@RequestParam Long userId) throws UserNotFoundException, FriendAlreadyExistException {
+    public void unfollow(@RequestParam Long userId) throws UserNotFoundException {
         User user = userService.getUserById(userId);
         followerService.removeFollow(user);
     }

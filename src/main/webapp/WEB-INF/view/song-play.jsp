@@ -20,6 +20,7 @@
 
 
 <div class="wrapper">
+    Next song ${nextSong}
     <h1>${song.artist} - ${song.title}</h1>
 
     <div id="loading">
@@ -60,7 +61,10 @@
 
 <c:url var="addRating" value="/rating/addRating">
     <c:param name="songId" value="${song.id}"/>
+    <c:param name="nextSongId" value="${nextSongId}"/>
+    <c:param name="playlistId" value="${playlistId}"/>
 </c:url>
+
 <script>
     let wavesurfer = WaveSurfer.create({
         container: document.querySelector('#waveform'),

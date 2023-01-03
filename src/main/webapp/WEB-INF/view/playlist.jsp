@@ -29,24 +29,22 @@
     <div class="top">
         <h2>${playlist.name} (${playlist.instrumentStr})</h2>
         <span class="icons">
-                <a href="${updatePlaylistLink}" class="pencil"><i class="fa fa-solid fa-pencil"></i></a>
-                <a href="${deletePlaylistLink}" class="trash"
-                   onclick="if (!(confirm('Are you sure you want to delete this playlist?'))) return false"><i
-                        class="fa fa-solid fa-trash"></i></a>
-            </span>
+            <a href="${updatePlaylistLink}" class="pencil"><i class="fa fa-solid fa-pencil"></i></a>
+            <a href="${deletePlaylistLink}" class="trash"
+               onclick="if (!(confirm('Are you sure you want to delete this playlist?'))) return false"><i
+                    class="fa fa-solid fa-trash"></i></a>
 
+            <c:if test="${not empty playlist.songs}">
+                <c:url var="playPlaylist" value="/song">
+                    <c:param name="songId" value="${playlist.songs[0].id}"/>
+                    <c:param name="playlistId" value="${playlist.id}"/>
+                </c:url>
+                <a href="${playPlaylist}">
+                    Play playlist
+                </a>
+            </c:if>
+        </span>
     </div>
-
-    <!-- construct an "update" link with song id -->
-    <c:url var="updateLink" value="/songs/showUpdateForm">
-        <c:param name="songId" value="${tempSong.id}"/>
-    </c:url>
-
-    <!-- construct a "delete" link with song id -->
-    <c:url var="deleteLink" value="/playlist/deleteSong">
-        <c:param name="songId" value="${tempSong.id}"/>
-        <c:param name="playlistId" value="${playlist.id}"/>
-    </c:url>
 
 
     <tag:songList songs="${playlist.songs}" showVisibleColumn="true" showPlayButton="true" editable="true" showRemoveFromPlaylist="true" showAddToPlaylist="false"/>

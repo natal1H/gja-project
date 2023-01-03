@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(
         value = HttpStatus.BAD_REQUEST,
-        reason = "Friend you are trying to add already exists"
+        reason = "User already followed"
 )
-public class FriendAlreadyExistException extends Exception {
+public class AlreadyFollowingException extends Exception {
 }
