@@ -46,7 +46,7 @@
     </div>
     <div class="input-group">
       <form:label path="numberMistakes">How many mistakes did you make?</form:label>
-      <form:input path="numberMistakes" class="text-input num" type="number" value="0"/>
+      <form:input path="numberMistakes" class="text-input num" type="number" value="0" min="0"/>
     </div>
     <div class="input-group">
       <form:label path="comment">Note:</form:label>
