@@ -14,21 +14,55 @@
     <div class="wrapper">
       <h2>Add song to playlist</h2>
 
-      Song: ${song.artist} - ${song.title} (${song.instrumentStr})
-      <hr>
+        <form:form action="saveSongToPlaylist" method="post">
+        <table>
+            <tr>
+                <td>Song</td>
+                <td>${song.artist} - ${song.title} (${song.instrumentStr})</td>
+            </tr>
+            <tr>
+                <td>Playlist</td>
+                <td>
+                    <input type="hidden" name="songId" value="${song.id}">
+                    <select name="playlist">
+                        <c:forEach var="tempPlaylist" items="${playlists}">
+                            <option value="${tempPlaylist.id}">${tempPlaylist.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+        </table>
 
-      <form:form action="saveSongToPlaylist" method="post">
-          <input type="hidden" name="songId" value="${song.id}">
-          <select name="playlist">
-              <c:forEach var="tempPlaylist" items="${playlists}">
-                  <option value="${tempPlaylist.id}">${tempPlaylist.name}</option>
-              </c:forEach>
-          </select>
-          <br>
+
 
           <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary">SAVE</button>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle-o"></i> <span>SAVE</span></button>
       </form:form>
     </div>
 </body>
 </html>
+
+<style>
+    .btn {
+        padding: 12px 20px;
+        background-color: #13b992;
+        color: #1a1d28;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: linear 0.3s;
+        display: flex;
+        width: 120px;
+        justify-content: space-between;
+        cursor: pointer;
+        align-items: baseline;
+        font-size: 16px;
+    }
+
+    select {
+        background-color: transparent;
+        color: white;
+        padding: 10px;
+        border: 1px solid white;
+        border-radius: 10px;
+    }
+</style>

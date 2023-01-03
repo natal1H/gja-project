@@ -19,15 +19,6 @@
     <div class="wrapper">
         <h2>Home</h2>
 
-        <form:form action="${pageContext.request.contextPath}/search"  method="post">
-            Search Users By Name: <input type="text" name="keyword" />
-            <input type ="submit" value="Search">
-        </form:form>
-
-        <c:forEach var="tempUser" items="${users}">
-        <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL">${tempUser.userName}</a><br>
-        </c:forEach><br>
-
         <div class="playlists-title">
             <h3>My playlists</h3>
             <a href="${pageContext.request.contextPath}/playlist/addPlaylist"><i class="fa fa-solid fa-plus"></i> Add</a>
@@ -68,15 +59,30 @@
             </tbody>
         </table>
 
-        <h3>Followed users</h3>
-        <c:forEach var="follow" items="${followed}">
-            <a href="/profile?id=${follow.key.id}&inst=ALL">${follow.key.userName}</a><br>
-            <br/>
-            <c:forEach var="playlist" items="${follow.value}">
-                <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.id}">${playlist.name}</a></td>
-            </c:forEach>
-        </c:forEach>
+        <div class="users">
+            <div>
+                <h3>My Followed users</h3>
+                <c:forEach var="follow" items="${followed}">
+                    <a href="/profile?id=${follow.key.id}&inst=ALL" class="user"><i class="fa fa-solid fa-user"></i> ${follow.key.userName}</a><br><br>
+                    <c:forEach var="playlist" items="${follow.value}">
+                        <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.id}">${playlist.name}</a></td>
+                    </c:forEach>
+                </c:forEach>
+            </div>
+            <div>
+                <h3>Search users</h3>
+                <form:form action="${pageContext.request.contextPath}/search"  method="post">
+                    <input type="text" name="keyword" placeholder="username"/>
+                    <input type ="submit" value="Search">
+                </form:form><br>
 
+                <c:forEach var="tempUser" items="${users}">
+                    <a href="${pageContext.request.contextPath}/profile?id=${tempUser.id}&inst=ALL" class="user"><i class="fa fa-solid fa-user"></i> ${tempUser.userName}</a><br><br>
+                </c:forEach><br>
+            </div>
+
+
+        </div>
 
     </div>
 </body>
@@ -101,6 +107,35 @@
     }
     .playlists-title a:hover {
         box-shadow: 0px 0px 5px 5px rgba(19, 185, 146, 0.24);
+    }
+
+    form input {
+        background-color: transparent;
+        color: white;
+        border-radius: 7px;
+        border: 1px solid white;
+        padding: 7px;
+    }
+
+    .users {
+        display: flex;
+        justify-content: space-between;
+    }
+    .users div {
+        width: 50%;
+    }
+
+    .user {
+        background-color: #13b992;
+        color: #1F2230;
+        border-radius: 14px;
+        padding: 7px;
+        text-decoration: none;
+        margin-bottom: 3px;
+    }
+
+    .user i {
+        padding-right: 5px;
     }
 
 </style>
