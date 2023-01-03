@@ -214,4 +214,21 @@
         color: #ee7b1d;
         border: 1px solid #ee7b1d;
     }
+
+    label {
+        padding-right: 15px;
+    }
+
+    select {
+        color: white;
+        background-color: transparent;
+        border-radius: 7px;
+        padding: 5px;
+    }
+    select option {
+        color: white;
+        background-color: #1F2230;
+        text-indent: 5px;
+    }
+
 </style>

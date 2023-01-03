@@ -47,8 +47,9 @@
 
     <div class="rows">
         <div>
-            <img src="${pageContext.request.contextPath}/profilePicture">
+            <img src="${pageContext.request.contextPath}/profilePicture" style="max-width: 150px; max-height: 150px;" onerror="this.onerror=null;this.src='/img/img.png';">
             <span>
+                <!-- TODO: do not allow user to remove non existing photo -->
                 <button onclick="removeProfilePicture()" class="red btn"><i
                         class="fa fa-trash"></i>Remove photo</button>
             </span>
@@ -167,7 +168,7 @@
         padding-right: 20px;
     }
 
-    form {
+    #pictureForm {
         margin-top: 20px;
     }
 

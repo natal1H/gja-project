@@ -80,12 +80,16 @@ public class ProfileController {
         // check if user is lector
         boolean isLector = profileUser.getRoles().contains(roleService.findRoleByName("ROLE_LECTOR"));
 
+        // check if users profile is active users profile
+        boolean isCurrent = Objects.equals(user.getId(), profileUser.getId());
+
         // add attributes to the model
         mav.addObject("user", user);
         mav.addObject("profileUser", profileUser);
         mav.addObject("songs", theSongs);
         mav.addObject("isLector", isLector);
         mav.addObject("isFollowed", followerService.getFollowedUsers().contains(profileUser));
+        mav.addObject("isCurrent", isCurrent);
 
         mav.setViewName("profile");
 

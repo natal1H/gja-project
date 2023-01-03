@@ -47,51 +47,82 @@
 <body>
 <tag:header user="${user}"></tag:header>
 <div class="wrapper">
-    <h2>${profileUser.userName}'s profile</h2>
+    <div class="rows">
+        <div>
+            <h2>${profileUser.userName}'s profile</h2>
 
-    First name: ${profileUser.firstName} <br>
-    Last name: ${profileUser.lastName}<br>
+            <div style="display: flex; align-items: center">
+                <div>
+                    <img src="${pageContext.request.contextPath}/profilePicture" style="max-width: 150px; max-height: 150px;" onerror="this.onerror=null;this.src='/img/img.png';">
 
-    <!-- construct a "addStudent" link with lector & student id -->
-    <c:url var="addStudentLink" value="/addStudent">
-        <c:param name="studentId" value="${profileUser.id}" />
-        <c:param name="lectorId" value="${user.id}" />
-    </c:url>
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <td>First name</td>
+                            <td>${profileUser.firstName}</td>
+                        </tr>
+                        <tr>
+                            <td>Last name</td>
+                            <td>${profileUser.lastName}</td>
+                        </tr>
+                    </table>
+                </div>
 
-    <!-- construct a "addLector" link with lector & student id -->
-    <c:url var="addLectorLink" value="/addLector">
-        <c:param name="studentId" value="${user.id}" />
-        <c:param name="lectorId" value="${profileUser.id}" />
-    </c:url>
+            </div>
 
-    <!-- TODO: do not allow user to add themselves -->
-    <security:authorize access="hasRole('LECTOR')">
-        <a href="${addStudentLink}">
-            <button class="plus-btn"><i class="fa fa-solid fa-plus"></i>Add as student</button>
-        </a>
-    </security:authorize>
-    <!-- TODO: do not allow user to add themselves -->
-    <c:if test="${isLector}">
-        <a href="${addLectorLink}">
-            <button class="plus-btn"><i class="fa fa-solid fa-plus"></i>Add as lector</button>
-        </a>
-    </c:if>
 
-    <c:choose>
-        <c:when test="${isFollowed}">
-            <button onclick="unfollow(${profileUser.id})">Unfollow</button>
-        </c:when>
-        <c:otherwise>
-            <button onclick="follow(${profileUser.id})">Follow</button>
-        </c:otherwise>
-    </c:choose>
 
-    <div>
-        <img src="${pageContext.request.contextPath}/profilePicture">
+
+        </div>
+        <div class="follow">
+            <c:choose>
+                <c:when test="${isCurrent}">
+                    <a href="/settings"><button>My Profile Settings</button></a>
+                </c:when>
+                <c:otherwise>
+                    <c:choose>
+                        <c:when test="${isFollowed}">
+                            <button onclick="unfollow(${profileUser.id})">Unfollow</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button onclick="follow(${profileUser.id})" class="btn">Follow</button>
+                        </c:otherwise>
+                    </c:choose>
+                </c:otherwise>
+            </c:choose>
+            <!-- construct a "addStudent" link with lector & student id -->
+            <c:url var="addStudentLink" value="/addStudent">
+                <c:param name="studentId" value="${profileUser.id}" />
+                <c:param name="lectorId" value="${user.id}" />
+            </c:url>
+
+            <!-- construct a "addLector" link with lector & student id -->
+            <c:url var="addLectorLink" value="/addLector">
+                <c:param name="studentId" value="${user.id}" />
+                <c:param name="lectorId" value="${profileUser.id}" />
+            </c:url>
+
+            <!-- TODO: do not allow user to add themselves -->
+            <security:authorize access="hasRole('LECTOR')">
+                <a href="${addStudentLink}">
+                    <button class="plus-btn"><i class="fa fa-solid fa-plus"></i> Add as student</button>
+                </a>
+            </security:authorize>
+            <!-- TODO: do not allow user to add themselves -->
+            <c:if test="${isLector}">
+                <a href="${addLectorLink}">
+                    <button class="plus-btn"><i class="fa fa-solid fa-plus"></i> Add as lector</button>
+                </a>
+            </c:if>
+        </div>
     </div>
 
 
-    Songs ${profileUser.userName} can play:<br>
+
+
+
+    <h3>${profileUser.userName}'s songs</h3>
 
     <tag:songList songs="${songs}" showVisibleColumn="false" showPlayButton="false" editable="false" showRemoveFromPlaylist="false" showAddToPlaylist="false"/>
 </body>
@@ -121,6 +152,24 @@
     }
     th span .dropbtn:hover {
         background-color:transparent !important;
+    }
+
+    .rows {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .follow {
+    text-align: right;
+    }
+
+    .follow button {
+        padding: 12px 20px;
+        background-color: #13b992;
+        color: #1a1d28;
+        border-radius: 12px;
+        text-decoration: none;
+        cursor: pointer;
     }
 
 </style>

@@ -22,7 +22,20 @@
 <div class="wrapper">
     <h1>${song.artist} - ${song.title}</h1>
 
-    <div id="loading">Loading...</div>
+    <div id="loading">
+        <div class="center">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+    </div>
     <div id="loaded" style="visibility: hidden">
         <div id="waveform"></div>
         <div class="controls">
@@ -110,6 +123,10 @@
 </html>
 
 <style>
+    .wrapper {
+        position: relative;
+        height: 350px;
+    }
     .circle {
         box-sizing: border-box;
         display:block;
@@ -140,5 +157,70 @@
     .off {
         color: rgba(19, 185, 146, 0.3);
     }
+
+    #loading {
+        position: absolute;
+        top: -180px;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 400px;
+    }
+    .center {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0);
+    }
+    .wave {
+        width: 5px;
+        height: 100px;
+        background: #13b992;
+        margin: 10px;
+        animation: wave 1s linear infinite;
+        border-radius: 20px;
+    }
+    .wave:nth-child(2) {
+        animation-delay: 0.1s;
+    }
+    .wave:nth-child(3) {
+        animation-delay: 0.2s;
+    }
+    .wave:nth-child(4) {
+        animation-delay: 0.3s;
+    }
+    .wave:nth-child(5) {
+        animation-delay: 0.4s;
+    }
+    .wave:nth-child(6) {
+        animation-delay: 0.5s;
+    }
+    .wave:nth-child(7) {
+        animation-delay: 0.6s;
+    }
+    .wave:nth-child(8) {
+        animation-delay: 0.7s;
+    }
+    .wave:nth-child(9) {
+        animation-delay: 0.8s;
+    }
+    .wave:nth-child(10) {
+        animation-delay: 0.9s;
+    }
+
+    @keyframes wave {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(0);
+        }
+    }
+
 
 </style>
