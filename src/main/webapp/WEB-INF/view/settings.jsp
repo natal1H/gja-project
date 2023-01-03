@@ -48,11 +48,12 @@
     <div class="rows">
         <div>
             <img src="${pageContext.request.contextPath}/profilePicture" style="max-width: 150px; max-height: 150px;" onerror="this.onerror=null;this.src='/img/img.png';">
-            <span>
-                <!-- TODO: do not allow user to remove non existing photo -->
-                <button onclick="removeProfilePicture()" class="red btn"><i
-                        class="fa fa-trash"></i>Remove photo</button>
-            </span>
+            <c:if test="${not empty user.profilePicturePath}">
+                <span>
+                    <button onclick="removeProfilePicture()" class="red btn"><i
+                            class="fa fa-trash"></i>Remove photo</button>
+                </span>
+            </c:if>
             <form id="pictureForm" action="${pageContext.request.contextPath}/profilePicture" method="post"
                   enctype="multipart/form-data">
                 <label for="picture">Change profile picture:</label>

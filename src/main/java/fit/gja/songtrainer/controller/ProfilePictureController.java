@@ -54,5 +54,7 @@ public class ProfilePictureController {
         User user = UserUtil.getCurrentUser(userService);
         if(user == null) throw new UserNotFoundException();
         storageService.removeProfilePicture(user);
+        user.setProfilePicturePath(null);
+        userService.save(user);
     }
 }
