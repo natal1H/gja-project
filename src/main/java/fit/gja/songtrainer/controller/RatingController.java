@@ -23,6 +23,7 @@ public class RatingController {
      * Class constructor, injects the necessary services
      * @param ratingService Service handling database request about ratings
      * @param userService Service handling database request about users
+     * @param songService Service handling database request about songs
      */
     public RatingController(RatingService ratingService, UserService userService,SongService songService) {
         this.ratingService = ratingService;
@@ -30,6 +31,11 @@ public class RatingController {
         this.songService = songService;
     }
 
+    /**
+     * Controller method responsible for mapping "/rating/showAll"
+     * @param theId song id to display ratings
+     * @return model with attributes and selected view
+     */
     @RequestMapping(value = "/rating/showAll", method = RequestMethod.GET)
     public ModelAndView showRatings(@RequestParam("songId") Long theId) {
         // Get list of song's ratings
@@ -43,8 +49,6 @@ public class RatingController {
         }
         List<Rating> ratings = song.getRatings();
 
-
-        // add the songs to the model
         mav.addObject("ratings", ratings);
         mav.addObject("song", song);
         mav.addObject("user", user);
@@ -54,6 +58,12 @@ public class RatingController {
         return mav;
     }
 
+    /**
+     * Controller method responsible for mapping "/rating/addRating"
+     * @param theSongId song id to rate
+     * @param theModel holder of attributes
+     * @return add rating form
+     */
     @GetMapping("/rating/addRating")
     public String showFormForAddRating(@RequestParam("songId") Long theSongId,Model theModel) {
 
@@ -70,6 +80,14 @@ public class RatingController {
         return "rating-form";
     }
 
+    /**
+     * Controller method responsible for mapping "/rating/saveRating"
+     * @param theRating the rating which to save
+     * @param theSongId the song id for rating
+     * @param playlistId the playlist that is playing
+     * @param nextSongId the next song that will be played
+     * @return redirects to play next song or show ratings for song id
+     */
     @PostMapping("/rating/saveRating")
     public String saveRating(
             @ModelAttribute("rating") Rating theRating,
@@ -95,15 +113,11 @@ public class RatingController {
             }
             ratingService.save(theRating);
         }
-
+        //if the playlist is playing so
         if(playlistId != null && nextSongId != null) {
             return "redirect:/song?songId=" + nextSongId + "&playlistId=" + playlistId;
         }
-
+        //else
         return "redirect:/rating/showAll?songId=" + song.getId();
     }
-    //hodnotenie spravit ako v playlist, z songu vytiahnut user_id a ak sa rovna s current user tak mozem hodnotit, inak error
-
-
-
 }

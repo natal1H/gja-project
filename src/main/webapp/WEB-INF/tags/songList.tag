@@ -139,6 +139,11 @@
                     <c:param name="songId" value="${tempSong.id}"/>
                 </c:url>
 
+                <!-- construct an "showRatings" link with song id -->
+                <c:url var="showRatingsLink" value="/rating/showAll">
+                    <c:param name="songId" value="${tempSong.id}"/>
+                </c:url>
+
                 <td class="icons">
 
                     <a href="${updateLink}" class="pencil"><i class="fa fa-solid fa-pencil"></i></a>
@@ -146,6 +151,7 @@
                     <a href="${deleteLink}" class="trash"
                        onclick="if (!(confirm('Are you sure you want to delete this song?'))) return false"><i
                             class="fa fa-solid fa-trash"></i></a>
+                    <a href="${showRatingsLink}" class="chart"><i class="fa fa-solid fa-bar-chart"></i></a>
                     <c:if test="${showRemoveFromPlaylist}">
                         <a href="${removeFromPlaylistLink}" class="discard"><i class="fa fa-solid fa-close"></i></a>
                     </c:if>
@@ -155,6 +161,8 @@
                             <i class="fa fa-solid fa-plus"></i>
                         </a>
                     </c:if>
+
+
                 </td>
             </c:if>
         </tr>
@@ -196,11 +204,11 @@
         padding: 7px 10px !important;
     }
 
-    .icons .pencil, .icons .trash, .icons .discard {
+    .icons .pencil, .icons .trash, .icons .discard,.icons .chart{
         transition: linear 0.3s;
     }
 
-    .icons .pencil:hover {
+    .icons .pencil:hover,.icons .chart:hover{
         color: #4de14d;
         border: 1px solid #4de14d;
     }
