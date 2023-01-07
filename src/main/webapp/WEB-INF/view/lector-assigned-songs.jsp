@@ -17,7 +17,7 @@
 <div class="wrapper">
     <h2>Assigned songs to: ${student.userName}</h2>
 
-    <tag:songList songs="${songs}" showVisibleColumn="false" showPlayButton="true" editable="false" showRemoveFromPlaylist="false" showAddToPlaylist="false"/>
+    <tag:songList songs="${songs}" showVisibleColumn="false" showPlayButton="false" editable="false" showRemoveFromPlaylist="false" showAddToPlaylist="false"/>
 
 </div>
 
