@@ -1,0 +1,11 @@
+fit.gja.songtrainer
+fit.gja.songtrainer.config
+fit.gja.songtrainer.controller
+fit.gja.songtrainer.dao
+fit.gja.songtrainer.entity
+fit.gja.songtrainer.exceptions
+fit.gja.songtrainer.form
+fit.gja.songtrainer.service
+fit.gja.songtrainer.user
+fit.gja.songtrainer.util
+fit.gja.songtrainer.validation
