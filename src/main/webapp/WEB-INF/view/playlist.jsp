@@ -25,14 +25,16 @@
     <c:url var="deletePlaylistLink" value="/playlist/deletePlaylist">
         <c:param name="playlistId" value="${playlist.id}"/>
     </c:url>
-
+    <c:set var="privilegedUser" value="${user.id == playlist.user.id}"/>
     <div class="top">
         <h2>${playlist.name} (${playlist.instrumentStr})</h2>
         <span class="icons">
-            <a href="${updatePlaylistLink}" class="pencil"><i class="fa fa-solid fa-pencil"></i></a>
-            <a href="${deletePlaylistLink}" class="trash"
-               onclick="if (!(confirm('Are you sure you want to delete this playlist?'))) return false"><i
-                    class="fa fa-solid fa-trash"></i></a>
+            <c:if test="${privilegedUser}">
+                <a href="${updatePlaylistLink}" class="pencil"><i class="fa fa-solid fa-pencil"></i></a>
+                <a href="${deletePlaylistLink}" class="trash"
+                   onclick="if (!(confirm('Are you sure you want to delete this playlist?'))) return false"><i
+                        class="fa fa-solid fa-trash"></i></a>
+            </c:if>
 
             <c:if test="${not empty playlist.songs}">
                 <c:url var="playPlaylist" value="/song">
@@ -47,7 +49,7 @@
     </div>
 
 
-    <tag:songList songs="${playlist.songs}" showVisibleColumn="true" showPlayButton="true" editable="true" showRemoveFromPlaylist="true" showAddToPlaylist="false"/>
+    <tag:songList songs="${playlist.songs}" showVisibleColumn="false" showPlayButton="true" editable="${privilegedUser}" showRemoveFromPlaylist="${privilegedUser}" showAddToPlaylist="false"/>
 </div>
 
 

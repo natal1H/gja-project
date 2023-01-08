@@ -1,7 +1,11 @@
 package fit.gja.songtrainer.controller;
 
-import fit.gja.songtrainer.entity.*;
-import fit.gja.songtrainer.service.*;
+import fit.gja.songtrainer.entity.Playlist;
+import fit.gja.songtrainer.entity.Song;
+import fit.gja.songtrainer.entity.User;
+import fit.gja.songtrainer.service.PlaylistService;
+import fit.gja.songtrainer.service.SongService;
+import fit.gja.songtrainer.service.UserService;
 import fit.gja.songtrainer.util.InstrumentEnum;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.http.HttpStatus;
@@ -12,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.Objects;
 
 
@@ -102,7 +105,9 @@ public class PlaylistController {
 
         // create model attribute to bind form data
         Playlist thePlaylist = new Playlist();
+        thePlaylist.setInstrument(InstrumentEnum.GUITAR);
 
+        theModel.addAttribute("user", UserUtil.getCurrentUser(userService));
         theModel.addAttribute("playlist", thePlaylist);
         theModel.addAttribute("instruments", InstrumentEnum.values());
 
@@ -127,20 +132,6 @@ public class PlaylistController {
         playlistService.updatePlaylist(playlist);
 
         return "redirect:/playlist?id=" + playlist.getId();
-    }
-
-    /**
-     * Controller method responsible for mapping "/playlist/deleteSong"
-     * @param theSongId id of song to delete
-     * @param thePlaylistId id of playlist
-     * @return redirects back to the playlist
-     */
-    @GetMapping("/playlist/deleteSong")
-    public String deleteSong(@RequestParam("songId") Long theSongId, @RequestParam("playlistId") Long thePlaylistId) {
-        // delete the song
-        songService.delete(theSongId);
-
-        return "redirect:/playlist?id=" + thePlaylistId;
     }
 
     /**

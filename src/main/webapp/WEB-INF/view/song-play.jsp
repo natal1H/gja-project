@@ -20,7 +20,6 @@
 
 
 <div class="wrapper">
-    Next song ${nextSong}
     <h1>${song.artist} - ${song.title}</h1>
 
     <div id="loading">

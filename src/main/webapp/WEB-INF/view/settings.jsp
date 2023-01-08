@@ -58,7 +58,7 @@
                   enctype="multipart/form-data">
                 <label for="picture">Change profile picture:</label>
                 <input id="picture" name="picture" type="file"
-                       accept="${String.join(",",allowedProfilePictureFormats)}">
+                       accept="${String.join(",",allowedProfilePictureFormats)}" required>
                 <input type="submit" class="btn in">
             </form>
 

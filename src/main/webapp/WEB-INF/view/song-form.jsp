@@ -1,3 +1,4 @@
+<%@ page import="fit.gja.songtrainer.util.Tuning" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
@@ -22,18 +23,18 @@
             <!-- Title -->
             <div class="input-group">
                 <form:label path="title">Title</form:label>
-                <form:input path="title" class="text-input"/>
+                <form:input path="title" class="text-input" required="required"/>
             </div>
 
             <!-- Artist -->
             <div class="input-group">
                 <form:label path="artist">Artist</form:label>
-                <form:input path="artist" class="text-input"/>
+                <form:input path="artist" class="text-input" required="required"/>
             </div>
 
             <div class="input-group">
                 <label for="backing_track">Backing track</label>
-                <input id="backing_track" type="file" name="backing_track" accept="${String.join(",",allowedAudioExtensions)}">
+                <input id="backing_track" type="file" name="backing_track" accept="${String.join(",",allowedAudioExtensions)}" required>
             </div>
             <!-- Instrument -->
             <div class="input-group">

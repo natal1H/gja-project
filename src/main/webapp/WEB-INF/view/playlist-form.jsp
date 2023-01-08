@@ -24,7 +24,7 @@
       <!-- Name -->
       <div class="input-group">
         <form:label path="name">Name</form:label>
-        <form:input path="name" class="text-input"/>
+        <form:input path="name" class="text-input" required="required"/>
       </div>
 
 

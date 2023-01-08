@@ -40,8 +40,8 @@ public class SongService {
     }
 
     @Transactional
-    public void save(Song theSong) {
-        songDao.save(theSong);
+    public Song save(Song theSong) {
+        return songDao.save(theSong);
     }
 
     @Transactional

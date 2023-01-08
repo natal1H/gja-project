@@ -103,7 +103,10 @@ public class SongsController {
 
         // create model attribute to bind form data
         Song theSong = new Song();
+        theSong.setTuning(TuningEnum.NONE);
+        theSong.setInstrument(InstrumentEnum.GUITAR);
 
+        theModel.addAttribute("user", UserUtil.getCurrentUser(userService));
         theModel.addAttribute("song", theSong);
         theModel.addAttribute("instruments", InstrumentEnum.values());
         theModel.addAttribute("tunings", TuningEnum.values());
@@ -168,6 +171,7 @@ public class SongsController {
 
             songService.save(originalSong);
         } else { // song doesn't yet exist
+            theSong = songService.save(theSong); //Save to get database id
             var path = storageService.saveBackingTrack(backingTrack, theSong);
             theSong.setBackingTrackFilename(path.toString());
             theSong.setLength(getSongDuration(path));
@@ -178,18 +182,22 @@ public class SongsController {
     }
 
     /**
-     * Controller method responsible for mapping "/songs/delete".
-     *
-     * @param theId id of the song to delete
-     * @return redirects back to all songs display
+     * Controller method responsible for mapping "/playlist/deleteSong"
+     * @param theSongId id of song to delete
+     * @param thePlaylistId id of playlist
+     * @return redirects back to the playlist
      */
-    @GetMapping("/songs/delete")
-    public String deleteSong(@RequestParam("songId") Long theId) {
+    @GetMapping("/songs/deleteSong")
+    public String deleteSong(@RequestParam("songId") Long theSongId, @RequestParam(value = "playlistId", required = false) Long thePlaylistId) {
         // delete the song
-        songService.delete(theId);
+        songService.delete(theSongId);
 
-        return "redirect:/songs?inst=ALL";
+        if(thePlaylistId != null)
+            return "redirect:/playlist?id=" + thePlaylistId;
+        else
+            return "redirect:/songs?inst=ALL";
     }
+
 
     /**
      * Controller method responsible for mapping "/songs/showUpdateForm".

@@ -22,7 +22,7 @@
             <!-- Username -->
             <div class="input-group">
                 <form:label path="userName">Username</form:label>
-                <form:input path="userName" class="text-input"/>
+                <form:input path="userName" class="text-input" required="required"/>
             </div>
 
             <!-- Firstname -->

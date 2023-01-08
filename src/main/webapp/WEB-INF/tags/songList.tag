@@ -122,7 +122,7 @@
                 </c:url>
 
                 <!-- construct a "delete" link with song id -->
-                <c:url var="deleteLink" value="/playlist/deleteSong">
+                <c:url var="deleteLink" value="/songs/deleteSong">
                     <c:param name="songId" value="${tempSong.id}"/>
                     <c:param name="playlistId" value="${playlist.id}"/>
                 </c:url>
