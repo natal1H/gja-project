@@ -45,7 +45,6 @@ public class PlaylistController {
      * @param theModel holder of attributes
      * @return playlists page filename
      */
-    // TODO rename to showPlaylists
     @GetMapping("/playlists")
     @Transactional
     public String showHome(Model theModel) {
@@ -115,8 +114,6 @@ public class PlaylistController {
      * @param playlist the playlist which to save
      * @return redirects to saved playlist
      */
-    // TODO - add form validations
-    // TODO - remove logic from controller and do it in service
     @PostMapping("/playlist/savePlaylist")
     public String saveSong(@ModelAttribute("playlist") Playlist playlist) {
         // set user

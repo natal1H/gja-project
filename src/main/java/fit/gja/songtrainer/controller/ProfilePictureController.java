@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Profile picture handling
+ */
 @RestController
 public class ProfilePictureController {
     private final UserService userService;

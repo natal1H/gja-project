@@ -5,6 +5,9 @@ import fit.gja.songtrainer.util.InstrumentEnum;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class representing the "playlist" table from database
+ */
 @Entity
 @Table(name = "playlist")
 public class Playlist {

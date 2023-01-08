@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * User service
+ */
 @Service
 public class UserService implements UserDetailsService {
 
@@ -113,7 +116,6 @@ public class UserService implements UserDetailsService {
             userDao.save(lector);
         }
     }
-
 
     @Transactional
     public List<User> findUserByName(String keyword) {

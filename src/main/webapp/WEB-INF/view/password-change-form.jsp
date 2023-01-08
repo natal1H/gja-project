@@ -6,7 +6,6 @@
 <head>
     <title>Song Trainer</title>
     <link rel="icon" href="/favicon.ico" />
-    <!-- TODO!!! post sends passwords as plaintext, fix -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link type="text/css" href="/css/stylesheet.css" rel="stylesheet">
@@ -17,7 +16,6 @@
     <div class="wrapper">
         <h2>Change password</h2>
 
-        <!-- TODO: front end check if new password matches confirm -->
         <form method="post" action="/settings/updatePassword">
             <div class="input-group">
                 <label for="oldpass">Old Password: </label>

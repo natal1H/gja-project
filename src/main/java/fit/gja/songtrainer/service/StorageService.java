@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * Storage service
+ */
 @Service
 public class StorageService {
     private final StorageServiceConfig config;

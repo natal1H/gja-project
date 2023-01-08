@@ -12,8 +12,17 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Class with song relate functions
+ */
 public class SongsUtil {
 
+    /**
+     * Filter songs based on instrument
+     * @param theSongs list of songs
+     * @param instrumentStr string representations of selected instrument
+     * @return list of songs with specified instrument
+     */
     public static List<Song> filterSongsByInstrument(List<Song> theSongs, String instrumentStr) {
         if (!instrumentStr.equals("ALL")) {
             // creating a Predicate condition checking for non instrument songs
@@ -23,7 +32,11 @@ public class SongsUtil {
         return theSongs;
     }
 
-    // TODO: change this to read from db in UserDao
+    /**
+     * Filter songs by visibility
+     * @param theSongs list of songs
+     * @return only the songs visible to public
+     */
     public static List<Song> filterSongsByVisible(List<Song> theSongs) {
         Predicate<Song> isNotVisible = item -> !item.getVisible();
         theSongs = theSongs.stream().filter(isNotVisible).collect(Collectors.toList());

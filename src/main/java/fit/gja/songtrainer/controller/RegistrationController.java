@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import fit.gja.songtrainer.user.CrmUser;
 import fit.gja.songtrainer.entity.User;
 
+/**
+ * Controller class responsible for handling request for registration
+ */
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {

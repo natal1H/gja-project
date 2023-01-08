@@ -4,6 +4,9 @@ import fit.gja.songtrainer.dao.RoleDao;
 import fit.gja.songtrainer.entity.Role;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for roles
+ */
 @Service
 public class RoleService {
 

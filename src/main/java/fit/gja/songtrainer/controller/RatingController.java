@@ -10,6 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+/**
+ * Controller class responsible for handling requests from song ratings
+ */
 @Controller
 public class RatingController {
 

@@ -3,6 +3,9 @@ package fit.gja.songtrainer.form;
 import fit.gja.songtrainer.entity.Song;
 import fit.gja.songtrainer.entity.User;
 
+/**
+ * Form for adding song to student
+ */
 public class StudentSongForm {
     private User student;
     private Song song;

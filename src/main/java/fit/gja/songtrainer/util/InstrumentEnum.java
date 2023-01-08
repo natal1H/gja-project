@@ -1,7 +1,8 @@
 package fit.gja.songtrainer.util;
 
-// TODO - string value has to be same as enum string or else it breaks - fix later
-
+/**
+ * Enum containing available instruments
+ */
 public enum InstrumentEnum {
     GUITAR("GUITAR"),
     BASS("BASS"),

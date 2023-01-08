@@ -26,6 +26,9 @@ import java.nio.file.Files;
 import java.sql.Date;
 import java.time.Instant;
 
+/**
+ * Backing track handling
+ */
 @Controller
 public class BackingTracksController {
     private final SongService songService;

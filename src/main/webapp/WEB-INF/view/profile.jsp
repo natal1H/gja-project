@@ -103,13 +103,11 @@
                 <c:param name="lectorId" value="${profileUser.id}" />
             </c:url>
 
-            <!-- TODO: do not allow user to add themselves -->
             <security:authorize access="hasRole('LECTOR')">
                 <a href="${addStudentLink}">
                     <button class="plus-btn"><i class="fa fa-solid fa-plus"></i> Add as student</button>
                 </a>
             </security:authorize>
-            <!-- TODO: do not allow user to add themselves -->
             <c:if test="${isLector}">
                 <a href="${addLectorLink}">
                     <button class="plus-btn"><i class="fa fa-solid fa-plus"></i> Add as lector</button>

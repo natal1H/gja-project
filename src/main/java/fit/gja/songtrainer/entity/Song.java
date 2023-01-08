@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Date;
 
+/**
+ * Class representing the "song" table from database
+ */
 @Entity
 @Table(name = "song")
 public class Song {

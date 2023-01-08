@@ -147,7 +147,6 @@
                 <td class="icons">
 
                     <a href="${updateLink}" class="pencil"><i class="fa fa-solid fa-pencil"></i></a>
-                    <!-- todo: this redirects back to /songs after update -->
                     <a href="${deleteLink}" class="trash"
                        onclick="if (!(confirm('Are you sure you want to delete this song?'))) return false"><i
                             class="fa fa-solid fa-trash"></i></a>

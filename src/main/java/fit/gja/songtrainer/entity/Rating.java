@@ -4,6 +4,9 @@ package fit.gja.songtrainer.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class representing the song ratings
+ */
 @Entity
 @Table(name = "rating")
 public class Rating {

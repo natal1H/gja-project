@@ -50,7 +50,6 @@
             </div>
 
             <!-- Tuning -->
-            <!-- TODO: disable based on selected instrument -->
             <div class="input-group">
                 <form:label path="song.tuning">Tuning</form:label>
                 <form:radiobuttons path="song.tuning" items="${tunings}"/>

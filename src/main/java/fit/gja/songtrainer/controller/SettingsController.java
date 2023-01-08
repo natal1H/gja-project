@@ -97,15 +97,13 @@ public class SettingsController {
      * @param oldPassword old password
      * @return redirects to login page
      */
-    // TODO warning, receives plaintext passwords - fix it!
-    // TODO doesn't check if new & confirm pass matches
     @PostMapping("/settings/updatePassword")
     public String changeUserPassword(@RequestParam("password") String newPassword, @RequestParam("passwordConfirm") String passwordConfirm, @RequestParam("oldpassword") String oldPassword) {
         User user = UserUtil.getCurrentUser(userService);
 
         if (!userService.checkIfValidOldPassword(user, oldPassword)) {
-            System.out.println("Stored passwd and entered passwd don't match");
-            return "redirect:/settings"; // TODO: redirect to error page
+            System.out.println("Stored passwd and entered password don't match");
+            return "redirect:/settings";
         }
         userService.changeUserPassword(user, newPassword);
 

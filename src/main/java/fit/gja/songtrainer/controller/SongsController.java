@@ -119,8 +119,6 @@ public class SongsController {
      * @param theSong submitted song
      * @return redirects back to the songs display
      */
-    // TODO - add form validations
-    // TODO - remove logic from controller and do it in service
     @PostMapping("/songs/saveSong")
     public String saveSong(@ModelAttribute("song") Song theSong, @RequestParam("backing_track") MultipartFile backingTrack) throws InvalidFileExtensionException, IOException, UnsupportedAudioFileException {
 

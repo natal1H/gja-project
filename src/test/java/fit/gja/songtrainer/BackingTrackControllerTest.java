@@ -78,8 +78,6 @@ public class BackingTrackControllerTest {
         Mockito.verify(songService, Mockito.times(1)).getSongById(1L);
     }
 
-    //Todo: correct download test. Need to somehow mock file to be downloaded
-
     @Test
     public void downloadNonExistingSong() throws Exception {
         mvc.perform(

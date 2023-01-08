@@ -1,7 +1,13 @@
 package fit.gja.songtrainer.util;
 
+/**
+ * Class representing guitar and bass tuning
+ */
 public class Tuning {
 
+    /**
+     * Enum containing most popular tunings
+     */
     public enum TuningEnum {
         NONE("NONE"),
         E_STANDARD("E_STANDARD"),
