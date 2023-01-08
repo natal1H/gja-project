@@ -18,10 +18,8 @@
     <div class="wrapper">
         <h2>Lectors Page</h2>
 
-        This page is visible only to users with LECTOR role.<br>
-
         <form:form action="${pageContext.request.contextPath}/lectors/search"  method="post">
-            Search Users By Name: <input type="text" name="keyword" />
+            <input type="text" name="keyword" placeholder="name"/>
             <input type ="submit" value="Search">
         </form:form>
         <c:forEach var="tempUser" items="${users}">
@@ -112,6 +110,14 @@
     table .icons .plus:hover {
         color: #4de1dc;
         border: 1px solid #4de1dc;
+    }
+
+    form input {
+        background-color: transparent;
+        color: white;
+        border-radius: 7px;
+        border: 1px solid white;
+        padding: 7px;
     }
 
 </style>

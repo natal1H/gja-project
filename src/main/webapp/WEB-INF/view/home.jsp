@@ -65,8 +65,9 @@
                 <c:forEach var="follow" items="${followed}">
                     <a href="/profile?id=${follow.key.id}&inst=ALL" class="user"><i class="fa fa-solid fa-user"></i> ${follow.key.userName}</a><br><br>
                     <c:forEach var="playlist" items="${follow.value}">
-                        <td><a href="${pageContext.request.contextPath}/playlist?id=${playlist.id}">${playlist.name}</a></td>
+                        <td><i class="fa fa-solid fa-arrow-right play"></i><a href="${pageContext.request.contextPath}/playlist?id=${playlist.id}">${playlist.name}</a></td><br><br>
                     </c:forEach>
+                    <br>
                 </c:forEach>
             </div>
             <div>
@@ -89,8 +90,6 @@
 </html>
 
 <style>
-
-
     .playlists-title {
         display: flex;
         justify-content: space-between;
@@ -132,6 +131,12 @@
         padding: 7px;
         text-decoration: none;
         margin-bottom: 3px;
+    }
+
+    .play {
+        color: #13b992 !important;
+        margin-left: 20px !important;
+        padding-right: 10px;
     }
 
     .user i {

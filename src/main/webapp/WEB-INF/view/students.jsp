@@ -23,7 +23,7 @@
     </div>
 
     <form:form action="${pageContext.request.contextPath}/students/search"  method="post">
-        Search Lectors By Name: <input type="text" name="keyword" />
+        <input type="text" name="keyword" placeholder="name"/>
         <input type ="submit" value="Search">
     </form:form>
     <c:forEach var="tempUser" items="${users}">
@@ -86,6 +86,14 @@
     }
     .playlists-title a:hover {
         box-shadow: 0px 0px 5px 5px rgba(19, 185, 146, 0.24);
+    }
+
+    form input {
+        background-color: transparent;
+        color: white;
+        border-radius: 7px;
+        border: 1px solid white;
+        padding: 7px;
     }
 
 </style>
