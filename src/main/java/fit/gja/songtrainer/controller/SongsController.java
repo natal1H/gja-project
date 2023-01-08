@@ -166,7 +166,7 @@ public class SongsController {
             storageService.removeBackingTrack(theSong);
             var path = storageService.saveBackingTrack(backingTrack, theSong);
             originalSong.setBackingTrackFilename(path.toString());
-            originalSong.setLength(getSongDuration(path));
+            originalSong.setLength(SongsUtil.getSongDuration(path));
 
 
             songService.save(originalSong);
@@ -174,7 +174,7 @@ public class SongsController {
             theSong = songService.save(theSong); //Save to get database id
             var path = storageService.saveBackingTrack(backingTrack, theSong);
             theSong.setBackingTrackFilename(path.toString());
-            theSong.setLength(getSongDuration(path));
+            theSong.setLength(SongsUtil.getSongDuration(path));
             songService.save(theSong);
         }
 
@@ -268,27 +268,4 @@ public class SongsController {
         return "redirect:/songs?inst=ALL";
     }
 
-    /**
-     * Returns backing track duration in seconds
-     *
-     * @param path path to backing track file
-     * @return Duration of audio file in seconds
-     * @throws UnsupportedAudioFileException when audio file is not supported
-     * @throws IOException                   on IO error
-     */
-    private int getSongDuration(Path path) throws UnsupportedAudioFileException, IOException {
-        var fileFormat = AudioSystem.getAudioFileFormat(path.toFile());
-        if (fileFormat instanceof TAudioFileFormat) {
-            Map<?, ?> properties = fileFormat.properties();
-            String key = "duration";
-            Long microseconds = (Long) properties.get(key);
-            return (int) (microseconds / 1000_000);
-        } else {
-            var stream = AudioSystem.getAudioInputStream(path.toFile());
-            var format = stream.getFormat();
-            var frames = stream.getFrameLength();
-            Float duration = frames / format.getFrameRate();
-            return duration.intValue();
-        }
-    }
 }

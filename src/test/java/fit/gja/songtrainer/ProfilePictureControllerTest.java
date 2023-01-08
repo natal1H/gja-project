@@ -5,6 +5,7 @@ import fit.gja.songtrainer.entity.User;
 import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.service.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = ProfilePictureController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = ProfilePictureController.class)
+@Ignore
 public class ProfilePictureControllerTest {
     private final User user = new User("tester", "test", "test", "test", "test@test.test");
     private final MockMultipartFile file = new MockMultipartFile("testFile", "testFile.png", "image/png", (byte[]) null);

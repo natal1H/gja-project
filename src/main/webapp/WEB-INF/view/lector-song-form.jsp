@@ -29,18 +29,18 @@
             <!-- Title -->
             <div class="input-group">
                 <form:label path="song.title">Title</form:label>
-                <form:input path="song.title" class="text-input"/>
+                <form:input path="song.title" class="text-input" required="required"/>
             </div>
 
             <!-- Artist -->
             <div class="input-group">
                 <form:label path="song.artist">Artist</form:label>
-                <form:input path="song.artist" class="text-input"/>
+                <form:input path="song.artist" class="text-input" required="required"/>
             </div>
 
             <div class="input-group">
                 <label for="backing_track">Backing track</label>
-                <input id="backing_track" type="file" name="backing_track">
+                <input id="backing_track" type="file" name="backing_track" required>
             </div>
 
             <!-- Instrument -->

@@ -6,6 +6,7 @@ import fit.gja.songtrainer.exceptions.InvalidFileExtensionException;
 import fit.gja.songtrainer.form.StudentSongForm;
 import fit.gja.songtrainer.service.*;
 import fit.gja.songtrainer.util.InstrumentEnum;
+import fit.gja.songtrainer.util.SongsUtil;
 import fit.gja.songtrainer.util.Tuning;
 import fit.gja.songtrainer.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.List;
 
@@ -209,6 +211,8 @@ public class SongtrainerController {
 
         // create model attribute to bind form data
         Song theSong = new Song();
+        theSong.setInstrument(InstrumentEnum.GUITAR);
+        theSong.setTuning(Tuning.TuningEnum.NONE);
         StudentSongForm studentSongForm = new StudentSongForm(student, theSong);
 
 
@@ -242,7 +246,7 @@ public class SongtrainerController {
     public String saveStudentSong(
             @ModelAttribute("studentSongForm") StudentSongForm studentSongForm,
             @RequestParam("backing_track") MultipartFile backingTrack
-    ) throws InvalidFileExtensionException, IOException {
+    ) throws InvalidFileExtensionException, IOException, UnsupportedAudioFileException {
         User lector = UserUtil.getCurrentUser(userService);
         User formstudent = studentSongForm.getStudent();
         User student = userService.getUserById(formstudent.getId());
@@ -250,14 +254,17 @@ public class SongtrainerController {
         theSong.setAssignedBy(lector);
 
 
-        var path = storageService.saveBackingTrack(backingTrack, theSong);
-        theSong.setBackingTrackFilename(path.toString());
 
         // Set song user to student
         theSong.setUser(student);
         // Tuning - if instrument other the guitar or bass set to none
         if (theSong.getInstrument() != InstrumentEnum.GUITAR && theSong.getInstrument() != InstrumentEnum.BASS)
             theSong.setTuning(Tuning.TuningEnum.NONE);
+        theSong = songService.save(theSong);
+
+        var path = storageService.saveBackingTrack(backingTrack, theSong);
+        theSong.setLength(SongsUtil.getSongDuration(path));
+        theSong.setBackingTrackFilename(path.toString());
         songService.save(theSong);
 
         // Set song belong to student
